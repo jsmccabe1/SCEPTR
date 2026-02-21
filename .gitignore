@@ -1,0 +1,68 @@
+# Nextflow
+work/
+.nextflow/
+.nextflow.log*
+nextflow_trace*
+nextflow-report*
+.command.*
+
+# Databases (use setup_databases.sh)
+*.dmnd
+*.fasta
+*.fa
+*.fasta.gz
+*.fa.gz
+data/uniprot/*
+data/contaminants/*
+data/go/*
+!data/uniprot/.gitkeep
+!data/contaminants/.gitkeep
+!data/go/.gitkeep
+
+# Sequencing data
+*.fastq
+*.fq
+*.fastq.gz
+*.fq.gz
+*.bam
+*.sam
+*.sra
+*.pep
+
+# Results and test data
+results/
+results_*/
+test_data/
+benchmarking/
+manuscript/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# UniProt cache
+bin/annotation/uniprot_cache/
+
+# Duplicate GO file in explot
+modules/explot/cli/go-basic.obo
+
+# Local config
+no-entrypoint.config
+
+# Temp files
+*.tmp
+nxf-tmp*
+.Rhistory
+.fuse_hidden*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+*~
+.vscode/
+.idea/

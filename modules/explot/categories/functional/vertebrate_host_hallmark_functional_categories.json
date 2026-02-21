@@ -1,0 +1,1075 @@
+{
+  "Interferon Response (Type I)": {
+    "keywords": [
+      "interferon alpha",
+      "interferon beta",
+      "interferon-alpha",
+      "interferon-beta",
+      "IFN-alpha",
+      "IFN-beta",
+      "type I interferon",
+      "interferon-stimulated",
+      "interferon-induced",
+      "interferon-inducible",
+      "interferon regulatory factor",
+      "IFIT",
+      "IFITM",
+      "ISG15",
+      "ISG20",
+      "OAS1",
+      "OAS2",
+      "OAS3",
+      "OASL",
+      "MX1",
+      "MX2",
+      "RSAD2",
+      "viperin",
+      "STAT1",
+      "STAT2",
+      "IRF3",
+      "IRF7",
+      "IRF9",
+      "2'-5'-oligoadenylate synthase"
+    ],
+    "anchor_go_ids": [
+      "GO:0060337",
+      "GO:0035455",
+      "GO:0034340"
+    ],
+    "core_keywords": [
+      "type I interferon",
+      "interferon-alpha",
+      "interferon-beta",
+      "IFN-alpha",
+      "IFN-beta",
+      "interferon-stimulated",
+      "IFIT",
+      "IFITM",
+      "ISG15",
+      "2'-5'-oligoadenylate synthase"
+    ]
+  },
+  "Interferon Gamma Response": {
+    "keywords": [
+      "interferon gamma",
+      "interferon-gamma",
+      "IFN-gamma",
+      "type II interferon",
+      "gamma-interferon",
+      "gamma-interferon-inducible",
+      "CXCL9",
+      "CXCL10",
+      "CXCL11",
+      "GBP1",
+      "GBP2",
+      "GBP3",
+      "GBP4",
+      "GBP5",
+      "guanylate-binding protein",
+      "IRF1",
+      "IRF8",
+      "CIITA",
+      "indoleamine 2,3-dioxygenase"
+    ],
+    "anchor_go_ids": [
+      "GO:0034341",
+      "GO:0071346"
+    ],
+    "core_keywords": [
+      "interferon-gamma",
+      "IFN-gamma",
+      "type II interferon",
+      "guanylate-binding protein",
+      "CIITA"
+    ]
+  },
+  "Antiviral Defense": {
+    "keywords": [
+      "antiviral",
+      "anti-viral",
+      "defense response to virus",
+      "response to virus",
+      "viral defense",
+      "TRIM5",
+      "TRIM22",
+      "TRIM25",
+      "TRIM56",
+      "tripartite motif",
+      "APOBEC3",
+      "tetherin",
+      "BST2",
+      "SAMHD1",
+      "ZAP",
+      "zinc finger antiviral",
+      "ADAR",
+      "adenosine deaminase acting on RNA",
+      "restriction factor",
+      "viral restriction"
+    ],
+    "anchor_go_ids": [
+      "GO:0051607",
+      "GO:0009615"
+    ],
+    "core_keywords": [
+      "antiviral",
+      "defense response to virus",
+      "restriction factor",
+      "APOBEC3",
+      "tetherin"
+    ]
+  },
+  "Pattern Recognition & TLR Signaling": {
+    "keywords": [
+      "toll-like receptor",
+      "TLR1",
+      "TLR2",
+      "TLR3",
+      "TLR4",
+      "TLR5",
+      "TLR6",
+      "TLR7",
+      "TLR8",
+      "TLR9",
+      "RIG-I",
+      "DDX58",
+      "MDA5",
+      "IFIH1",
+      "RIG-I-like receptor",
+      "NOD-like receptor",
+      "NLRP1",
+      "NLRC",
+      "cGAS",
+      "STING",
+      "TMEM173",
+      "cyclic GMP-AMP synthase",
+      "stimulator of interferon genes",
+      "MyD88",
+      "TRIF",
+      "TRAF6",
+      "pattern recognition receptor",
+      "innate immune sensor"
+    ],
+    "anchor_go_ids": [
+      "GO:0002221",
+      "GO:0034138",
+      "GO:0032481",
+      "GO:0039528"
+    ],
+    "core_keywords": [
+      "toll-like receptor",
+      "RIG-I",
+      "MDA5",
+      "cGAS",
+      "STING",
+      "pattern recognition receptor",
+      "MyD88"
+    ]
+  },
+  "Complement System": {
+    "keywords": [
+      "complement component",
+      "complement factor",
+      "complement activation",
+      "complement C1q",
+      "complement C1r",
+      "complement C1s",
+      "complement C2",
+      "complement C3",
+      "complement C4",
+      "complement C5",
+      "complement C6",
+      "complement C7",
+      "complement C8",
+      "complement C9",
+      "membrane attack complex",
+      "complement receptor",
+      "complement regulatory",
+      "complement inhibitor",
+      "complement cascade",
+      "mannose-binding lectin",
+      "ficolin",
+      "properdin",
+      "complement factor B",
+      "complement factor D",
+      "complement factor H",
+      "complement factor I",
+      "C3 convertase",
+      "C5 convertase"
+    ],
+    "anchor_go_ids": [
+      "GO:0006956",
+      "GO:0006957",
+      "GO:0006958",
+      "GO:0006959"
+    ],
+    "core_keywords": [
+      "complement component",
+      "complement factor",
+      "complement activation",
+      "membrane attack complex",
+      "complement cascade"
+    ]
+  },
+  "TNF-NF-kB Signaling": {
+    "keywords": [
+      "tumor necrosis factor",
+      "tumour necrosis factor",
+      "TNF receptor",
+      "TNFRSF",
+      "TNFAIP",
+      "TNF-alpha",
+      "TRAF2",
+      "TRAF3",
+      "TRAF5",
+      "NF-kB",
+      "NF-kappa-B",
+      "nuclear factor NF-kappa-B",
+      "NFKB1",
+      "NFKB2",
+      "NFKBIA",
+      "NFKBIB",
+      "RELA",
+      "RELB",
+      "I-kappa-B kinase",
+      "IKK complex",
+      "IKBKB",
+      "IKBKG"
+    ],
+    "anchor_go_ids": [
+      "GO:0033209",
+      "GO:0038061",
+      "GO:0007249"
+    ],
+    "core_keywords": [
+      "tumor necrosis factor",
+      "TNF receptor",
+      "NF-kB",
+      "NF-kappa-B",
+      "I-kappa-B kinase"
+    ]
+  },
+  "Chemokine Signaling": {
+    "keywords": [
+      "chemokine",
+      "C-X-C motif chemokine",
+      "C-C motif chemokine",
+      "CXC chemokine receptor",
+      "CC chemokine receptor",
+      "CXCL",
+      "CCL",
+      "CXCR",
+      "CCR",
+      "chemotaxis",
+      "leukocyte chemotaxis",
+      "lymphocyte chemotaxis",
+      "monocyte chemotaxis",
+      "neutrophil chemotaxis",
+      "eotaxin",
+      "RANTES",
+      "monocyte chemoattractant"
+    ],
+    "anchor_go_ids": [
+      "GO:0006935",
+      "GO:0070098",
+      "GO:0048245"
+    ],
+    "core_keywords": [
+      "chemokine",
+      "C-X-C motif chemokine",
+      "C-C motif chemokine",
+      "chemotaxis"
+    ]
+  },
+  "Inflammasome & IL-1 Signaling": {
+    "keywords": [
+      "inflammasome",
+      "NLRP3",
+      "NLRP1",
+      "AIM2",
+      "NLRC4",
+      "PYCARD",
+      "ASC adaptor",
+      "caspase-1",
+      "interleukin-1",
+      "interleukin-18",
+      "interleukin-33",
+      "IL-1 beta",
+      "IL-1 receptor",
+      "IL1R",
+      "IL1RAP",
+      "gasdermin",
+      "GSDMD",
+      "pyroptosis",
+      "pyrin domain"
+    ],
+    "anchor_go_ids": [
+      "GO:0002218",
+      "GO:0070269"
+    ],
+    "core_keywords": [
+      "inflammasome",
+      "NLRP3",
+      "caspase-1",
+      "gasdermin",
+      "pyroptosis"
+    ]
+  },
+  "Adaptive Immunity": {
+    "keywords": [
+      "T cell receptor",
+      "B cell receptor",
+      "immunoglobulin",
+      "antibody",
+      "MHC class I",
+      "MHC class II",
+      "antigen presentation",
+      "antigen processing",
+      "T cell activation",
+      "B cell activation",
+      "regulatory T cell",
+      "class switching",
+      "somatic hypermutation",
+      "adaptive immune response",
+      "beta-2-microglobulin",
+      "HLA class",
+      "T cell differentiation"
+    ],
+    "anchor_go_ids": [
+      "GO:0002250",
+      "GO:0019882"
+    ],
+    "core_keywords": [
+      "T cell receptor",
+      "B cell receptor",
+      "immunoglobulin",
+      "MHC class I",
+      "MHC class II",
+      "antigen presentation"
+    ]
+  },
+  "Glycolysis": {
+    "keywords": [
+      "glycolysis",
+      "glycolytic process",
+      "glycolytic enzyme",
+      "hexokinase",
+      "phosphofructokinase",
+      "pyruvate kinase",
+      "aldolase",
+      "glyceraldehyde-3-phosphate dehydrogenase",
+      "enolase",
+      "phosphoglycerate kinase",
+      "phosphoglycerate mutase",
+      "glucose-6-phosphate isomerase",
+      "triosephosphate isomerase",
+      "lactate dehydrogenase",
+      "gluconeogenesis"
+    ],
+    "anchor_go_ids": [
+      "GO:0006096",
+      "GO:0006094"
+    ],
+    "core_keywords": [
+      "glycolysis",
+      "glycolytic process",
+      "hexokinase",
+      "phosphofructokinase",
+      "pyruvate kinase"
+    ]
+  },
+  "Oxidative Phosphorylation": {
+    "keywords": [
+      "oxidative phosphorylation",
+      "electron transport chain",
+      "NADH dehydrogenase",
+      "NADH:ubiquinone oxidoreductase",
+      "NADH-ubiquinone oxidoreductase",
+      "cytochrome c oxidase",
+      "cytochrome b-c1 complex",
+      "ubiquinol-cytochrome c reductase",
+      "ATP synthase",
+      "F1F0-ATP synthase",
+      "succinate dehydrogenase",
+      "respiratory chain complex",
+      "complex I",
+      "complex II",
+      "complex III",
+      "complex IV",
+      "complex V",
+      "mitochondrial respiratory"
+    ],
+    "anchor_go_ids": [
+      "GO:0006119",
+      "GO:0022904"
+    ],
+    "core_keywords": [
+      "oxidative phosphorylation",
+      "NADH dehydrogenase",
+      "cytochrome c oxidase",
+      "ATP synthase",
+      "respiratory chain complex"
+    ]
+  },
+  "Fatty Acid Metabolism": {
+    "keywords": [
+      "fatty acid",
+      "fatty acid oxidation",
+      "fatty acid synthase",
+      "fatty acid biosynthesis",
+      "beta-oxidation",
+      "acyl-CoA",
+      "acyl-CoA dehydrogenase",
+      "carnitine palmitoyltransferase",
+      "carnitine O-palmitoyltransferase",
+      "enoyl-CoA",
+      "lipase",
+      "triacylglycerol lipase",
+      "fatty acid desaturase",
+      "fatty acid elongation",
+      "long-chain fatty acid",
+      "peroxisomal fatty acid",
+      "fatty acid binding protein"
+    ],
+    "anchor_go_ids": [
+      "GO:0006631",
+      "GO:0019395",
+      "GO:0006633"
+    ],
+    "core_keywords": [
+      "fatty acid oxidation",
+      "fatty acid synthase",
+      "beta-oxidation",
+      "acyl-CoA dehydrogenase",
+      "fatty acid binding protein"
+    ]
+  },
+  "Cholesterol & Steroid Metabolism": {
+    "keywords": [
+      "cholesterol",
+      "cholesterol biosynthesis",
+      "cholesterol homeostasis",
+      "sterol regulatory element",
+      "SREBP",
+      "sterol biosynthesis",
+      "HMG-CoA reductase",
+      "mevalonate pathway",
+      "lanosterol",
+      "squalene",
+      "low-density lipoprotein receptor",
+      "LDL receptor",
+      "LDLR",
+      "steroid hormone",
+      "steroid biosynthesis",
+      "bile acid",
+      "oxysterol"
+    ],
+    "anchor_go_ids": [
+      "GO:0008203",
+      "GO:0006695",
+      "GO:0042632"
+    ],
+    "core_keywords": [
+      "cholesterol biosynthesis",
+      "cholesterol homeostasis",
+      "HMG-CoA reductase",
+      "sterol regulatory element"
+    ]
+  },
+  "JAK-STAT Signaling": {
+    "keywords": [
+      "JAK-STAT",
+      "Janus kinase",
+      "signal transducer and activator of transcription",
+      "JAK1",
+      "JAK2",
+      "JAK3",
+      "TYK2",
+      "STAT1",
+      "STAT2",
+      "STAT3",
+      "STAT4",
+      "STAT5",
+      "STAT6",
+      "SOCS",
+      "suppressor of cytokine signaling",
+      "cytokine receptor",
+      "interleukin-6 receptor",
+      "interleukin-6 signal transducer"
+    ],
+    "anchor_go_ids": [
+      "GO:0007259",
+      "GO:0042509"
+    ],
+    "core_keywords": [
+      "JAK-STAT",
+      "Janus kinase",
+      "signal transducer and activator of transcription",
+      "suppressor of cytokine signaling"
+    ]
+  },
+  "MAPK-RAS Signaling": {
+    "keywords": [
+      "MAP kinase",
+      "mitogen-activated protein kinase",
+      "MAPK cascade",
+      "MAP kinase kinase",
+      "MAPKK",
+      "ERK1",
+      "ERK2",
+      "MAPK1",
+      "MAPK3",
+      "MEK1",
+      "MEK2",
+      "MAP2K",
+      "MAP3K",
+      "RAS signaling",
+      "GTPase activating protein",
+      "guanine nucleotide exchange factor",
+      "RAF proto-oncogene",
+      "RAF1",
+      "BRAF",
+      "JNK",
+      "p38 MAPK",
+      "MAPK14"
+    ],
+    "anchor_go_ids": [
+      "GO:0000165",
+      "GO:0007265"
+    ],
+    "core_keywords": [
+      "MAP kinase",
+      "mitogen-activated protein kinase",
+      "MAPK cascade",
+      "RAS signaling",
+      "ERK1",
+      "ERK2"
+    ]
+  },
+  "PI3K-AKT-mTOR Signaling": {
+    "keywords": [
+      "PI3K",
+      "phosphatidylinositol 3-kinase",
+      "phosphatidylinositol-4,5-bisphosphate 3-kinase",
+      "PIK3C",
+      "AKT1",
+      "AKT2",
+      "AKT3",
+      "protein kinase B",
+      "mTOR",
+      "mechanistic target of rapamycin",
+      "mammalian target of rapamycin",
+      "RPTOR",
+      "RICTOR",
+      "mTORC1",
+      "mTORC2",
+      "PTEN",
+      "phosphatase and tensin homolog",
+      "TSC1",
+      "TSC2",
+      "tuberous sclerosis",
+      "4E-BP1",
+      "S6 kinase",
+      "RPS6KB"
+    ],
+    "anchor_go_ids": [
+      "GO:0043491",
+      "GO:0031929",
+      "GO:0014065"
+    ],
+    "core_keywords": [
+      "PI3K",
+      "phosphatidylinositol 3-kinase",
+      "mTOR",
+      "mechanistic target of rapamycin",
+      "PTEN"
+    ]
+  },
+  "TGF-Beta & Developmental Signaling": {
+    "keywords": [
+      "TGF-beta",
+      "transforming growth factor beta",
+      "transforming growth factor-beta",
+      "TGFB",
+      "TGFBR",
+      "SMAD",
+      "bone morphogenetic protein",
+      "Wnt signaling",
+      "Wnt ligand",
+      "frizzled",
+      "beta-catenin",
+      "CTNNB1",
+      "Notch signaling",
+      "Notch receptor",
+      "Notch ligand",
+      "Hedgehog signaling",
+      "Sonic hedgehog",
+      "Smoothened",
+      "Patched",
+      "Delta-like protein",
+      "Jagged"
+    ],
+    "anchor_go_ids": [
+      "GO:0007179",
+      "GO:0016055",
+      "GO:0007219",
+      "GO:0007224"
+    ],
+    "core_keywords": [
+      "TGF-beta",
+      "transforming growth factor beta",
+      "SMAD",
+      "Wnt signaling",
+      "beta-catenin",
+      "Notch receptor",
+      "Hedgehog signaling"
+    ]
+  },
+  "Apoptosis": {
+    "keywords": [
+      "apoptosis",
+      "apoptotic process",
+      "programmed cell death",
+      "caspase",
+      "caspase-3",
+      "caspase-7",
+      "caspase-8",
+      "caspase-9",
+      "Bcl-2",
+      "BCL2",
+      "BCL-XL",
+      "BAX",
+      "BAK",
+      "BID",
+      "BIM",
+      "BAD",
+      "cytochrome c release",
+      "death receptor",
+      "Fas ligand",
+      "TRAIL",
+      "TNF-related apoptosis-inducing ligand",
+      "RIPK1",
+      "RIPK3",
+      "MLKL",
+      "necroptosis",
+      "DIABLO",
+      "SMAC",
+      "XIAP",
+      "survivin",
+      "apoptosis regulator"
+    ],
+    "anchor_go_ids": [
+      "GO:0006915",
+      "GO:0097193",
+      "GO:0097191",
+      "GO:0097300"
+    ],
+    "core_keywords": [
+      "apoptosis",
+      "caspase-3",
+      "caspase-9",
+      "Bcl-2",
+      "death receptor",
+      "cytochrome c release"
+    ]
+  },
+  "Autophagy": {
+    "keywords": [
+      "autophagy",
+      "autophagic",
+      "autophagosome",
+      "ATG5",
+      "ATG7",
+      "ATG12",
+      "ATG16L",
+      "BECN1",
+      "beclin-1",
+      "beclin",
+      "LC3",
+      "MAP1LC3",
+      "GABARAP",
+      "p62",
+      "sequestosome",
+      "SQSTM1",
+      "ULK1",
+      "ULK2",
+      "VPS34",
+      "mitophagy",
+      "xenophagy",
+      "selective autophagy",
+      "phagophore"
+    ],
+    "anchor_go_ids": [
+      "GO:0006914",
+      "GO:0000422",
+      "GO:0000423"
+    ],
+    "core_keywords": [
+      "autophagy",
+      "autophagosome",
+      "beclin-1",
+      "sequestosome",
+      "phagophore"
+    ]
+  },
+  "Unfolded Protein Response": {
+    "keywords": [
+      "unfolded protein response",
+      "ER stress",
+      "endoplasmic reticulum stress",
+      "IRE1",
+      "ERN1",
+      "XBP1",
+      "ATF6",
+      "ATF4",
+      "PERK",
+      "EIF2AK3",
+      "eIF2alpha",
+      "CHOP",
+      "DDIT3",
+      "BiP",
+      "GRP78",
+      "HSPA5",
+      "calnexin",
+      "calreticulin",
+      "protein disulfide isomerase",
+      "ER-associated degradation",
+      "ERAD"
+    ],
+    "anchor_go_ids": [
+      "GO:0030968",
+      "GO:0034976"
+    ],
+    "core_keywords": [
+      "unfolded protein response",
+      "ER stress",
+      "IRE1",
+      "XBP1",
+      "ATF6",
+      "PERK",
+      "ER-associated degradation"
+    ]
+  },
+  "Hypoxia Response": {
+    "keywords": [
+      "hypoxia",
+      "hypoxia-inducible",
+      "HIF-1",
+      "HIF1A",
+      "HIF-2",
+      "EPAS1",
+      "HIF1AN",
+      "prolyl hydroxylase domain",
+      "EGLN",
+      "von Hippel-Lindau",
+      "VHL",
+      "response to hypoxia",
+      "response to decreased oxygen",
+      "oxygen homeostasis",
+      "angiogenesis",
+      "vascular endothelial growth factor",
+      "VEGF",
+      "erythropoietin",
+      "carbonic anhydrase",
+      "glucose transporter"
+    ],
+    "anchor_go_ids": [
+      "GO:0001666",
+      "GO:0070482",
+      "GO:0001525"
+    ],
+    "core_keywords": [
+      "hypoxia",
+      "hypoxia-inducible",
+      "HIF-1",
+      "response to hypoxia",
+      "von Hippel-Lindau"
+    ]
+  },
+  "Oxidative Stress & ROS": {
+    "keywords": [
+      "reactive oxygen species",
+      "oxidative stress",
+      "antioxidant",
+      "superoxide dismutase",
+      "catalase",
+      "glutathione peroxidase",
+      "glutathione reductase",
+      "glutathione S-transferase",
+      "thioredoxin",
+      "peroxiredoxin",
+      "NADPH oxidase",
+      "NOX",
+      "heme oxygenase",
+      "NRF2",
+      "NFE2L2",
+      "KEAP1",
+      "response to oxidative stress",
+      "hydrogen peroxide",
+      "superoxide",
+      "glutaredoxin"
+    ],
+    "anchor_go_ids": [
+      "GO:0006979",
+      "GO:0042542",
+      "GO:0034599"
+    ],
+    "core_keywords": [
+      "reactive oxygen species",
+      "oxidative stress",
+      "superoxide dismutase",
+      "glutathione peroxidase",
+      "peroxiredoxin",
+      "NADPH oxidase"
+    ]
+  },
+  "E2F Targets & DNA Replication": {
+    "keywords": [
+      "E2F transcription factor",
+      "E2F1",
+      "E2F2",
+      "E2F3",
+      "retinoblastoma",
+      "RB1",
+      "DNA replication",
+      "DNA replication licensing",
+      "MCM complex",
+      "minichromosome maintenance",
+      "DNA helicase",
+      "DNA polymerase alpha",
+      "DNA polymerase delta",
+      "DNA polymerase epsilon",
+      "PCNA",
+      "proliferating cell nuclear antigen",
+      "replication factor C",
+      "origin recognition complex",
+      "CDC6",
+      "CDT1",
+      "thymidylate synthase",
+      "ribonucleoside-diphosphate reductase",
+      "dihydrofolate reductase"
+    ],
+    "anchor_go_ids": [
+      "GO:0006260",
+      "GO:0006270"
+    ],
+    "core_keywords": [
+      "E2F transcription factor",
+      "DNA replication",
+      "minichromosome maintenance",
+      "PCNA",
+      "proliferating cell nuclear antigen"
+    ]
+  },
+  "G2M Checkpoint & Mitosis": {
+    "keywords": [
+      "mitosis",
+      "mitotic",
+      "cyclin B",
+      "cyclin A",
+      "CDK1",
+      "CDC2",
+      "aurora kinase",
+      "AURKB",
+      "AURKA",
+      "polo-like kinase",
+      "PLK1",
+      "spindle assembly",
+      "mitotic spindle",
+      "kinetochore",
+      "centromere",
+      "chromosome segregation",
+      "condensin",
+      "cohesin",
+      "topoisomerase II",
+      "BUB1",
+      "MAD2",
+      "checkpoint kinase",
+      "CHEK1",
+      "CHEK2",
+      "anaphase-promoting complex",
+      "cytokinesis",
+      "cell division cycle"
+    ],
+    "anchor_go_ids": [
+      "GO:0007067",
+      "GO:0000086",
+      "GO:0007088",
+      "GO:0007094"
+    ],
+    "core_keywords": [
+      "mitotic spindle",
+      "aurora kinase",
+      "polo-like kinase",
+      "kinetochore",
+      "anaphase-promoting complex",
+      "chromosome segregation"
+    ]
+  },
+  "DNA Damage & Repair": {
+    "keywords": [
+      "DNA repair",
+      "DNA damage response",
+      "DNA damage",
+      "double-strand break repair",
+      "homologous recombination",
+      "non-homologous end joining",
+      "base excision repair",
+      "nucleotide excision repair",
+      "mismatch repair",
+      "BRCA1",
+      "BRCA2",
+      "RAD51",
+      "ATM serine",
+      "ATR serine",
+      "p53",
+      "tumor protein p53",
+      "TP53",
+      "MDM2",
+      "GADD45",
+      "XRCC",
+      "PARP",
+      "poly(ADP-ribose) polymerase",
+      "Fanconi anemia"
+    ],
+    "anchor_go_ids": [
+      "GO:0006281",
+      "GO:0006974",
+      "GO:0072331"
+    ],
+    "core_keywords": [
+      "DNA repair",
+      "DNA damage response",
+      "double-strand break repair",
+      "BRCA1",
+      "BRCA2",
+      "RAD51",
+      "poly(ADP-ribose) polymerase"
+    ]
+  },
+  "Protein Homeostasis": {
+    "keywords": [
+      "ubiquitin",
+      "ubiquitin-protein ligase",
+      "ubiquitin-conjugating enzyme",
+      "ubiquitin-activating enzyme",
+      "E3 ubiquitin-protein ligase",
+      "proteasome",
+      "proteasomal",
+      "26S proteasome",
+      "20S proteasome",
+      "proteasome subunit",
+      "deubiquitinase",
+      "deubiquitinating enzyme",
+      "ubiquitin-specific protease",
+      "ubiquitin thioesterase",
+      "SUMO",
+      "sumoylation",
+      "protein neddylation",
+      "heat shock protein",
+      "HSP90",
+      "HSP70",
+      "HSP40",
+      "chaperonin",
+      "molecular chaperone"
+    ],
+    "anchor_go_ids": [
+      "GO:0016567",
+      "GO:0006511",
+      "GO:0051603",
+      "GO:0006457"
+    ],
+    "core_keywords": [
+      "ubiquitin-protein ligase",
+      "proteasome",
+      "proteasome subunit",
+      "deubiquitinating enzyme",
+      "heat shock protein"
+    ]
+  },
+  "Translation & Ribosome": {
+    "keywords": [
+      "ribosomal protein",
+      "translation",
+      "elongation factor",
+      "initiation factor",
+      "aminoacyl-tRNA synthetase",
+      "tRNA synthetase",
+      "rRNA processing",
+      "ribosome biogenesis",
+      "structural constituent of ribosome",
+      "translation termination",
+      "release factor",
+      "ribosome assembly",
+      "polysome",
+      "peptidyl transferase",
+      "ribosome recycling",
+      "cytoplasmic translation",
+      "eukaryotic translation",
+      "40S ribosomal protein",
+      "60S ribosomal protein"
+    ],
+    "anchor_go_ids": [
+      "GO:0006412",
+      "GO:0042254",
+      "GO:0003735"
+    ],
+    "core_keywords": [
+      "ribosomal protein",
+      "aminoacyl-tRNA synthetase",
+      "structural constituent of ribosome",
+      "40S ribosomal protein",
+      "60S ribosomal protein"
+    ]
+  },
+  "Tissue Repair & Remodelling": {
+    "keywords": [
+      "wound healing",
+      "tissue repair",
+      "extracellular matrix",
+      "collagen",
+      "fibronectin",
+      "matrix metalloproteinase",
+      "MMP",
+      "tissue inhibitor of metalloproteinase",
+      "TIMP",
+      "fibrosis",
+      "fibroblast growth factor",
+      "epithelial-mesenchymal transition",
+      "integrin",
+      "laminin",
+      "proteoglycan",
+      "tissue remodelling",
+      "coagulation factor",
+      "plasminogen",
+      "fibrinogen"
+    ],
+    "anchor_go_ids": [
+      "GO:0042060",
+      "GO:0001525",
+      "GO:0030198"
+    ],
+    "core_keywords": [
+      "matrix metalloproteinase",
+      "collagen",
+      "fibronectin",
+      "wound healing",
+      "extracellular matrix"
+    ]
+  },
+  "Uncharacterised": {
+    "keywords": [
+      "uncharacterized protein",
+      "hypothetical protein",
+      "unknown function",
+      "putative uncharacterized",
+      "unnamed protein product",
+      "uncharacterised"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": [
+      "hypothetical protein",
+      "uncharacterized protein",
+      "unknown function"
+    ]
+  }
+}

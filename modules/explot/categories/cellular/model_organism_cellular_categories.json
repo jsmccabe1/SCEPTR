@@ -1,0 +1,245 @@
+{
+  "Cytoplasm": {
+    "keywords": [
+      "cytoplasm",
+      "cytosol",
+      "cytoplasmic",
+      "intracellular"
+    ],
+    "anchor_go_ids": [
+      "GO:0005737",
+      "GO:0005829"
+    ],
+    "core_keywords": []
+  },
+  "Nucleus": {
+    "keywords": [
+      "nucleus",
+      "nucleoplasm",
+      "nucleolus",
+      "nuclear",
+      "chromatin",
+      "chromosome",
+      "nuclear envelope",
+      "nuclear pore",
+      "nuclear matrix"
+    ],
+    "anchor_go_ids": [
+      "GO:0005634",
+      "GO:0005654",
+      "GO:0005730"
+    ],
+    "core_keywords": []
+  },
+  "Mitochondria": {
+    "keywords": [
+      "mitochondrion",
+      "mitochondrial",
+      "mitochondria",
+      "mitochondrial matrix",
+      "mitochondrial membrane",
+      "cristae"
+    ],
+    "anchor_go_ids": [
+      "GO:0005739",
+      "GO:0005743"
+    ],
+    "core_keywords": []
+  },
+  "Endoplasmic Reticulum": {
+    "keywords": [
+      "endoplasmic reticulum",
+      "ER",
+      "rough ER",
+      "smooth ER",
+      "ER membrane",
+      "ER lumen",
+      "microsomes"
+    ],
+    "anchor_go_ids": [
+      "GO:0005783"
+    ],
+    "core_keywords": []
+  },
+  "Golgi Apparatus": {
+    "keywords": [
+      "Golgi",
+      "Golgi apparatus",
+      "cis-Golgi",
+      "trans-Golgi",
+      "Golgi stack",
+      "Golgi membrane",
+      "trans-Golgi network"
+    ],
+    "anchor_go_ids": [
+      "GO:0005794"
+    ],
+    "core_keywords": []
+  },
+  "Ribosome": {
+    "keywords": [
+      "ribosome",
+      "ribosomal",
+      "large ribosomal subunit",
+      "small ribosomal subunit",
+      "ribonucleoprotein",
+      "polysome",
+      "free ribosome",
+      "membrane-bound ribosome"
+    ],
+    "anchor_go_ids": [
+      "GO:0005840"
+    ],
+    "core_keywords": []
+  },
+  "Lysosome & Vacuoles": {
+    "keywords": [
+      "lysosome",
+      "lysosomal",
+      "autophagosome",
+      "phagosome",
+      "vacuole",
+      "late endosome",
+      "multivesicular body"
+    ],
+    "anchor_go_ids": [
+      "GO:0005764",
+      "GO:0005773"
+    ],
+    "core_keywords": []
+  },
+  "Peroxisome": {
+    "keywords": [
+      "peroxisome",
+      "peroxisomal",
+      "glyoxysome"
+    ],
+    "anchor_go_ids": [
+      "GO:0005777"
+    ],
+    "core_keywords": []
+  },
+  "Plasma Membrane": {
+    "keywords": [
+      "plasma membrane",
+      "cell membrane",
+      "cell surface",
+      "membrane raft",
+      "lipid raft",
+      "caveolae"
+    ],
+    "anchor_go_ids": [
+      "GO:0005886"
+    ],
+    "core_keywords": []
+  },
+  "Integral Membrane": {
+    "keywords": [
+      "transmembrane",
+      "integral membrane",
+      "membrane protein",
+      "membrane-spanning",
+      "membrane-bound"
+    ],
+    "anchor_go_ids": [
+      "GO:0016020"
+    ],
+    "core_keywords": []
+  },
+  "Cytoskeleton": {
+    "keywords": [
+      "cytoskeleton",
+      "actin",
+      "tubulin",
+      "microtubule",
+      "microfilament",
+      "intermediate filament",
+      "centrosome",
+      "centriole",
+      "spindle pole"
+    ],
+    "anchor_go_ids": [
+      "GO:0005856",
+      "GO:0005874"
+    ],
+    "core_keywords": []
+  },
+  "Cell Junctions": {
+    "keywords": [
+      "tight junction",
+      "adherens junction",
+      "gap junction",
+      "desmosome",
+      "focal adhesion",
+      "cell-cell junction",
+      "cell adhesion"
+    ],
+    "anchor_go_ids": [
+      "GO:0005911",
+      "GO:0005913"
+    ],
+    "core_keywords": []
+  },
+  "Vesicles & Transport": {
+    "keywords": [
+      "vesicle",
+      "transport vesicle",
+      "secretory vesicle",
+      "endosome",
+      "early endosome",
+      "recycling endosome",
+      "clathrin-coated vesicle"
+    ],
+    "anchor_go_ids": [
+      "GO:0031982",
+      "GO:0030133"
+    ],
+    "core_keywords": []
+  },
+  "Extracellular Matrix": {
+    "keywords": [
+      "extracellular matrix",
+      "basement membrane",
+      "collagen",
+      "fibronectin",
+      "laminin",
+      "proteoglycan",
+      "extracellular"
+    ],
+    "anchor_go_ids": [
+      "GO:0005576",
+      "GO:0005615"
+    ],
+    "core_keywords": []
+  },
+  "Specialized Organelles": {
+    "keywords": [
+      "melanosome",
+      "lipid droplet",
+      "stress granule",
+      "P-body",
+      "processing body",
+      "nuclear speckle",
+      "Cajal body"
+    ],
+    "anchor_go_ids": [
+      "GO:0005622"
+    ],
+    "core_keywords": []
+  },
+  "Secreted": {
+    "keywords": [
+      "secreted",
+      "extracellular space",
+      "secretory pathway",
+      "exosome",
+      "microvesicle",
+      "extracellular vesicle"
+    ],
+    "anchor_go_ids": [
+      "GO:0005615",
+      "GO:0031982"
+    ],
+    "core_keywords": []
+  }
+}

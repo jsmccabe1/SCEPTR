@@ -1,0 +1,344 @@
+{
+  "Innate Immunity": {
+    "keywords": [
+      "toll-like receptor",
+      "TLR",
+      "pattern recognition",
+      "inflammasome",
+      "NLRP3",
+      "caspase-1",
+      "interferon",
+      "IFN-alpha",
+      "IFN-beta",
+      "IFN-gamma",
+      "cytokine",
+      "chemokine",
+      "interleukin",
+      "natural killer",
+      "NK cell",
+      "complement",
+      "complement activation",
+      "antimicrobial peptide",
+      "defensin",
+      "cathelicidin",
+      "phagocytosis",
+      "opsonization",
+      "RIG-I",
+      "MDA5",
+      "cGAS",
+      "STING",
+      "innate immune response"
+    ],
+    "anchor_go_ids": [
+      "GO:0045087"
+    ],
+    "core_keywords": [
+      "toll-like receptor",
+      "TLR",
+      "inflammasome",
+      "interferon",
+      "IFN-alpha",
+      "IFN-beta",
+      "IFN-gamma",
+      "RIG-I",
+      "MDA5",
+      "cGAS",
+      "STING",
+      "defensin",
+      "cathelicidin"
+    ]
+  },
+  "Adaptive Immunity": {
+    "keywords": [
+      "T cell receptor",
+      "B cell receptor",
+      "immunoglobulin",
+      "antibody",
+      "MHC class I",
+      "MHC class II",
+      "antigen presentation",
+      "antigen processing",
+      "T cell activation",
+      "B cell activation",
+      "T helper",
+      "cytotoxic T cell",
+      "regulatory T cell",
+      "Th1",
+      "Th2",
+      "Th17",
+      "class switching",
+      "somatic hypermutation",
+      "adaptive immune response"
+    ],
+    "anchor_go_ids": [
+      "GO:0002250"
+    ],
+    "core_keywords": [
+      "T cell receptor",
+      "B cell receptor",
+      "immunoglobulin",
+      "antibody",
+      "MHC class I",
+      "MHC class II",
+      "antigen presentation"
+    ]
+  },
+  "Inflammatory Response": {
+    "keywords": [
+      "inflammation",
+      "inflammatory",
+      "NF-kB",
+      "nuclear factor kappa",
+      "TNF",
+      "tumor necrosis factor",
+      "prostaglandin",
+      "leukotriene",
+      "thromboxane",
+      "cyclooxygenase",
+      "COX-2",
+      "lipoxygenase",
+      "acute phase protein",
+      "C-reactive protein",
+      "neutrophil",
+      "macrophage activation",
+      "inflammatory response",
+      "pyroptosis"
+    ],
+    "anchor_go_ids": [
+      "GO:0006954"
+    ],
+    "core_keywords": [
+      "NF-kB",
+      "TNF",
+      "tumor necrosis factor",
+      "prostaglandin",
+      "cyclooxygenase",
+      "COX-2",
+      "inflammatory response"
+    ]
+  },
+  "Apoptosis & Cell Death": {
+    "keywords": [
+      "apoptosis",
+      "programmed cell death",
+      "caspase",
+      "Bcl-2",
+      "cytochrome c release",
+      "death receptor",
+      "Fas ligand",
+      "TRAIL",
+      "necroptosis",
+      "RIPK1",
+      "RIPK3",
+      "MLKL",
+      "pyroptosis",
+      "gasdermin",
+      "autophagy",
+      "autophagic cell death",
+      "apoptotic process"
+    ],
+    "anchor_go_ids": [
+      "GO:0006915"
+    ],
+    "core_keywords": [
+      "caspase",
+      "Bcl-2",
+      "death receptor",
+      "Fas ligand",
+      "TRAIL",
+      "gasdermin"
+    ]
+  },
+  "Cell Signalling": {
+    "keywords": [
+      "JAK-STAT",
+      "MAPK pathway",
+      "PI3K-Akt",
+      "Wnt signalling",
+      "Notch signalling",
+      "Hedgehog",
+      "NF-kB signalling",
+      "mTOR signalling",
+      "calcium signalling",
+      "G-protein coupled",
+      "tyrosine kinase",
+      "serine/threonine kinase",
+      "signal transduction",
+      "receptor signalling"
+    ],
+    "anchor_go_ids": [
+      "GO:0007165",
+      "GO:0007166"
+    ],
+    "core_keywords": [
+      "JAK-STAT",
+      "MAPK pathway",
+      "PI3K-Akt",
+      "Wnt signalling",
+      "Notch signalling",
+      "mTOR signalling"
+    ]
+  },
+  "Stress Response": {
+    "keywords": [
+      "heat shock protein",
+      "HSP70",
+      "HSP90",
+      "unfolded protein response",
+      "ER stress",
+      "oxidative stress",
+      "reactive oxygen species",
+      "antioxidant",
+      "superoxide dismutase",
+      "catalase",
+      "glutathione",
+      "thioredoxin",
+      "hypoxia",
+      "HIF-1",
+      "hypoxia-inducible",
+      "cellular stress response"
+    ],
+    "anchor_go_ids": [
+      "GO:0006950",
+      "GO:0006986"
+    ],
+    "core_keywords": [
+      "heat shock protein",
+      "HSP70",
+      "HSP90",
+      "unfolded protein response",
+      "superoxide dismutase",
+      "catalase",
+      "HIF-1"
+    ]
+  },
+  "Tissue Repair & Remodelling": {
+    "keywords": [
+      "wound healing",
+      "tissue repair",
+      "extracellular matrix",
+      "collagen",
+      "fibronectin",
+      "matrix metalloproteinase",
+      "MMP",
+      "tissue inhibitor",
+      "TIMP",
+      "fibrosis",
+      "fibroblast",
+      "angiogenesis",
+      "vascular endothelial growth factor",
+      "tissue remodelling"
+    ],
+    "anchor_go_ids": [
+      "GO:0042060"
+    ],
+    "core_keywords": [
+      "matrix metalloproteinase",
+      "MMP",
+      "collagen",
+      "fibronectin",
+      "wound healing"
+    ]
+  },
+  "Metabolism & Energy": {
+    "keywords": [
+      "glycolysis",
+      "oxidative phosphorylation",
+      "mitochondrial",
+      "electron transport",
+      "fatty acid oxidation",
+      "lipid metabolism",
+      "glucose metabolism",
+      "amino acid metabolism",
+      "metabolic reprogramming",
+      "Warburg effect",
+      "pentose phosphate",
+      "TCA cycle",
+      "metabolic process"
+    ],
+    "anchor_go_ids": [
+      "GO:0006091",
+      "GO:0006629"
+    ],
+    "core_keywords": [
+      "glycolysis",
+      "oxidative phosphorylation",
+      "TCA cycle"
+    ]
+  },
+  "Cell Cycle & Proliferation": {
+    "keywords": [
+      "cell cycle",
+      "cell proliferation",
+      "mitosis",
+      "cyclin",
+      "CDK",
+      "checkpoint",
+      "p53",
+      "Rb",
+      "cell growth",
+      "DNA replication",
+      "chromosome segregation",
+      "cell division"
+    ],
+    "anchor_go_ids": [
+      "GO:0007049",
+      "GO:0008283"
+    ],
+    "core_keywords": [
+      "cyclin",
+      "CDK",
+      "p53",
+      "Rb",
+      "mitosis"
+    ]
+  },
+  "Translation & Ribosome": {
+    "keywords": [
+      "ribosomal protein",
+      "translation",
+      "elongation factor",
+      "initiation factor",
+      "aminoacyl-tRNA synthetase",
+      "tRNA synthetase",
+      "rRNA processing",
+      "ribosome biogenesis",
+      "mRNA binding",
+      "protein biosynthesis",
+      "cytoplasmic translation",
+      "structural constituent of ribosome",
+      "translation termination",
+      "release factor",
+      "ribosome assembly",
+      "polysome",
+      "peptidyl transferase",
+      "ribosome recycling"
+    ],
+    "anchor_go_ids": [
+      "GO:0006412",
+      "GO:0042254",
+      "GO:0003735"
+    ],
+    "core_keywords": [
+      "ribosomal protein",
+      "aminoacyl-tRNA synthetase",
+      "structural constituent of ribosome"
+    ]
+  },
+  "Uncharacterised": {
+    "keywords": [
+      "uncharacterized protein",
+      "hypothetical protein",
+      "unknown function",
+      "putative uncharacterized",
+      "unnamed protein product",
+      "uncharacterised"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": [
+      "hypothetical protein",
+      "uncharacterized protein",
+      "unknown function"
+    ]
+  }
+}

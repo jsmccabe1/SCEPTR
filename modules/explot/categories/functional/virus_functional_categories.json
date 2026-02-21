@@ -1,0 +1,236 @@
+{
+  "Genome Replication": {
+    "keywords": [
+      "RNA-dependent RNA polymerase",
+      "RdRp",
+      "reverse transcriptase",
+      "viral DNA polymerase",
+      "viral replicase",
+      "replication complex",
+      "primase-helicase",
+      "viral helicase",
+      "viral genome replication",
+      "rolling circle replication",
+      "replication-transcription complex",
+      "nucleoprotein complex",
+      "nucleocapsid protein",
+      "terminal protein",
+      "genome-linked protein",
+      "VPg protein"
+    ],
+    "anchor_go_ids": [
+      "GO:0006260"
+    ],
+    "core_keywords": []
+  },
+  "Transcription & mRNA Processing": {
+    "keywords": [
+      "viral transcription",
+      "RNA capping enzyme",
+      "viral methyltransferase",
+      "viral RNA polymerase",
+      "viral transcription factor",
+      "cap-snatching mechanism",
+      "viral mRNA synthesis",
+      "viral polyadenylation",
+      "viral RNA editing",
+      "transcription termination signal",
+      "polymerase cofactor",
+      "viral RNA-binding protein"
+    ],
+    "anchor_go_ids": [
+      "GO:0006355"
+    ],
+    "core_keywords": []
+  },
+  "Structural Proteins": {
+    "keywords": [
+      "capsid protein",
+      "coat protein",
+      "major capsid protein",
+      "viral structural protein",
+      "virion protein",
+      "matrix protein",
+      "tegument protein",
+      "core protein",
+      "shell protein",
+      "portal protein",
+      "tail protein",
+      "fiber protein",
+      "spike protein",
+      "hexon protein",
+      "penton protein"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": []
+  },
+  "Envelope & Entry": {
+    "keywords": [
+      "envelope glycoprotein",
+      "envelope protein",
+      "hemagglutinin protein",
+      "neuraminidase protein",
+      "viral fusion protein",
+      "fusion peptide",
+      "receptor binding protein",
+      "viral entry mechanism",
+      "viral membrane fusion",
+      "cell attachment protein",
+      "surface glycoprotein",
+      "surface antigen",
+      "spike glycoprotein",
+      "receptor binding domain",
+      "heparan sulfate binding",
+      "sialic acid binding"
+    ],
+    "anchor_go_ids": [
+      "GO:0044403"
+    ],
+    "core_keywords": []
+  },
+  "Assembly & Egress": {
+    "keywords": [
+      "viral assembly",
+      "virion assembly",
+      "packaging signal",
+      "genome packaging",
+      "terminase enzyme",
+      "portal vertex assembly",
+      "viral budding",
+      "viral egress",
+      "viral matrix protein",
+      "membrane scission",
+      "ESCRT-mediated budding",
+      "viral release",
+      "scaffold protein",
+      "procapsid assembly",
+      "particle maturation",
+      "viral morphogenesis"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": []
+  },
+  "Immune Evasion": {
+    "keywords": [
+      "viral immune evasion",
+      "interferon antagonist",
+      "interferon inhibitor",
+      "IFN antagonist protein",
+      "PKR inhibitor",
+      "MHC downregulation",
+      "complement evasion",
+      "immune modulation",
+      "antigenic variation",
+      "antigenic shift",
+      "cytokine modulation",
+      "apoptosis inhibitor",
+      "NF-kB inhibitor",
+      "RIG-I antagonist",
+      "cGAS-STING inhibitor",
+      "OAS antagonist",
+      "viral immune suppression",
+      "decoy receptor",
+      "viral IL-10 homolog",
+      "viral chemokine homolog"
+    ],
+    "anchor_go_ids": [
+      "GO:0030682",
+      "GO:0051701"
+    ],
+    "core_keywords": []
+  },
+  "Protease & Processing": {
+    "keywords": [
+      "viral protease",
+      "viral peptidase",
+      "polyprotein processing",
+      "autocatalytic cleavage",
+      "viral main protease",
+      "papain-like protease",
+      "viral cysteine protease",
+      "viral serine protease",
+      "3C-like protease",
+      "NS3 protease",
+      "maturation cleavage",
+      "viral signal peptidase"
+    ],
+    "anchor_go_ids": [
+      "GO:0006508"
+    ],
+    "core_keywords": []
+  },
+  "Host Cell Manipulation": {
+    "keywords": [
+      "cell cycle arrest induction",
+      "apoptosis modulation",
+      "viral oncogene",
+      "transforming protein",
+      "host shutoff protein",
+      "host translation inhibition",
+      "cap-dependent translation inhibition",
+      "internal ribosome entry site",
+      "IRES element",
+      "host mRNA degradation",
+      "host shutoff factor",
+      "viral nuclear export signal",
+      "viral nuclear import signal",
+      "host chromatin modification",
+      "host transcription manipulation"
+    ],
+    "anchor_go_ids": [
+      "GO:0051701",
+      "GO:0044403"
+    ],
+    "core_keywords": []
+  },
+  "Movement & Spread": {
+    "keywords": [
+      "cell-to-cell spread",
+      "viral movement protein",
+      "syncytium formation",
+      "virus-induced cell fusion",
+      "tubule formation",
+      "plasmodesmata modification",
+      "actin-based viral motility",
+      "microtubule-based transport",
+      "viral spread mechanism",
+      "intercellular viral transmission"
+    ],
+    "anchor_go_ids": [
+      "GO:0044403"
+    ],
+    "core_keywords": []
+  },
+  "Accessory & Regulatory": {
+    "keywords": [
+      "viral accessory protein",
+      "viral regulatory protein",
+      "non-structural protein",
+      "NS protein",
+      "Tat transactivator",
+      "Rev regulatory protein",
+      "Nef accessory protein",
+      "viral transactivator",
+      "viroporin activity",
+      "viral ion channel",
+      "auxiliary protein",
+      "virulence factor"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": []
+  },
+  "Uncharacterised": {
+    "keywords": [
+      "uncharacterized protein",
+      "hypothetical protein",
+      "unknown function",
+      "putative protein",
+      "ORF product",
+      "open reading frame",
+      "predicted protein",
+      "uncharacterised viral protein"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": []
+  }
+}

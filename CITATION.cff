@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "SCEPTR: expression-weighted functional profiling of transcriptomes without biological replicates"
+version: 1.0.0
+license: MIT
+repository-code: "https://github.com/jsmccabe1/SCEPTR"
+authors:
+  - family-names: McCabe
+    given-names: James S.
+  - family-names: "Janouskovec"
+    given-names: Jan
+preferred-citation:
+  type: article
+  title: "SCEPTR: expression-weighted functional profiling of transcriptomes without biological replicates"
+  authors:
+    - family-names: McCabe
+      given-names: James S.
+    - family-names: "Janouskovec"
+      given-names: Jan
+  year: 2026

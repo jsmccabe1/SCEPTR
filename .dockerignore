@@ -1,0 +1,41 @@
+# Git
+.git/
+.gitignore
+
+# Nextflow runtime
+work/
+.nextflow/
+.nextflow.log*
+
+# Results and test data
+results/
+results_*/
+test_data/
+benchmarking/
+output/
+
+# Manuscript and docs
+manuscript/
+*.md
+LICENSE
+
+# Cache and temp
+__pycache__/
+*.pyc
+*.tmp
+*.log
+bin/annotation/uniprot_cache/
+
+# Images and assets (not needed in container)
+assets/
+
+# Editor and OS
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+.Rhistory
+.RData

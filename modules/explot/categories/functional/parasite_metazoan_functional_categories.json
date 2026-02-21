@@ -1,0 +1,237 @@
+{
+  "Host Immune Evasion": {
+    "keywords": [
+      "immune evasion",
+      "immune suppression",
+      "complement evasion",
+      "antibody evasion",
+      "T cell suppression",
+      "immunomodulation",
+      "cytokine manipulation",
+      "TGF-beta mimicry",
+      "IL-10 homolog",
+      "immunosuppressive molecule",
+      "complement inhibitor",
+      "immune complex evasion"
+    ],
+    "anchor_go_ids": [
+      "GO:0030682",
+      "GO:0051701",
+      "GO:0044403"
+    ],
+    "core_keywords": []
+  },
+  "Tissue Migration & Invasion": {
+    "keywords": [
+      "tissue migration",
+      "parasite migration",
+      "tissue invasion",
+      "host tissue penetration",
+      "basement membrane degradation",
+      "extracellular matrix degradation",
+      "collagenase activity",
+      "elastase activity",
+      "metalloproteinase activity",
+      "hyaluronidase activity",
+      "tissue remodeling",
+      "parasite adhesion"
+    ],
+    "anchor_go_ids": [
+      "GO:0048870",
+      "GO:0044403"
+    ],
+    "core_keywords": []
+  },
+  "Cuticle & Structural Components": {
+    "keywords": [
+      "cuticle protein",
+      "cuticular collagen",
+      "structural protein",
+      "nematode collagen",
+      "chitin binding",
+      "chitinase activity",
+      "cuticle formation",
+      "molting hormone",
+      "ecdysis process",
+      "structural constituent of cuticle",
+      "extracellular structure",
+      "body wall component"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": []
+  },
+  "Digestive & Feeding Apparatus": {
+    "keywords": [
+      "digestive enzyme",
+      "feeding apparatus",
+      "pharyngeal pumping",
+      "esophageal gland",
+      "intestinal enzyme",
+      "gut protease",
+      "nutrient absorption",
+      "food vacuole formation",
+      "hemoglobin degradation",
+      "blood feeding",
+      "hematophagy",
+      "digestive protease",
+      "digestive peptidase"
+    ],
+    "anchor_go_ids": [
+      "GO:0006508"
+    ],
+    "core_keywords": []
+  },
+  "Reproductive & Development": {
+    "keywords": [
+      "reproductive system",
+      "reproductive process",
+      "oogenesis",
+      "spermatogenesis",
+      "embryogenesis",
+      "larval development",
+      "metamorphosis",
+      "sex determination",
+      "gonad development",
+      "ovary development",
+      "testis development",
+      "egg production",
+      "sperm motility",
+      "fertilization"
+    ],
+    "anchor_go_ids": [
+      "GO:0007275",
+      "GO:0030154"
+    ],
+    "core_keywords": []
+  },
+  "Neuromuscular System": {
+    "keywords": [
+      "nervous system development",
+      "neurotransmitter signaling",
+      "acetylcholine receptor",
+      "GABA receptor",
+      "serotonin receptor",
+      "ligand-gated ion channel",
+      "neuromuscular junction",
+      "muscle contraction",
+      "locomotion behavior",
+      "sensory neuron",
+      "mechanosensation",
+      "chemosensation"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": []
+  },
+  "Excretory & Osmoregulation": {
+    "keywords": [
+      "excretory system",
+      "osmoregulation",
+      "water balance regulation",
+      "ion transport activity",
+      "aquaporin channel",
+      "sodium-potassium pump",
+      "potassium channel activity",
+      "chloride channel activity",
+      "osmotic stress response",
+      "nephridium",
+      "flame cell",
+      "protonephridium"
+    ],
+    "anchor_go_ids": [
+      "GO:0055085",
+      "GO:0006811"
+    ],
+    "core_keywords": []
+  },
+  "Central Metabolism": {
+    "keywords": [
+      "glycolysis",
+      "citric acid cycle",
+      "electron transport chain",
+      "ATP synthesis",
+      "fatty acid metabolism",
+      "amino acid metabolism",
+      "carbohydrate metabolism",
+      "anaerobic metabolism",
+      "lactate fermentation",
+      "succinate fermentation",
+      "metabolic adaptation"
+    ],
+    "anchor_go_ids": [
+      "GO:0006096",
+      "GO:0006099",
+      "GO:0006091"
+    ],
+    "core_keywords": []
+  },
+  "Detoxification & Stress Response": {
+    "keywords": [
+      "detoxification enzyme",
+      "xenobiotic metabolism",
+      "cytochrome P450",
+      "glutathione transferase",
+      "antioxidant defense",
+      "oxidative stress response",
+      "heat shock protein",
+      "cellular stress response",
+      "drug resistance mechanism",
+      "multidrug resistance transporter",
+      "ABC transporter activity"
+    ],
+    "anchor_go_ids": [
+      "GO:0006950",
+      "GO:0046677"
+    ],
+    "core_keywords": []
+  },
+  "Cell Signaling & Regulation": {
+    "keywords": [
+      "signal transduction pathway",
+      "neuropeptide signaling",
+      "growth factor receptor",
+      "receptor tyrosine kinase",
+      "protein phosphatase",
+      "transcription factor binding",
+      "gene regulation",
+      "chromatin remodeling",
+      "epigenetic regulation"
+    ],
+    "anchor_go_ids": [
+      "GO:0007165",
+      "GO:0006468"
+    ],
+    "core_keywords": []
+  },
+  "Protein Processing & Quality Control": {
+    "keywords": [
+      "protein folding",
+      "molecular chaperone",
+      "heat shock protein family",
+      "ubiquitin-proteasome pathway",
+      "autophagy pathway",
+      "lysosomal degradation",
+      "protein degradation",
+      "endoplasmic reticulum stress",
+      "Golgi apparatus",
+      "protein secretion"
+    ],
+    "anchor_go_ids": [
+      "GO:0006457",
+      "GO:0006508",
+      "GO:0051082"
+    ],
+    "core_keywords": []
+  },
+  "Uncharacterized": {
+    "keywords": [
+      "uncharacterized protein",
+      "hypothetical protein",
+      "unknown function",
+      "putative uncharacterized protein",
+      "conserved protein",
+      "species-specific protein"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": []
+  }
+}

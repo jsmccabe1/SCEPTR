@@ -1,0 +1,345 @@
+{
+  "Host Cell Invasion & Attachment": {
+    "keywords": [
+      "entry into host cell",
+      "host cell attachment",
+      "cell adhesion",
+      "host cell invasion",
+      "cell invasion",
+      "tissue invasion",
+      "penetration",
+      "host membrane penetration",
+      "adhesins",
+      "invasin",
+      "host-pathogen interaction",
+      "parasitophorous vacuole",
+      "intracellular survival",
+      "host cell entry",
+      "attachment to host"
+    ],
+    "anchor_go_ids": [
+      "GO:0030260",
+      "GO:0007155"
+    ],
+    "core_keywords": [
+      "host cell invasion",
+      "parasitophorous vacuole",
+      "host cell entry"
+    ]
+  },
+  "Specialised Organelles & Secretion": {
+    "keywords": [
+      "rhoptry",
+      "rhoptries",
+      "microneme",
+      "micronemes",
+      "dense granule",
+      "apical complex",
+      "secretory pathway",
+      "ROP",
+      "secreted protein",
+      "exocyst",
+      "protein secretion",
+      "regulated secretion",
+      "secretory organelle",
+      "vesicle transport",
+      "organelle biogenesis"
+    ],
+    "anchor_go_ids": [
+      "GO:0006886",
+      "GO:0016192"
+    ],
+    "core_keywords": [
+      "rhoptry",
+      "rhoptries",
+      "microneme",
+      "micronemes",
+      "dense granule",
+      "apical complex",
+      "ROP"
+    ]
+  },
+  "Motility & Cytoskeletal Dynamics": {
+    "keywords": [
+      "gliding",
+      "glideosome",
+      "parasite motility",
+      "gliding motility",
+      "flagellum",
+      "flagellar",
+      "cytoskeletal manipulation",
+      "host cytoskeleton",
+      "actin-based motility",
+      "actin polymerization",
+      "actin filament",
+      "tubulin polymerization",
+      "microtubule-based movement",
+      "microtubule motor",
+      "motor protein",
+      "cell motility",
+      "inner membrane complex"
+    ],
+    "anchor_go_ids": [
+      "GO:0030048",
+      "GO:0048870"
+    ],
+    "core_keywords": [
+      "glideosome",
+      "gliding motility",
+      "inner membrane complex"
+    ]
+  },
+  "Life Cycle & Development": {
+    "keywords": [
+      "tachyzoite",
+      "bradyzoite",
+      "sporozoite",
+      "merozoite",
+      "oocyst",
+      "cyst",
+      "differentiation",
+      "stage conversion",
+      "cell cycle",
+      "proliferation",
+      "sexual development",
+      "asexual reproduction",
+      "encystation",
+      "excystation",
+      "gametocyte",
+      "schizont",
+      "schizogony"
+    ],
+    "anchor_go_ids": [
+      "GO:0007049",
+      "GO:0030154"
+    ],
+    "core_keywords": [
+      "tachyzoite",
+      "bradyzoite",
+      "sporozoite",
+      "merozoite",
+      "oocyst",
+      "gametocyte",
+      "schizont"
+    ]
+  },
+  "Immune Evasion & Host Manipulation": {
+    "keywords": [
+      "immune modulation",
+      "immune evasion",
+      "immune suppression",
+      "antigenic variation",
+      "host manipulation",
+      "virulence",
+      "pathogenesis",
+      "host response",
+      "cytokine modulation",
+      "antigen presentation",
+      "variant surface",
+      "PfEMP1",
+      "var gene",
+      "clonally variant"
+    ],
+    "anchor_go_ids": [
+      "GO:0030682",
+      "GO:0051701"
+    ],
+    "core_keywords": [
+      "antigenic variation",
+      "PfEMP1",
+      "var gene",
+      "clonally variant"
+    ]
+  },
+  "Central Metabolism & Nutrient Acquisition": {
+    "keywords": [
+      "nutrient transporter",
+      "glucose transporter",
+      "amino acid transporter",
+      "scavenging",
+      "salvage",
+      "glycolysis",
+      "glycolytic process",
+      "fatty acid biosynthesis",
+      "fatty acid oxidation",
+      "lipid metabolic",
+      "iron acquisition",
+      "siderophore",
+      "iron binding",
+      "purine salvage",
+      "pyrimidine salvage",
+      "folate metabolism",
+      "TCA cycle",
+      "citric acid cycle",
+      "pentose phosphate",
+      "carbohydrate metabolism"
+    ],
+    "anchor_go_ids": [
+      "GO:0006096",
+      "GO:0006099",
+      "GO:0006629"
+    ],
+    "core_keywords": [
+      "glycolysis",
+      "purine salvage",
+      "pyrimidine salvage"
+    ]
+  },
+  "Organellar Functions": {
+    "keywords": [
+      "mitochondrial",
+      "apicoplast",
+      "plastid",
+      "organelle biogenesis",
+      "organelle membrane",
+      "organelle organization",
+      "cytochrome",
+      "oxidoreductase",
+      "electron transport",
+      "ATP synthesis",
+      "heme biosynthesis",
+      "isoprenoid",
+      "fatty acid synthesis",
+      "type II fatty acid synthesis"
+    ],
+    "anchor_go_ids": [
+      "GO:0005739",
+      "GO:0009536"
+    ],
+    "core_keywords": [
+      "apicoplast",
+      "heme biosynthesis"
+    ]
+  },
+  "Protein Folding & Quality Control": {
+    "keywords": [
+      "chaperone",
+      "heat shock protein",
+      "protein folding",
+      "proteolysis",
+      "peptidase",
+      "cysteine protease",
+      "serine protease",
+      "aspartic protease",
+      "ubiquitin",
+      "protein degradation",
+      "proteolytic degradation",
+      "unfolded protein response",
+      "endoplasmic reticulum stress",
+      "proteasome"
+    ],
+    "anchor_go_ids": [
+      "GO:0006457",
+      "GO:0006508",
+      "GO:0051082"
+    ],
+    "core_keywords": [
+      "chaperone",
+      "heat shock protein",
+      "proteasome"
+    ]
+  },
+  "DNA Replication & Repair": {
+    "keywords": [
+      "DNA replication",
+      "DNA polymerase",
+      "helicase",
+      "topoisomerase",
+      "DNA repair",
+      "recombination",
+      "telomere",
+      "chromosome organization",
+      "nucleotide metabolism",
+      "nucleotide excision repair",
+      "base excision repair",
+      "mismatch repair"
+    ],
+    "anchor_go_ids": [
+      "GO:0006260",
+      "GO:0006281"
+    ],
+    "core_keywords": [
+      "DNA replication",
+      "DNA repair",
+      "DNA polymerase"
+    ]
+  },
+  "Signal Transduction & Regulation": {
+    "keywords": [
+      "protein kinase",
+      "serine/threonine kinase",
+      "calcium-dependent protein kinase",
+      "MAP kinase",
+      "CDPK",
+      "tyrosine kinase",
+      "phosphorylation",
+      "signal transduction",
+      "calcium signaling",
+      "cAMP",
+      "cyclic nucleotide",
+      "second messenger",
+      "GTPase",
+      "Ras",
+      "regulatory protein",
+      "phosphatase"
+    ],
+    "anchor_go_ids": [
+      "GO:0007165",
+      "GO:0006468"
+    ],
+    "core_keywords": [
+      "calcium-dependent protein kinase",
+      "CDPK"
+    ]
+  },
+  "Translation & Ribosome": {
+    "keywords": [
+      "ribosomal",
+      "ribosomal protein",
+      "translation",
+      "elongation factor",
+      "initiation factor",
+      "ribosome biogenesis",
+      "rRNA processing",
+      "aminoacyl-tRNA synthetase",
+      "tRNA synthetase",
+      "protein synthesis",
+      "ribonucleoprotein",
+      "cytoplasmic translation",
+      "structural constituent of ribosome",
+      "translation termination",
+      "release factor",
+      "ribosome assembly",
+      "polysome",
+      "peptidyl transferase",
+      "ribosome recycling"
+    ],
+    "anchor_go_ids": [
+      "GO:0006412",
+      "GO:0042254",
+      "GO:0003735"
+    ],
+    "core_keywords": [
+      "ribosomal protein",
+      "aminoacyl-tRNA synthetase",
+      "structural constituent of ribosome"
+    ]
+  },
+  "Uncharacterised": {
+    "keywords": [
+      "uncharacterized protein",
+      "hypothetical protein",
+      "unknown function",
+      "putative uncharacterized protein",
+      "conserved protein",
+      "domain unknown function",
+      "domain of unknown function"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": [
+      "hypothetical protein",
+      "uncharacterized protein",
+      "unknown function"
+    ]
+  }
+}
