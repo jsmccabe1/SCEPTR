@@ -86,30 +86,39 @@ To capture the overall picture, SCEPTR computes a **Kullback-Leibler divergence*
 
 Functional categories are assigned to genes through two complementary methods: keyword matching via word-boundary regex against UniProt annotations, and GO hierarchy traversal from curated anchor GO terms. Each assignment is tagged with its source (keyword, GO, or both) for full transparency. A GO-only ablation recovers 100% of significantly enriched categories across all validated organisms (mean Pearson r = 0.90 with the dual method), confirming that keywords are supplementary rather than load-bearing. External validation against 17 MSigDB Hallmark gene sets shows 100% concordance with independently curated pathway definitions.
 
-### The pipeline
+### How it works
 
-SCEPTR implements this framework as an end-to-end Nextflow pipeline, taking you from raw reads to publication-ready reports:
+SCEPTR handles every step from raw sequencing reads to a finished interactive report. You provide reads and a reference - SCEPTR handles quality control, quantification, protein prediction, annotation, and enrichment profiling automatically.
 
 ```mermaid
-graph TD
-    A["Reads (FASTQ)"] --> B["QC"]
-    A --> C["Salmon quantification"]
-    D["Reference (FASTA)"] --> E["Protein prediction"]
-    E --> F["Contamination filtering*"]
-    F --> G["UniProt annotation"]
-    G --> H["GO term assignment"]
-    C --> I
-    H --> I["Multi-resolution<br/>enrichment profiling"]
-    H --> J["GO enrichment<br/><em>topGO weight01</em>"]
-    H --> K["Landscape<br/><em>Transcriptome overview</em>"]
-    C --> K
+graph LR
+    subgraph Input
+        A["Reads + Reference"]
+    end
+    subgraph Preprocessing
+        B["QC & Quantification"]
+        C["Protein Prediction & Annotation"]
+    end
+    subgraph Analysis
+        D["Continuous Enrichment<br/>Profiling"]
+        E["GO Enrichment"]
+        F["Transcriptome<br/>Overview"]
+    end
+    subgraph Output
+        G["Interactive<br/>HTML Report"]
+    end
 
-    style I fill:#2d6a4f,stroke:#1b4332,color:#fff
-    style J fill:#264653,stroke:#1d3557,color:#fff
-    style K fill:#5a189a,stroke:#3c096c,color:#fff
+    A --> B --> C --> D --> G
+    C --> E --> G
+    C --> F --> G
+    B --> D
+    B --> F
+
+    style D fill:#0e7490,stroke:#0c4a6e,color:#fff
+    style G fill:#0f2b46,stroke:#0c4a6e,color:#fff
 ```
 
-<sub>*Protein prediction uses TransDecoder for de novo eukaryotic assemblies and direct CDS translation for bacteria, viruses, and vertebrate host inputs. Contamination filtering is auto-skipped for non-eukaryotic inputs.*</sub>
+<sub>*Protein prediction uses TransDecoder for de novo eukaryotic assemblies and direct CDS translation for bacterial and vertebrate host inputs. Contamination filtering is auto-enabled for eukaryotic assemblies.*</sub>
 
 <br>
 
@@ -165,7 +174,7 @@ results/
 │   │   └── visualisation/
 │   └── annotation/                 # UniProt hits, GO terms, annotation summary
 │
-├── enrichment_profiles/            # Multi-resolution enrichment profiling
+├── enrichment_profiles/            # Continuous enrichment profiling
 │   ├── functional/
 │   │   ├── {prefix}_BP_MF_report.html
 │   │   ├── {prefix}_BP_MF_enrichment_results.tsv
@@ -206,21 +215,6 @@ results/
 ```
 
 </details>
-
-<br>
-
-## Validated Across Kingdoms
-
-SCEPTR has been validated across four phylogenetically diverse systems spanning protozoan parasites, bacteria, vertebrate host cells, and marine dinoflagellates:
-
-| Organism | Category Set | Key Finding |
-|----------|-------------|-------------|
-| **_Plasmodium falciparum_** (blood-stage) | `parasite_protozoan` | Steepest D<sub>KL</sub> gradient of all tested organisms; translational dominance at the apex, invasion machinery concentrated in the top 50 genes then absent at broader tiers |
-| **_Salmonella_ Typhimurium** (3 replicates) | `bacteria` | Within-study GO fold-change correlation > 0.96; between-study divergence correctly detects stationary-phase vs active-growth physiology |
-| **Calu-3 human cells** (SARS-CoV-2 infected) | `vertebrate_host` | Recovers 59% of DESeq2-validated categories from a single sample with no reference; ssGSEA and GSVA recover effectively none. Hallmark decomposition resolves interferon, chemokine, and TLR signalling |
-| **_Durusdinium trenchii_** (heat stress) | `protist_dinoflagellate` | Layered investment hierarchy revealed despite no close reference among 1,048 source organisms: photosynthesis at the apex, nutrient acquisition and photoprotection at intermediate tiers, translation at the broadest |
-
-A universal pattern emerges across all four: the expression apex is always the most functionally specialised region of the transcriptome, and specialisation decays monotonically with tier size. The rate of this decay is organism-specific and statistically distinguishable.
 
 <br>
 
@@ -507,11 +501,11 @@ nextflow run main.nf \
 
 SCEPTR automatically adapts based on `--category_set`:
 
-| Feature               | Eukaryote (default)               | Bacteria / Bacteria Gram-* / Virus | Vertebrate Host / Model Organism  |
+| Feature               | Eukaryote (default)               | Bacteria / Bacteria Gram-*          | Vertebrate Host                   |
 |-----------------------|-----------------------------------|-------------------------------------|-----------------------------------|
 | ORF prediction        | TransDecoder                      | Direct CDS translation (table 11)   | Direct CDS translation (table 1)  |
 | Contaminant filtering | Enabled                           | Auto-skipped                        | Auto-skipped                      |
-| Category keywords     | Eukaryotic processes              | Prokaryotic/viral processes         | Host response / model processes   |
+| Category keywords     | Eukaryotic processes              | Prokaryotic processes               | Host response processes           |
 | Input expectation     | Trinity assembly or transcriptome | Reference CDS file                  | Reference CDS file (e.g. Ensembl) |
 
 <br>
@@ -586,7 +580,7 @@ SCEPTR automatically adapts based on `--category_set`:
 |-------------------------|--------------------------------------------------------------------------|
 | `--skip_transdecoder`   | Skip TransDecoder; use direct CDS translation                            |
 | `--skip_contamination`  | Skip contaminant filtering (auto-enabled for bacteria/bacteria_gram_*/human_host/vertebrate_host) |
-| `--skip_explot`         | Skip multi-resolution enrichment profiling                               |
+| `--skip_explot`         | Skip continuous enrichment profiling                                     |
 | `--skip_landscape`      | Skip landscape characterisation                                          |
 
 </details>
@@ -617,7 +611,7 @@ SCEPTR/
 │   ├── comparison.nf        # Cross-sample comparison process
 │   ├── contamination.nf
 │   ├── enrichment/
-│   ├── explot/              # Multi-resolution enrichment profiling
+│   ├── explot/              # Continuous enrichment profiling
 │   │   ├── cli/             # functional_profiling_cli.py, cellular_profiling_cli.py, generate_report_cli.py
 │   │   ├── categories/      # Organism-specific category JSON files
 │   │   ├── categorisation.py
@@ -647,7 +641,7 @@ SCEPTR/
 
 If you use SCEPTR in your research, please cite:
 
-> McCabe, J.S., and Janouskovec, J. (2026). SCEPTR: multi-resolution enrichment profiling reveals functional architecture across the expression gradient.
+> McCabe, J.S., and Janouskovec, J. (2026). SCEPTR: continuous enrichment profiling reveals functional architecture across the expression gradient.
 
 ## License
 
