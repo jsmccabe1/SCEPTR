@@ -36,7 +36,7 @@ logger = logging.getLogger('sceptr.explot.functional_cli')
 
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description='SCEPTR ExPlot: Functional Profiling')
+    parser = argparse.ArgumentParser(description='SCEPTR: Functional Enrichment Profiling')
     parser.add_argument('integrated_results', help='Path to integrated results TSV')
     parser.add_argument('--custom_categories', default=None,
                         help='Path to custom functional categories JSON')
@@ -98,7 +98,7 @@ def main():
     if args.debug:
         logging.getLogger().setLevel(logging.DEBUG)
 
-    logger.info("SCEPTR ExPlot functional profiling")
+    logger.info("SCEPTR functional enrichment profiling")
     logger.info(f"  Input: {args.integrated_results}")
     logger.info(f"  Prefix: {args.prefix}")
     logger.info(f"  Multi-category: {args.multi_category}")

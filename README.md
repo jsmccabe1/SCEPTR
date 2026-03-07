@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <strong>Single-sample Characterisation of Expression Profiles in Transcriptomics</strong>
+  <strong>Statistical Characterisation of Enrichment Profiles at Tiered Resolution</strong>
 </p>
 
 <p align="center">
@@ -18,18 +18,20 @@
 
 ---
 
-**SCEPTR** is a Nextflow pipeline that reveals the functional architecture of a transcriptome from a single RNA-seq sample requiring no replicates, no control, and no comparative data. It partitions genes into expression tiers and tests for functional enrichment at each tier, exposing *where* in the expression hierarchy an organism invests its transcriptional resources.
+Every transcriptome has a structure. A small fraction of genes dominates expression, and the functional programmes encoded in those genes shape cellular phenotype. But current methods throw this structure away. Differential expression reduces everything to binary up/down calls between conditions. ssGSEA and GSVA compress pathway activity into a single score. Standard GO enrichment applies one threshold and calls it a day.
 
-This is designed for the data you actually have: the single clinical isolate, the irreplaceable field sample, the pilot experiment before replicates are funded. Parasitology, environmental microbiology, non-model organisms, emerging pathogen response. If replicates are unavailable, SCEPTR extracts biology that flat gene lists and single-threshold methods miss.
+**SCEPTR** takes a different approach. It ranks genes by expression, examines nested tiers of the most highly expressed genes (the top 50, 100, 250, 500), and tests which functional programmes are enriched at each tier. The result is an *enrichment profile* for every functional category: a curve showing whether a programme dominates the expression apex, emerges gradually at broader tiers, or sits at background levels throughout. These profile shapes are biologically meaningful. Translation machinery concentrated at the very top of expression looks fundamentally different from an immune response distributed across hundreds of moderately expressed genes, and SCEPTR distinguishes the two.
 
-> **Have two conditions but no replicates?** SCEPTR also includes an optional [comparison module](#comparing-two-conditions) that tests whether functional profiles differ between conditions using permutation testing, but the core tool works from a single sample alone.
+Because SCEPTR compares each tier against the sample's own transcriptome-wide background, it works from a single sample with no replicates, no control, and no comparative data. This makes it directly applicable to the datasets that fill real-world transcriptomics: the single clinical isolate, the irreplaceable field sample, the pilot experiment before replicates are funded. Parasitology, environmental microbiology, emerging pathogen response, non-model organisms. If you have expression data, SCEPTR can tell you what your transcriptome is investing in.
+
+> **Have two conditions?** SCEPTR includes a [comparison module](#comparing-two-conditions) that tests whether enrichment profiles differ between biological states using permutation testing, but the core framework works from a single sample alone.
 
 <br>
 
 <p align="center">
-  <img src="assets/explot_example_output.png" alt="ExPlot output showing functional enrichment across expression tiers" width="800">
+  <img src="assets/explot_example_output.png" alt="SCEPTR output showing functional enrichment across expression tiers" width="800">
   <br>
-  <sub><em><strong>Example SCEPTR ExPlot outputs. (A)</strong> Functional composition across the expression gradient in SARS-CoV-2-infected human host cells (Calu-3), showing immune and stress response programmes emerging alongside constitutive translation. <strong>(B)</strong> Expression concentration and distribution for a marine dinoflagellate transcriptome. <strong>(C)</strong> Functional expression radar profile for an apicomplexan parasite isolate. <strong>(D)</strong> Multi-tier functional category enrichment for <em>Plasmodium falciparum</em> 3D7, with significant categories marked.</em></sub>
+  <sub><em><strong>Example SCEPTR outputs. (A)</strong> Enrichment profiles across the expression gradient in SARS-CoV-2-infected human host cells (Calu-3), showing immune and stress response programmes emerging alongside constitutive translation. <strong>(B)</strong> Expression concentration and distribution for a marine dinoflagellate transcriptome. <strong>(C)</strong> Functional expression radar profile for an apicomplexan parasite isolate. <strong>(D)</strong> Multi-tier functional category enrichment for <em>Plasmodium falciparum</em> 3D7, with significant categories marked.</em></sub>
 </p>
 
 <br>
@@ -64,15 +66,60 @@ Or specify everything directly:
 
 <br>
 
+## The Method
+
+### Multi-resolution enrichment profiling
+
+The core idea is simple: genes at the top of the expression hierarchy are not a random sample of the transcriptome. They are enriched for specific biological programmes, and which programmes dominate changes depending on how far down the hierarchy you look.
+
+SCEPTR formalises this by evaluating functional category enrichment at nested expression tiers. Genes are ranked by TPM, and at each tier (default: top 50, 100, 250, 500), the proportion of each functional category is compared to its proportion in the full transcriptome. A category enriched 3x at the top 50 but falling to 1x at the top 500 tells a different biological story than a category that only reaches significance at the broadest tier. The first is an apex-concentrated programme (e.g. translation in blood-stage malaria parasites). The second is a distributed programme (e.g. innate immunity during viral infection, spread across many moderately expressed genes).
+
+The enrichment at each tier is tested using Fisher's exact test with Benjamini-Hochberg correction, and bootstrap resampling provides stability scores so you know which results are robust to perturbation of gene composition.
+
+### Measuring functional specialisation
+
+To capture the overall picture, SCEPTR computes a Kullback-Leibler divergence at each tier, measuring how different the functional composition of that tier is from the transcriptome as a whole. Across every organism we have tested, this divergence decreases monotonically with tier size: the expression apex is always the most functionally specialised region of the transcriptome. The *rate* of that decrease varies between organisms and is itself a quantitative phenotype. A blood-stage malaria parasite with its extreme translational dominance shows a steep gradient; a bacterium with more distributed functional investment shows a shallow one. The difference is statistically significant (bootstrap p = 0.018), meaning the shape of this curve is a measurable property of how a transcriptome is organised.
+
+### Dual-method category assignment
+
+Functional categories are assigned to genes through two complementary methods: keyword matching via word-boundary regex against UniProt annotations, and GO hierarchy traversal from curated anchor GO terms. Each assignment is tagged with its source for full transparency. A GO-only ablation recovers 100% of significantly enriched categories across all validated organisms (mean Pearson r = 0.90 with the dual method), confirming that keywords are supplementary rather than load-bearing. External validation against 17 MSigDB Hallmark gene sets shows 100% concordance with independently curated pathway definitions.
+
+### The pipeline
+
+SCEPTR implements this framework as an end-to-end Nextflow pipeline, taking you from raw reads to publication-ready reports:
+
+```mermaid
+graph TD
+    A["Reads (FASTQ)"] --> B["QC"]
+    A --> C["Salmon quantification"]
+    D["Reference (FASTA)"] --> E["Protein prediction"]
+    E --> F["Contamination filtering*"]
+    F --> G["UniProt annotation"]
+    G --> H["GO term assignment"]
+    C --> I
+    H --> I["Multi-resolution<br/>enrichment profiling"]
+    H --> J["GO enrichment<br/><em>topGO weight01</em>"]
+    H --> K["Landscape<br/><em>Transcriptome overview</em>"]
+    C --> K
+
+    style I fill:#2d6a4f,stroke:#1b4332,color:#fff
+    style J fill:#264653,stroke:#1d3557,color:#fff
+    style K fill:#5a189a,stroke:#3c096c,color:#fff
+```
+
+<sub>*Protein prediction uses TransDecoder for de novo eukaryotic assemblies and direct CDS translation for bacteria, viruses, and vertebrate host inputs. Contamination filtering is auto-skipped for non-eukaryotic inputs.*</sub>
+
+<br>
+
 ## What SCEPTR Produces
 
 SCEPTR generates self-contained HTML dashboard reports (portable, single-file, embeddable as supplementary material):
 
 | Report | What it shows |
 |--------|--------------|
-| **ExPlot Functional Profiling** | Enrichment of curated functional categories across expression tiers, with fold changes, FDR, bootstrap stability, core specificity scores, and radar/bar visualisations |
+| **Enrichment Profiling** | Functional category enrichment across expression tiers, with fold changes, FDR, bootstrap stability, core specificity scores, KL divergence, and radar/bar visualisations |
 | **GO Enrichment** | Per-tier topGO enrichment with weight01 algorithm, interactive tables, and publication-ready figures (PNG + SVG) |
-| **Transcriptome Landscape** | Expression concentration (Gini), annotation completeness by tier, taxonomic distribution, functional composition shifts |
+| **Transcriptome Landscape** | Expression concentration (Gini coefficient), annotation completeness by tier, taxonomic distribution, functional composition shifts |
 | **Contamination Report** | DIAMOND-based screening with optional host sequence removal for parasite/pathogen studies |
 | **Quality Control** | FastQC + MultiQC aggregation |
 
@@ -81,30 +128,18 @@ SCEPTR generates self-contained HTML dashboard reports (portable, single-file, e
 
 ```
 results/
-├── quality_control/
-│   ├── fastqc/                     # Per-sample FastQC reports
-│   └── multiqc/                    # Aggregated MultiQC report
-├── quantification/
-│   ├── quant.sf                    # Salmon transcript quantification
-│   └── index/                      # Salmon index files
-├── proteome/                       # Predicted proteins (.pep, .gff3)
-├── contamination/
-│   ├── filtered_proteome.fasta     # Clean proteome after filtering
-│   ├── contaminant_report.txt
-│   ├── contaminant_details.csv
-│   ├── host_filter/                # Host sequence removal (if enabled)
-│   └── visualisation/              # Contamination analysis dashboard
-├── annotation/                     # UniProt functional annotations
-│   ├── final_annotations.tsv
-│   ├── protein_annotations.tsv
-│   └── annotation_summary.html
-├── integrated_data/
-│   └── integrated_annotations_expression.tsv
-├── go_enrichment/
-│   ├── reports/                    # HTML dashboards
-│   ├── data/                       # Enrichment results + GO term tables
-│   └── figures/                    # Individual plots (PNG + SVG)
-├── expression_profiles/            # ExPlot functional profiling
+├── preprocessing/
+│   ├── qc/                         # FastQC + MultiQC reports
+│   │   ├── fastqc/
+│   │   └── multiqc/
+│   ├── quantification/             # Salmon index + quant.sf
+│   ├── proteome/                   # Predicted proteins (.pep, .gff3)
+│   ├── contamination/              # Filtering, host removal, visualisation
+│   │   ├── host_filter/
+│   │   └── visualisation/
+│   └── annotation/                 # UniProt hits, GO terms, annotation summary
+│
+├── enrichment_profiles/            # Multi-resolution enrichment profiling
 │   ├── functional/
 │   │   ├── {prefix}_BP_MF_report.html
 │   │   ├── {prefix}_BP_MF_enrichment_results.tsv
@@ -115,10 +150,22 @@ results/
 │       ├── {prefix}_CC_enrichment_results.tsv
 │       ├── {prefix}_CC_core_specificity.json
 │       └── figures/
-├── landscape/
+│
+├── go_enrichment/                  # Per-tier topGO enrichment
+│   ├── reports/
+│   ├── data/
+│   └── figures/
+│
+├── landscape/                      # Transcriptome overview
 │   ├── {prefix}_landscape_report.html
 │   ├── {prefix}_landscape_stats.json
 │   └── figures/
+│
+├── integrated_data/                # Merged annotation + expression table
+│   └── integrated_annotations_expression.tsv
+│
+├── comparison/                     # Cross-sample comparison (when used)
+│
 └── pipeline_info/                  # Nextflow execution reports
 ```
 
@@ -126,43 +173,18 @@ results/
 
 <br>
 
-## How It Works
-
-```mermaid
-graph TD
-    A["Reads (FASTQ)"] --> B["FastQC / MultiQC"]
-    A --> C["Salmon quantification"]
-    D["Reference (FASTA)"] --> E["TransDecoder* / CDS translation"]
-    E --> F["Contamination filtering*"]
-    F --> G["DIAMOND vs UniProt"]
-    G --> H["GO term assignment"]
-    H --> I["GO enrichment<br/><em>topGO weight01</em>"]
-    H --> J["ExPlot profiling<br/><em>Tiered functional analysis</em>"]
-    H --> K["Landscape<br/><em>Transcriptome overview</em>"]
-    C --> J
-    C --> K
-
-    style J fill:#2d6a4f,stroke:#1b4332,color:#fff
-    style I fill:#264653,stroke:#1d3557,color:#fff
-    style K fill:#5a189a,stroke:#3c096c,color:#fff
-```
-
-<sub>*TransDecoder runs for de novo eukaryotic assemblies; bacteria/virus/vertebrate host inputs use direct CDS translation. Contamination filtering is auto-skipped for non-eukaryotic inputs.*</sub>
-
-The core innovation is **ExPlot**: genes are ranked by expression (TPM), partitioned into tiers (default: top 50, 100, 250, 500), and each tier is tested for functional category enrichment against the full transcriptome background. Categories are assigned by a **dual-method** system where keywords are matched via word-boundary regex *and* the GO ID hierarchy is traversed, with each assignment method recorded for transparency. This reveals the organism's functional investment hierarchy: which biological programmes dominate the expression apex and which emerge only at broader tiers.
-
-<br>
-
 ## Validated Across Kingdoms
 
-SCEPTR has been validated across four phylogenetically diverse systems:
+SCEPTR has been validated across four phylogenetically diverse systems spanning protozoan parasites, bacteria, vertebrate host cells, and marine dinoflagellates:
 
 | Organism | Category Set | Key Finding |
 |----------|-------------|-------------|
-| **_Plasmodium falciparum_** (blood-stage) | `parasite_protozoan` | Translational dominance at apex; invasion machinery at broader tiers |
-| **_Salmonella_ Typhimurium** (3 replicates) | `bacteria` | Reproducibility ρ > 0.88 across tiers; biological differences correctly detected |
-| **Calu-3 human cells** (SARS-CoV-2 infected) | `vertebrate_host` | Immune reprogramming distinguished from constitutive translation; validated against ssGSEA |
-| **_Durusdinium trenchii_** (heat stress) | `protist_dinoflagellate` | Functional investment hierarchy: photosynthesis → nutrient acquisition → photoprotection → translation |
+| **_Plasmodium falciparum_** (blood-stage) | `parasite_protozoan` | Steepest KL divergence gradient of all tested organisms; translational dominance at the apex, invasion machinery concentrated in the top 50 genes then absent at broader tiers |
+| **_Salmonella_ Typhimurium** (3 replicates) | `bacteria` | Within-study GO fold-change correlation > 0.96; between-study divergence correctly detects stationary-phase vs active-growth physiology |
+| **Calu-3 human cells** (SARS-CoV-2 infected) | `vertebrate_host` | Recovers 59% of DESeq2-validated categories from a single sample with no reference; ssGSEA and GSVA recover effectively none. Hallmark decomposition resolves interferon, chemokine, and TLR signalling |
+| **_Durusdinium trenchii_** (heat stress) | `protist_dinoflagellate` | Layered investment hierarchy revealed despite no close reference among 1,048 source organisms: photosynthesis at the apex, nutrient acquisition and photoprotection at intermediate tiers, translation at the broadest |
+
+A universal pattern emerges across all four: the expression apex is always the most functionally specialised region of the transcriptome, and specialisation decays monotonically with tier size. The rate of this decay is organism-specific and statistically distinguishable.
 
 <br>
 
@@ -184,8 +206,11 @@ SCEPTR ships with organism-specific functional category sets optimised for diffe
 | `vertebrate_host_hallmark` | Hallmark-resolution pathways (28 specific) | Host studies requiring pathway-level detail |
 | `model_organism`         | Well-characterised species              | Mouse, human, fly, worm, yeast           |
 | `plant`                  | Plant-specific processes                | *Arabidopsis*, crop species              |
+| `fungi`                  | Fungal biology (15 categories)          | *Aspergillus*, *Candida*, *Fusarium*     |
+| `cancer`                 | Hallmarks of cancer (17 categories)     | Tumour transcriptomes, cell lines        |
+| `insect`                 | Insect biology (16 categories)          | *Drosophila*, mosquitoes, bees, beetles  |
 
-Each category uses **dual-method assignment** (keyword + GO hierarchy) with optional **core keywords** to provide high-confidence diagnostic terms that report a specificity percentage alongside enrichment statistics.
+Each category uses **dual-method assignment** (keyword + GO hierarchy) with optional **core keywords** that provide high-confidence diagnostic terms, reporting a specificity percentage alongside enrichment statistics.
 
 <details>
 <summary><strong>bacteria vs bacteria_gram_negative vs bacteria_gram_positive</strong></summary>
@@ -261,9 +286,9 @@ The `core_keywords` field is optional. If omitted or empty, all matches are trea
 
 ## Comparing Two Conditions
 
-If you have two conditions without replicates (mock vs infected, control vs treated), you can run SCEPTR on each sample independently and then compare their functional profiles.
+If you have two conditions (mock vs infected, control vs treated), you can run SCEPTR on each sample independently and then compare their enrichment profiles. This asks a fundamentally different question from differential expression: not "which genes change?" but "does the functional architecture of the transcriptome shift between states?"
 
-Standard DE tools (DESeq2, edgeR) cannot run with n=1 per condition because they need variance estimates that require replicates. SCEPTR's comparison module asks a different question at a different scale: not "which of 20,000 genes differ?" (impossible without replicates) but "do these ~10 functional categories differ in their enrichment?" (tractable). Aggregating genes into categories is what makes the statistics work. A gene-label permutation test (10,000 permutations, per-tier BH correction) builds its null distribution from the data itself, meaning no variance estimate is needed! It's important to note; this is not a replacement for replicated experimental designs. It is a principled alternative when replicates are unavailable.
+SCEPTR's comparison module aggregates genes into functional categories and uses a gene-label permutation test (10,000 permutations, per-tier BH correction) to assess whether enrichment differences are larger than expected by chance. Because the test builds its null distribution from the data itself, no variance estimate from replicates is needed. This is not a replacement for replicated experimental designs. It is a principled way to compare enrichment profiles when replicates are unavailable.
 
 <details>
 <summary><b>Usage</b></summary>
@@ -299,8 +324,8 @@ Both samples must use the same reference transcriptome.
 
 | File | Contents |
 |------|----------|
-| Differential enrichment TSV | Category × tier fold changes, FC difference, permutation p-value, BH-adjusted FDR |
-| Concordance TSV | Spearman ρ (with Fisher z-transform CI) and Jaccard similarity per tier |
+| Differential enrichment TSV | Category x tier fold changes, FC difference, permutation p-value, BH-adjusted FDR |
+| Concordance TSV | Spearman rho (with Fisher z-transform CI) and Jaccard similarity per tier |
 | HTML dashboard report | Summary statistics, concordance metrics, differential enrichment table, embedded figures |
 | Figures (PNG + SVG) | Radar overlay, differential heatmap, grouped bar plot, volcano plot, gradient overlay |
 
@@ -313,10 +338,10 @@ Both samples must use the same reference transcriptome.
 |--------|---------|
 | Significant positive FC_Diff | Category more enriched in condition B at that tier |
 | Significant negative FC_Diff | Category more enriched in condition A |
-| Spearman ρ > 0.7 | Conditions share similar functional investment patterns |
-| Spearman ρ < 0.3 | Fundamentally different functional allocation |
+| Spearman rho > 0.7 | Conditions share similar functional investment patterns |
+| Spearman rho < 0.3 | Fundamentally different functional allocation |
 
-The permutation test evaluates per-tier enrichment differences. The module identifies biologically meaningful shifts that would otherwise require subjective side-by-side inspection, however results must be treated as exploratory.
+The permutation test evaluates per-tier enrichment differences. The module identifies biologically meaningful shifts that would otherwise require subjective side-by-side inspection, however results should be treated as exploratory.
 
 </details>
 
@@ -369,7 +394,7 @@ Auto-detects read files, validates inputs, and builds the pipeline command inter
 
 1. **Full pipeline** - Run SCEPTR from reads to reports
 2. **Compare conditions** - Compare two existing SCEPTR outputs
-3. **Re-run ExPlot** - Re-analyse with different categories or parameters
+3. **Re-run enrichment profiling** - Re-analyse with different categories or parameters
 
 ### Command-line launcher
 
@@ -501,7 +526,7 @@ SCEPTR automatically adapts based on `--category_set`:
 |-------------------------|--------------------------------------------------------------------------|
 | `--skip_transdecoder`   | Skip TransDecoder; use direct CDS translation                            |
 | `--skip_contamination`  | Skip contaminant filtering (auto-enabled for bacteria/bacteria_gram_*/virus/vertebrate_host/model_organism) |
-| `--skip_explot`         | Skip ExPlot functional profiling                                         |
+| `--skip_explot`         | Skip multi-resolution enrichment profiling                               |
 | `--skip_landscape`      | Skip landscape characterisation                                          |
 
 </details>
@@ -532,7 +557,7 @@ SCEPTR/
 │   ├── comparison.nf        # Cross-sample comparison process
 │   ├── contamination.nf
 │   ├── enrichment/
-│   ├── explot/              # ExPlot module + category definitions
+│   ├── explot/              # Multi-resolution enrichment profiling
 │   │   ├── cli/
 │   │   ├── categories/      # Organism-specific category JSON files
 │   │   ├── visualisation/   # Visualisation scripts (inc. comparison charts)
@@ -552,13 +577,13 @@ SCEPTR/
 
 <br>
 
-<p align="center"><sub><em>Sláinte a chara!</em></sub></p>
+<p align="center"><sub><em>Slainte a chara!</em></sub></p>
 
 ## Citation
 
 If you use SCEPTR in your research, please cite:
 
-> McCabe, J.S., and Janouškovec, J. (2026). SCEPTR: expression-weighted functional profiling of transcriptomes without biological replicates.
+> McCabe, J.S., and Janouskovec, J. (2026). SCEPTR: multi-resolution enrichment profiling reveals functional architecture across the expression gradient.
 
 ## License
 

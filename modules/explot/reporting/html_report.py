@@ -506,8 +506,8 @@ def _generate_report(
 
 <div class="header">
     <h1>SCEPTR {report_title} Report</h1>
-    <div class="subtitle">Expression-weighted {description} analysis</div>
-    <div class="meta">Generated {datetime.now().strftime('%Y-%m-%d %H:%M')} &middot; SCEPTR ExPlot</div>
+    <div class="subtitle">Multi-resolution {description} analysis</div>
+    <div class="meta">Generated {datetime.now().strftime('%Y-%m-%d %H:%M')} &middot; SCEPTR</div>
 </div>
 
 <div class="section">
@@ -618,7 +618,7 @@ def _generate_report(
 </div>
 
 <div class="footer">
-    SCEPTR v1.0.0 &middot; ExPlot Expression-Weighted Functional Profiling
+    SCEPTR v1.0.0 &middot; Multi-Resolution Enrichment Profiling
     &middot; {datetime.now().strftime('%Y-%m-%d')}
 </div>
 

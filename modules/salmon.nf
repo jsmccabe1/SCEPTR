@@ -4,7 +4,7 @@
 process SalmonIndex {
     tag "salmon_index"
     label 'process_medium'
-    publishDir "${params.outdir}/quantification/index", mode: 'copy'
+    publishDir "${params.outdir}/preprocessing/quantification/index", mode: 'copy'
     
     input:
         path transcripts
@@ -21,7 +21,7 @@ process SalmonIndex {
 process SalmonQuant {
     tag "$sample_id"
     label 'process_medium'
-    publishDir "${params.outdir}/quantification", mode: 'copy'
+    publishDir "${params.outdir}/preprocessing/quantification", mode: 'copy'
     errorStrategy 'terminate'
     
     input:

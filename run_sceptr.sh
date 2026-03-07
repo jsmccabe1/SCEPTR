@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# SCEPTR: Single-sample Characterisation of Expression Profiles in Transcriptomics
+# SCEPTR: Statistical Characterisation of Enrichment Profiles at Tiered Resolution
 # Interactive pipeline launcher
 #
 
@@ -26,8 +26,8 @@ banner() {
     echo -e "${CYAN}${BOLD}┌─────────────────────────────────────────────────────────────┐${NC}"
     echo -e "${CYAN}${BOLD}│                                                             │${NC}"
     echo -e "${CYAN}${BOLD}│   SCEPTR v${VERSION}                                            │${NC}"
-    echo -e "${CYAN}${BOLD}│   Single-sample Characterisation of Expression Profiles     │${NC}"
-    echo -e "${CYAN}${BOLD}│   in Transcriptomics                                        │${NC}"
+    echo -e "${CYAN}${BOLD}│   Statistical Characterisation of Enrichment Profiles       │${NC}"
+    echo -e "${CYAN}${BOLD}│   at Tiered Resolution                                      │${NC}"
     echo -e "${CYAN}${BOLD}│                                                             │${NC}"
     echo -e "${CYAN}${BOLD}└─────────────────────────────────────────────────────────────┘${NC}"
     echo ""
@@ -153,14 +153,17 @@ CATEGORY_NAMES=(
     [10]="model_organism"
     [11]="plant"
     [12]="vertebrate_host_hallmark"
-    [13]="custom"
+    [13]="fungi"
+    [14]="cancer"
+    [15]="insect"
+    [16]="custom"
 )
 
 CATEGORY_DESCRIPTIONS=(
     [1]="General              │ Universal categories, works for any organism"
     [2]="Parasite (protozoan) │ Plasmodium, Toxoplasma, Leishmania, Trypanosoma, etc."
     [3]="Parasite (metazoan)  │ Helminths, nematodes, arthropod parasites"
-    [4]="Protist              │ Dinoflagellates, algal blooms, coral symbionts"
+    [4]="Dinoflagellate        │ Symbiodiniaceae, HABs, coral symbionts, free-living dinos"
     [5]="Bacteria (general)   │ Virulence, cell wall, motility, AMR, iron acquisition"
     [6]="Bacteria (Gram-)     │ LPS, outer membrane, T3SS/T6SS, porins, siderophores"
     [7]="Bacteria (Gram+)     │ Teichoic acids, sortase, sporulation, competence"
@@ -169,7 +172,10 @@ CATEGORY_DESCRIPTIONS=(
     [10]="Model organism       │ Mouse, human, fly, worm, yeast"
     [11]="Plant                │ Photosynthesis, cell wall, hormones, defence"
     [12]="Vertebrate host (hi-res) │ 28 Hallmark-inspired pathways (IFN, TNF-NFkB, etc.)"
-    [13]="Custom               │ Provide your own category JSON files"
+    [13]="Fungi                │ Cell wall, secondary metabolism, sporulation, virulence"
+    [14]="Cancer               │ Hallmarks of cancer, EMT, immune evasion, epigenetics"
+    [15]="Insect               │ Cuticle, metamorphosis, chemosensation, detoxification"
+    [16]="Custom               │ Provide your own category JSON files"
 )
 
 # ── CLI argument parsing ─────────────────────────────────────────────────────
@@ -237,7 +243,7 @@ usage() {
     echo "    --label-a Mock --label-b Infected -c vertebrate_host"
     echo ""
     echo -e "${BOLD}Category sets:${NC}"
-    for i in $(seq 1 13); do
+    for i in $(seq 1 16); do
         echo -e "  ${CYAN}${CATEGORY_NAMES[$i]}${NC} - ${CATEGORY_DESCRIPTIONS[$i]#*│ }"
     done
     echo ""
@@ -277,7 +283,7 @@ if $INTERACTIVE; then
     mode_idx=$(select_option "What would you like to do?" \
         "Full pipeline (process reads to enrichment)" \
         "Compare conditions (compare two SCEPTR outputs)" \
-        "Re-run ExPlot (re-run profiling on existing results)")
+        "Re-run enrichment profiling (re-run on existing results)")
 
     if (( mode_idx == 1 )); then
         # ── Comparison interactive mode ──
@@ -320,7 +326,7 @@ if $INTERACTIVE; then
         echo ""
         echo -e "${BOLD}${CYAN}Category Set${NC}"
         cat_options=()
-        for i in $(seq 1 13); do
+        for i in $(seq 1 16); do
             cat_options+=("${CATEGORY_DESCRIPTIONS[$i]}")
         done
         cat_idx=$(select_option "What type of organism are you studying?" "${cat_options[@]}")
@@ -349,9 +355,9 @@ if $INTERACTIVE; then
         PREFIX=$(prompt_default "  Output file prefix" "sceptr_comparison")
 
     elif (( mode_idx == 2 )); then
-        # Re-run ExPlot - just pass through to -entry ExPlotEntry
+        # Re-run enrichment profiling - just pass through to -entry ExPlotEntry
         echo ""
-        echo -e "${BOLD}${CYAN}Re-run ExPlot${NC}\n"
+        echo -e "${BOLD}${CYAN}Re-run Enrichment Profiling${NC}\n"
         while true; do
             INTEGRATED=$(prompt "  Path to integrated_annotations_expression.tsv:")
             if [[ -f "$INTEGRATED" ]]; then
@@ -364,7 +370,7 @@ if $INTERACTIVE; then
 
         # Category set
         cat_options=()
-        for i in $(seq 1 13); do
+        for i in $(seq 1 16); do
             cat_options+=("${CATEGORY_DESCRIPTIONS[$i]}")
         done
         cat_idx=$(select_option "What type of organism?" "${cat_options[@]}")
@@ -383,7 +389,7 @@ if $INTERACTIVE; then
         echo ""
         echo -e "  ${DIM}Command: ${NF_CMD}${NC}"
         echo ""
-        if confirm "  Launch ExPlot?"; then
+        if confirm "  Launch enrichment profiling?"; then
             eval $NF_CMD
             exit $?
         else
@@ -503,7 +509,7 @@ if $INTERACTIVE; then
     echo -e "${BOLD}${CYAN}Step 3/4: Organism Type${NC}"
 
     cat_options=()
-    for i in $(seq 1 13); do
+    for i in $(seq 1 16); do
         cat_options+=("${CATEGORY_DESCRIPTIONS[$i]}")
     done
 

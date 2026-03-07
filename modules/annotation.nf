@@ -8,7 +8,7 @@ nextflow.enable.dsl=2
 process DiamondBlastUniProt {
     tag "diamond_uniprot"
     label 'process_medium'
-    publishDir "${params.outdir}/annotation", mode: 'copy'
+    publishDir "${params.outdir}/preprocessing/annotation", mode: 'copy'
 
     input:
     path proteome
@@ -43,7 +43,7 @@ process DiamondBlastUniProt {
 
 process ExtractUniProtIDs {
     tag "extract_uniprot"
-    publishDir "${params.outdir}/annotation", mode: 'copy'
+    publishDir "${params.outdir}/preprocessing/annotation", mode: 'copy'
     errorStrategy 'terminate'
 
     input:
@@ -129,7 +129,7 @@ EOF
 process AnnotateProteins {
     tag "protein_annotation"
     label 'process_low'
-    publishDir "${params.outdir}/annotation", mode: 'copy'
+    publishDir "${params.outdir}/preprocessing/annotation", mode: 'copy'
     errorStrategy 'terminate'
     
     input:
@@ -336,7 +336,7 @@ PYEOF
 
 process AnnotateGOTerms {
     tag "go_annotation"
-    publishDir "${params.outdir}/annotation", mode: 'copy'
+    publishDir "${params.outdir}/preprocessing/annotation", mode: 'copy'
     errorStrategy 'terminate'
 
     input:
@@ -431,7 +431,7 @@ EOF
 
 process GenerateAnnotationReport {
     tag "annotation_report"
-    publishDir "${params.outdir}/annotation", mode: 'copy'
+    publishDir "${params.outdir}/preprocessing/annotation", mode: 'copy'
     errorStrategy 'terminate'
 
     input:

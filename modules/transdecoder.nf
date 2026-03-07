@@ -4,7 +4,7 @@
 // and DirectTranslate for pre-existing CDS inputs (bacteria, viruses)
 process TransDecoder {
     tag "transdecoder"
-    publishDir "${params.outdir}/proteome", mode: 'copy'
+    publishDir "${params.outdir}/preprocessing/proteome", mode: 'copy'
     errorStrategy 'terminate'
 
     input:
@@ -69,7 +69,7 @@ process TransDecoder {
 // This avoids TransDecoder's ORF-finding which fails on pre-existing CDS
 process DirectTranslate {
     tag "direct_translate"
-    publishDir "${params.outdir}/proteome", mode: 'copy'
+    publishDir "${params.outdir}/preprocessing/proteome", mode: 'copy'
     errorStrategy 'terminate'
 
     input:

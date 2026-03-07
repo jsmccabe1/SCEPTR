@@ -9,7 +9,7 @@ nextflow.enable.dsl=2
 process TranslateHostTranscriptome {
     label 'process_medium'
     
-    publishDir "${params.outdir}/contamination/host_filter", mode: 'copy'
+    publishDir "${params.outdir}/preprocessing/contamination/host_filter", mode: 'copy'
     
     input:
     path host_transcriptome
@@ -79,7 +79,7 @@ PYEOF
 process BuildHostDatabase {
     label 'process_medium'
     
-    publishDir "${params.outdir}/contamination/host_filter", mode: 'copy'
+    publishDir "${params.outdir}/preprocessing/contamination/host_filter", mode: 'copy'
     
     input:
     path host_proteome
@@ -138,7 +138,7 @@ process BuildHostDatabase {
 process FilterHostSequences {
     label 'process_medium'
     
-    publishDir "${params.outdir}/contamination/host_filter", mode: 'copy'
+    publishDir "${params.outdir}/preprocessing/contamination/host_filter", mode: 'copy'
     
     input:
     path proteome
@@ -302,7 +302,7 @@ PYEOF
 process DiamondBlastContaminants {
     label 'process_high'  // Changed from process_medium to process_high for better resource allocation
     
-    publishDir "${params.outdir}/contamination", mode: 'copy'
+    publishDir "${params.outdir}/preprocessing/contamination", mode: 'copy'
     
     input:
     path proteome
@@ -385,7 +385,7 @@ process DiamondBlastContaminants {
 process VisualiseContaminants {
     label 'process_low'
     
-    publishDir "${params.outdir}/contamination/visualisation", mode: 'copy'
+    publishDir "${params.outdir}/preprocessing/contamination/visualisation", mode: 'copy'
     
     input:
     path contaminant_details

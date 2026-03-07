@@ -153,7 +153,7 @@
       "GO:0002221",
       "GO:0034138",
       "GO:0032481",
-      "GO:0039528"
+      "GO:0002753"
     ],
     "core_keywords": [
       "toll-like receptor",
@@ -574,7 +574,7 @@
     "anchor_go_ids": [
       "GO:0043491",
       "GO:0031929",
-      "GO:0014065"
+      "GO:0043491"
     ],
     "core_keywords": [
       "PI3K",
@@ -891,7 +891,7 @@
       "cell division cycle"
     ],
     "anchor_go_ids": [
-      "GO:0007067",
+      "GO:0000278",
       "GO:0000086",
       "GO:0007088",
       "GO:0007094"

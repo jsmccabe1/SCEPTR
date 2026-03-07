@@ -822,7 +822,7 @@ def main():
     parser.add_argument('--categories', default=None,
                         help='Functional categories JSON (for shift analysis)')
     parser.add_argument('--explot_results', default=None,
-                        help='ExPlot results JSON (for concordance)')
+                        help='Enrichment profiling results JSON (for concordance)')
     parser.add_argument('--go_results', default=None,
                         help='GO enrichment results TSV (for concordance)')
     parser.add_argument('--top_genes', type=int, default=30,
@@ -894,7 +894,7 @@ def main():
     # 6. Concordance
     concordance_stats = None
     if args.explot_results and args.go_results:
-        logger.info("Computing ExPlot/GO concordance...")
+        logger.info("Computing enrichment profiling/GO concordance...")
         concordance_stats, _ = concordance_analysis(args.explot_results, args.go_results, fig_prefix)
 
     # Generate report

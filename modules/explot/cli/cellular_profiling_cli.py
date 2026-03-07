@@ -35,7 +35,7 @@ logger = logging.getLogger('sceptr.explot.cellular_cli')
 
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description='SCEPTR ExPlot: Cellular Component Profiling')
+    parser = argparse.ArgumentParser(description='SCEPTR: Cellular Component Enrichment Profiling')
     parser.add_argument('integrated_results', help='Path to integrated results TSV')
     parser.add_argument('--custom_categories', default=None,
                         help='Path to custom cellular categories JSON')
@@ -91,7 +91,7 @@ def main():
     if args.debug:
         logging.getLogger().setLevel(logging.DEBUG)
 
-    logger.info("SCEPTR ExPlot cellular component profiling")
+    logger.info("SCEPTR cellular component enrichment profiling")
     logger.info(f"  Input: {args.integrated_results}")
     logger.info(f"  Prefix: {args.prefix}")
     logger.info(f"  GO expansion: {args.expand_go}")

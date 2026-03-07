@@ -77,6 +77,9 @@ def resolveCategoryFiles() {
           virus                 - Viral life cycle (replication, entry, immune evasion)
           vertebrate_host       - Host response to infection (immunity, inflammation)
           vertebrate_host_hallmark - High-resolution host response (28 Hallmark-inspired pathways)
+          fungi                 - Fungal biology (cell wall, secondary metabolism, sporulation)
+          cancer                - Hallmarks of cancer (EMT, immune evasion, epigenetics)
+          insect                - Insect biology (cuticle, metamorphosis, chemosensation)
           custom                - User-provided JSON files
 
         Usage examples:
@@ -88,6 +91,9 @@ def resolveCategoryFiles() {
           --category_set virus
           --category_set vertebrate_host
           --category_set vertebrate_host_hallmark
+          --category_set fungi
+          --category_set cancer
+          --category_set insect
           --category_set custom --custom_functional_categories my_func.json --custom_cellular_categories my_cell.json
         """
     }
@@ -296,7 +302,7 @@ def checkParameters() {
       Expression tiers: ${params.expression_tiers}
       GO P-value cutoff: ${params.go_pvalue_cutoff}
       Bootstrap iterations: ${params.bootstrap_n}
-      Skip ExPlot: ${params.skip_explot}
+      Skip enrichment profiling: ${params.skip_explot}
       
     This pipeline performs Expression-Weighted Functional Profiling,
     analyzing how functional categories are distributed across
@@ -507,17 +513,17 @@ workflow {
     
     enrichment_results = TPMGOEnrichment(go_data_file, expression_data_file)
     
-    // STEP 7: Expression Profiling (ExPlot)
+    // STEP 7: Multi-Resolution Enrichment Profiling
     if (!params.skip_explot) {
-        log.info "Step 7: Expression-Weighted Functional Profiling (ExPlot)"
+        log.info "Step 7: Multi-Resolution Enrichment Profiling"
         try {
             ExPlot(expression_data_ch.merged_annotations.first())
             log.info "Expression-Weighted Functional Profiling completed successfully"
         } catch (Exception e) {
-            log.warn "ExPlot step failed: ${e.message}. Continuing with pipeline..."
+            log.warn "Enrichment profiling step failed: ${e.message}. Continuing with pipeline..."
         }
     } else {
-        log.info "Step 7: Skipping Expression Profiling (ExPlot) as requested"
+        log.info "Step 7: Skipping enrichment profiling as requested"
     }
 
     // STEP 8: Transcriptome Landscape Analysis
@@ -563,7 +569,7 @@ workflow ExPlotEntry {
         
     ExPlot(integrated_results_ch)
     
-    log.info "SCEPTR ExPlot module complete."
+    log.info "SCEPTR enrichment profiling complete."
 }
 
 // SUBWORKFLOW: Run just decontamination

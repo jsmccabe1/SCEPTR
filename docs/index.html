@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCEPTR - Multi-Resolution Enrichment Profiling</title>
+    <meta name="description" content="SCEPTR: Statistical Characterisation of Enrichment Profiles at Tiered Resolution. A framework for characterising the functional architecture of transcriptomes from single samples.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0e17;
+            --bg-card: #111827;
+            --bg-card-hover: #1a2332;
+            --border: #1e293b;
+            --text: #e2e8f0;
+            --text-dim: #94a3b8;
+            --text-bright: #f8fafc;
+            --accent: #22c55e;
+            --accent-dim: #16a34a;
+            --accent-glow: rgba(34, 197, 94, 0.15);
+            --blue: #3b82f6;
+            --purple: #a855f7;
+            --amber: #f59e0b;
+            --rose: #f43f5e;
+            --cyan: #06b6d4;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Subtle grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                linear-gradient(rgba(34, 197, 94, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(34, 197, 94, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+        a:hover { color: var(--text-bright); }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+        /* ── Nav ── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: rgba(10, 14, 23, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            padding: 0.75rem 0;
+        }
+        nav .container {
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        nav .logo {
+            font-weight: 700; font-size: 1.1rem; letter-spacing: 0.05em;
+            color: var(--accent);
+        }
+        nav .links { display: flex; gap: 1.5rem; }
+        nav .links a {
+            color: var(--text-dim); font-size: 0.875rem; font-weight: 500;
+            transition: color 0.2s;
+        }
+        nav .links a:hover { color: var(--text-bright); }
+
+        /* ── Hero ── */
+        .hero {
+            padding: 10rem 0 5rem;
+            text-align: center;
+        }
+        .hero img {
+            max-width: 500px; width: 80%;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 30px rgba(34, 197, 94, 0.1));
+        }
+        .hero .tagline {
+            font-size: 1.1rem; color: var(--text-dim);
+            max-width: 700px; margin: 0 auto 2rem;
+            font-weight: 300;
+        }
+        .hero .tagline strong { color: var(--text); font-weight: 500; }
+
+        .cta-group {
+            display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.75rem 1.75rem;
+            border-radius: 8px;
+            font-weight: 600; font-size: 0.95rem;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+        .btn-primary {
+            background: var(--accent); color: var(--bg);
+            border-color: var(--accent);
+        }
+        .btn-primary:hover {
+            background: #16a34a; color: var(--bg);
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+        }
+        .btn-secondary {
+            background: transparent; color: var(--text);
+            border-color: var(--border);
+        }
+        .btn-secondary:hover {
+            border-color: var(--text-dim);
+            background: rgba(255,255,255,0.03);
+            color: var(--text-bright);
+        }
+
+        /* ── Quick install ── */
+        .install-block {
+            max-width: 600px; margin: 2.5rem auto 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.25rem 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            text-align: left;
+            position: relative;
+        }
+        .install-block .comment { color: #4b5563; }
+        .install-block .cmd { color: var(--accent); }
+
+        /* ── Stats bar ── */
+        .stats {
+            display: flex; justify-content: center; gap: 3rem;
+            padding: 3rem 0;
+            flex-wrap: wrap;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat .number {
+            font-size: 2rem; font-weight: 700; color: var(--accent);
+            line-height: 1.2;
+        }
+        .stat .label {
+            font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase;
+            letter-spacing: 0.08em; margin-top: 0.25rem;
+        }
+
+        /* ── Section ── */
+        section { padding: 5rem 0; }
+        .section-title {
+            font-size: 1.75rem; font-weight: 700; color: var(--text-bright);
+            margin-bottom: 0.5rem;
+        }
+        .section-subtitle {
+            color: var(--text-dim); font-size: 1rem; margin-bottom: 2.5rem;
+            max-width: 600px;
+        }
+
+        /* ── Feature cards ── */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.25rem;
+        }
+        .feature {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.75rem;
+            transition: all 0.25s;
+        }
+        .feature:hover {
+            border-color: var(--accent);
+            background: var(--bg-card-hover);
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+        .feature .icon {
+            width: 40px; height: 40px;
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        .feature h3 {
+            font-size: 1.05rem; font-weight: 600; color: var(--text-bright);
+            margin-bottom: 0.5rem;
+        }
+        .feature p { color: var(--text-dim); font-size: 0.9rem; line-height: 1.6; }
+
+        .icon-green { background: rgba(34,197,94,0.1); color: var(--accent); }
+        .icon-blue { background: rgba(59,130,246,0.1); color: var(--blue); }
+        .icon-purple { background: rgba(168,85,247,0.1); color: var(--purple); }
+        .icon-amber { background: rgba(245,158,11,0.1); color: var(--amber); }
+        .icon-rose { background: rgba(244,63,94,0.1); color: var(--rose); }
+        .icon-cyan { background: rgba(6,182,212,0.1); color: var(--cyan); }
+
+        /* ── Output image ── */
+        .output-showcase {
+            margin: 3rem 0;
+            text-align: center;
+        }
+        .output-showcase img {
+            max-width: 100%;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 40px rgba(0,0,0,0.3);
+        }
+        .output-showcase .caption {
+            margin-top: 1rem;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ── Category sets ── */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 0.75rem;
+        }
+        .cat-tag {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.85rem 1rem;
+            transition: border-color 0.2s;
+        }
+        .cat-tag:hover { border-color: var(--accent); }
+        .cat-tag code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        .cat-tag .desc {
+            font-size: 0.78rem;
+            color: var(--text-dim);
+            line-height: 1.4;
+        }
+
+        /* ── Validation ── */
+        .validation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+        .val-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+        .val-card .organism {
+            font-weight: 600; color: var(--text-bright);
+            font-size: 0.95rem; margin-bottom: 0.25rem;
+        }
+        .val-card .organism em { font-weight: 400; }
+        .val-card .detail {
+            font-size: 0.82rem; color: var(--text-dim); line-height: 1.5;
+        }
+        .val-card .tag {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            background: rgba(34,197,94,0.1);
+            color: var(--accent);
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+        }
+
+        /* ── Pipeline steps ── */
+        .pipeline-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            position: relative;
+            padding-left: 2rem;
+        }
+        .pipeline-steps::before {
+            content: '';
+            position: absolute;
+            left: 0.55rem;
+            top: 0.5rem;
+            bottom: 0.5rem;
+            width: 2px;
+            background: var(--border);
+        }
+        .step {
+            position: relative;
+            padding: 0.75rem 0 0.75rem 1.5rem;
+        }
+        .step::before {
+            content: '';
+            position: absolute;
+            left: -1.65rem;
+            top: 1.15rem;
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 2px solid var(--bg);
+        }
+        .step .step-title {
+            font-weight: 600; font-size: 0.95rem; color: var(--text-bright);
+        }
+        .step .step-desc {
+            font-size: 0.85rem; color: var(--text-dim);
+        }
+
+        /* ── Footer ── */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+        footer a { color: var(--text-dim); }
+        footer a:hover { color: var(--accent); }
+        footer .footer-links {
+            display: flex; gap: 2rem; justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 640px) {
+            .hero { padding: 8rem 0 3rem; }
+            .hero img { max-width: 280px; }
+            .stats { gap: 1.5rem; }
+            .stat .number { font-size: 1.5rem; }
+            nav .links { gap: 0.75rem; }
+            nav .links a { font-size: 0.8rem; }
+            .section-title { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+    <div class="container">
+        <div class="logo">SCEPTR</div>
+        <div class="links">
+            <a href="#method">Method</a>
+            <a href="#categories">Categories</a>
+            <a href="#validation">Validation</a>
+            <a href="#pipeline">Pipeline</a>
+            <a href="https://github.com/jsmccabe1/SCEPTR">GitHub</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="container">
+        <img src="assets/SCEPTR_banner_black.png" alt="SCEPTR">
+        <p class="tagline">
+            <strong>What is your transcriptome doing, and where is it investing its resources?</strong><br>
+            Multi-resolution enrichment profiling reveals the functional architecture of any transcriptome from a single sample.
+        </p>
+        <div class="cta-group">
+            <a href="https://github.com/jsmccabe1/SCEPTR" class="btn btn-primary">
+                View on GitHub
+            </a>
+            <a href="https://github.com/jsmccabe1/SCEPTR#quick-start" class="btn btn-secondary">
+                Quick Start
+            </a>
+            <a href="#method" class="btn btn-secondary">
+                How It Works
+            </a>
+        </div>
+        <div class="install-block">
+            <span class="comment"># Clone, build, run</span><br>
+            <span class="cmd">git clone</span> https://github.com/jsmccabe1/SCEPTR.git && <span class="cmd">cd</span> SCEPTR<br>
+            <span class="cmd">bash</span> setup_databases.sh<br>
+            <span class="cmd">docker build</span> -t sceptr:1.0.0 .<br>
+            <span class="cmd">./run_sceptr.sh</span>
+        </div>
+    </div>
+</section>
+
+<!-- Stats -->
+<div class="container">
+    <div class="stats">
+        <div class="stat">
+            <div class="number">15</div>
+            <div class="label">Category Sets</div>
+        </div>
+        <div class="stat">
+            <div class="number">4</div>
+            <div class="label">Kingdoms Validated</div>
+        </div>
+        <div class="stat">
+            <div class="number">0</div>
+            <div class="label">Replicates Required</div>
+        </div>
+        <div class="stat">
+            <div class="number">~11 min</div>
+            <div class="label">Per Sample</div>
+        </div>
+    </div>
+</div>
+
+<!-- Output showcase -->
+<div class="container">
+    <div class="output-showcase">
+        <img src="assets/explot_example_output.png" alt="SCEPTR example outputs">
+        <p class="caption">
+            Example outputs. (A) Enrichment profiles in SARS-CoV-2-infected human cells showing immune and stress programmes.
+            (B) Expression distribution for a marine dinoflagellate. (C) Functional radar for an apicomplexan parasite.
+            (D) Multi-tier enrichment for <em>P. falciparum</em> with significant categories marked.
+        </p>
+    </div>
+</div>
+
+<!-- Method -->
+<section id="method">
+    <div class="container">
+        <div class="section-title">The Method</div>
+        <p class="section-subtitle">
+            Three statistical ideas that reveal what standard approaches miss.
+        </p>
+        <div class="features">
+            <div class="feature">
+                <div class="icon icon-green">&#x25B2;</div>
+                <h3>Multi-Resolution Enrichment Profiling</h3>
+                <p>
+                    Genes ranked by TPM are evaluated at nested tiers (top 50, 100, 250, 500).
+                    At each tier, functional category proportions are compared to the transcriptome-wide
+                    background using Fisher's exact test with Benjamini-Hochberg correction.
+                    The result is an enrichment profile: a curve showing how each programme's
+                    dominance changes across the expression gradient.
+                </p>
+            </div>
+            <div class="feature">
+                <div class="icon icon-blue">D<sub>KL</sub></div>
+                <h3>KL Divergence as Functional Specialisation</h3>
+                <p>
+                    Kullback-Leibler divergence at each tier measures how different the functional
+                    composition is from the background. This decreases monotonically with tier size
+                    across every organism tested. The rate of decrease is itself a quantitative
+                    phenotype: steep gradients indicate extreme functional concentration, shallow
+                    gradients indicate distributed investment.
+                </p>
+            </div>
+            <div class="feature">
+                <div class="icon icon-purple">&#x2726;</div>
+                <h3>Dual-Method Category Assignment</h3>
+                <p>
+                    Genes are assigned to functional categories through keyword regex matching
+                    against UniProt annotations and GO hierarchy traversal from curated anchor
+                    terms. Each assignment is tagged with its source. GO-only ablation recovers
+                    100% of enriched categories (mean r = 0.90), confirming keywords are
+                    supplementary.
+                </p>
+            </div>
+            <div class="feature">
+                <div class="icon icon-amber">&#x25C9;</div>
+                <h3>Bootstrap Stability</h3>
+                <p>
+                    Bootstrap resampling (default 50 iterations) assesses whether enrichment
+                    estimates are robust to perturbation of gene composition. Each result carries
+                    a stability score and Clopper-Pearson confidence intervals so you know which
+                    findings to trust.
+                </p>
+            </div>
+            <div class="feature">
+                <div class="icon icon-cyan">&#x21C4;</div>
+                <h3>Cross-Sample Comparison</h3>
+                <p>
+                    Compare enrichment profiles between two conditions (e.g. mock vs infected)
+                    using gene-label permutation testing. Tests whether observed profile
+                    differences exceed what would be expected by chance, with per-category
+                    significance and effect size.
+                </p>
+            </div>
+            <div class="feature">
+                <div class="icon icon-rose">&#x2609;</div>
+                <h3>Single Sample. No Replicates.</h3>
+                <p>
+                    Because each tier is compared to the sample's own background, SCEPTR works
+                    from a single sample with no replicates, no control, and no comparative data.
+                    The clinical isolate, the field sample, the pilot experiment. If you have
+                    expression data, SCEPTR tells you what your transcriptome is investing in.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Categories -->
+<section id="categories">
+    <div class="container">
+        <div class="section-title">Category Sets</div>
+        <p class="section-subtitle">
+            Organism-specific functional categories validated against Gene Ontology, Swiss-Prot, and GO slim sets.
+        </p>
+        <div class="categories-grid">
+            <div class="cat-tag">
+                <code>general</code>
+                <div class="desc">Universal categories for any organism</div>
+            </div>
+            <div class="cat-tag">
+                <code>parasite_protozoan</code>
+                <div class="desc"><em>Plasmodium</em>, <em>Toxoplasma</em>, <em>Leishmania</em></div>
+            </div>
+            <div class="cat-tag">
+                <code>parasite_metazoan</code>
+                <div class="desc">Helminths, arthropod parasites</div>
+            </div>
+            <div class="cat-tag">
+                <code>protist_dinoflagellate</code>
+                <div class="desc"><em>Symbiodinium</em>, HAB species</div>
+            </div>
+            <div class="cat-tag">
+                <code>bacteria</code>
+                <div class="desc">14 broad prokaryotic categories</div>
+            </div>
+            <div class="cat-tag">
+                <code>bacteria_gram_negative</code>
+                <div class="desc">LPS, T3SS/T6SS, porins, siderophores</div>
+            </div>
+            <div class="cat-tag">
+                <code>bacteria_gram_positive</code>
+                <div class="desc">Teichoic acids, sortase, sporulation</div>
+            </div>
+            <div class="cat-tag">
+                <code>virus</code>
+                <div class="desc">Replication, entry, assembly, evasion</div>
+            </div>
+            <div class="cat-tag">
+                <code>vertebrate_host</code>
+                <div class="desc">11 broad host immune/defence categories</div>
+            </div>
+            <div class="cat-tag">
+                <code>vertebrate_host_hallmark</code>
+                <div class="desc">28 MSigDB-inspired pathway categories</div>
+            </div>
+            <div class="cat-tag">
+                <code>model_organism</code>
+                <div class="desc">Mouse, human, fly, worm, yeast</div>
+            </div>
+            <div class="cat-tag">
+                <code>plant</code>
+                <div class="desc">Photosynthesis, cell wall, hormones</div>
+            </div>
+            <div class="cat-tag">
+                <code>fungi</code>
+                <div class="desc">Cell wall, secondary metabolism, sporulation</div>
+            </div>
+            <div class="cat-tag">
+                <code>cancer</code>
+                <div class="desc">Hallmarks of cancer, EMT, immune evasion</div>
+            </div>
+            <div class="cat-tag">
+                <code>insect</code>
+                <div class="desc">Cuticle, metamorphosis, chemosensation</div>
+            </div>
+        </div>
+        <p style="margin-top: 1.5rem; color: var(--text-dim); font-size: 0.85rem;">
+            All keywords validated through multi-layer provenance audit: 68.9% backed by Gene Ontology or Swiss-Prot controlled vocabularies. Bring your own categories with <code style="color:var(--accent);">--category_set custom</code>.
+        </p>
+    </div>
+</section>
+
+<!-- Validation -->
+<section id="validation">
+    <div class="container">
+        <div class="section-title">Validated Across Kingdoms</div>
+        <p class="section-subtitle">
+            Tested on four phylogenetically diverse systems spanning protozoan parasites, bacteria, vertebrate host cells, and marine dinoflagellates.
+        </p>
+        <div class="validation-grid">
+            <div class="val-card">
+                <div class="organism"><em>Plasmodium falciparum</em></div>
+                <div class="detail">
+                    Steepest KL divergence gradient. Translational dominance at the apex,
+                    invasion machinery concentrated in the top 50 genes then absent at broader tiers.
+                </div>
+                <span class="tag">parasite_protozoan</span>
+            </div>
+            <div class="val-card">
+                <div class="organism"><em>Salmonella</em> Typhimurium</div>
+                <div class="detail">
+                    Three biological replicates. Within-study GO fold-change correlation > 0.96.
+                    Between-study divergence correctly detects stationary-phase vs active-growth physiology.
+                </div>
+                <span class="tag">bacteria</span>
+            </div>
+            <div class="val-card">
+                <div class="organism">Calu-3 human cells</div>
+                <div class="detail">
+                    SARS-CoV-2 infected. Recovers 59% of DESeq2-validated categories from a
+                    single sample. ssGSEA and GSVA recover effectively none.
+                </div>
+                <span class="tag">vertebrate_host</span>
+            </div>
+            <div class="val-card">
+                <div class="organism"><em>Durusdinium trenchii</em></div>
+                <div class="detail">
+                    Coral symbiont under heat stress. Layered investment hierarchy revealed
+                    despite no close reference: photosynthesis at the apex, nutrient acquisition
+                    at intermediate tiers.
+                </div>
+                <span class="tag">protist_dinoflagellate</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pipeline -->
+<section id="pipeline">
+    <div class="container">
+        <div class="section-title">End-to-End Pipeline</div>
+        <p class="section-subtitle">
+            From raw FASTQ reads to publication-ready reports in a single command.
+            Nextflow + Docker for full reproducibility.
+        </p>
+        <div class="pipeline-steps">
+            <div class="step">
+                <div class="step-title">Quality Control</div>
+                <div class="step-desc">FastQC + MultiQC aggregation</div>
+            </div>
+            <div class="step">
+                <div class="step-title">Expression Quantification</div>
+                <div class="step-desc">Salmon index + pseudo-alignment</div>
+            </div>
+            <div class="step">
+                <div class="step-title">Protein Prediction</div>
+                <div class="step-desc">TransDecoder ORF prediction or direct CDS translation</div>
+            </div>
+            <div class="step">
+                <div class="step-title">Contamination Filtering</div>
+                <div class="step-desc">DIAMOND-based screening with optional host sequence removal</div>
+            </div>
+            <div class="step">
+                <div class="step-title">Functional Annotation</div>
+                <div class="step-desc">UniProt DIAMOND + GO term assignment</div>
+            </div>
+            <div class="step">
+                <div class="step-title">GO Enrichment</div>
+                <div class="step-desc">Per-tier topGO enrichment with weight01 algorithm</div>
+            </div>
+            <div class="step">
+                <div class="step-title">Multi-Resolution Enrichment Profiling</div>
+                <div class="step-desc">Tiered enrichment, KL divergence, bootstrap stability, HTML reports</div>
+            </div>
+            <div class="step">
+                <div class="step-title">Transcriptome Landscape</div>
+                <div class="step-desc">Expression concentration, annotation quality, taxonomic distribution</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Citation -->
+<section>
+    <div class="container" style="text-align:center; padding: 4rem 0;">
+        <div class="section-title">Citation</div>
+        <p style="color: var(--text-dim); font-size: 0.95rem; margin-top: 1rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+            McCabe, J. and Janouskovec, J. (2025). SCEPTR: multi-resolution enrichment profiling
+            reveals functional architecture across the expression gradient. <em>In review</em>.
+        </p>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-links">
+            <a href="https://github.com/jsmccabe1/SCEPTR">GitHub</a>
+            <a href="https://github.com/jsmccabe1/SCEPTR/issues">Issues</a>
+            <a href="https://github.com/jsmccabe1/SCEPTR#quick-start">Documentation</a>
+        </div>
+        <p>SCEPTR is freely available under the MIT License.</p>
+    </div>
+</footer>
+
+</body>
+</html>

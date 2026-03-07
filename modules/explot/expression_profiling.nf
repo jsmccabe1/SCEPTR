@@ -7,7 +7,7 @@ nextflow.enable.dsl=2
 
 process ExPlotFunctional {
     tag "explot_functional"
-    publishDir "${params.outdir}/expression_profiles", mode: 'copy'
+    publishDir "${params.outdir}/enrichment_profiles", mode: 'copy'
     errorStrategy 'terminate'
 
     input:
@@ -51,7 +51,7 @@ process ExPlotFunctional {
 
 process ExPlotCellular {
     tag "explot_cellular"
-    publishDir "${params.outdir}/expression_profiles", mode: 'copy'
+    publishDir "${params.outdir}/enrichment_profiles", mode: 'copy'
     errorStrategy 'terminate'
 
     input:
@@ -98,7 +98,7 @@ workflow ExPlot {
         integrated_results
 
     main:
-        log.info "ExPlot workflow started"
+        log.info "Enrichment profiling workflow started"
         log.info "Using script directory: ${params.explot_cli}"
         log.info "GO expansion: ${params.explot_expand_go}"
 

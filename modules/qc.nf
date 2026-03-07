@@ -4,7 +4,7 @@
 process FastQC {
     tag "$sample_id"
     label 'process_low'
-    publishDir "${params.outdir}/quality_control/fastqc", mode: 'copy'
+    publishDir "${params.outdir}/preprocessing/qc/fastqc", mode: 'copy'
     
     input:
     tuple val(sample_id), path(reads)
@@ -34,7 +34,7 @@ process FastQC {
 process MultiQC {
     tag "multiqc_report"
     label 'process_low'
-    publishDir "${params.outdir}/quality_control/multiqc", mode: 'copy'
+    publishDir "${params.outdir}/preprocessing/qc/multiqc", mode: 'copy'
     errorStrategy 'terminate'
     
     input:
