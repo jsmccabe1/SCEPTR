@@ -23,7 +23,8 @@
     ],
     "anchor_go_ids": [
       "GO:0005634",
-      "GO:0005654"
+      "GO:0005654",
+      "GO:0005730"
     ],
     "core_keywords": []
   },
@@ -35,104 +36,6 @@
     ],
     "anchor_go_ids": [
       "GO:0005739"
-    ],
-    "core_keywords": []
-  },
-  "Digestive System": {
-    "keywords": [
-      "digestive tract",
-      "gut",
-      "intestine",
-      "pharynx",
-      "esophagus",
-      "gastrodermis",
-      "digestive cell",
-      "food vacuole"
-    ],
-    "anchor_go_ids": [],
-    "core_keywords": []
-  },
-  "Nervous System": {
-    "keywords": [
-      "nervous system",
-      "nerve",
-      "ganglion",
-      "neural",
-      "neuron",
-      "nerve cord",
-      "brain",
-      "sensory organ"
-    ],
-    "anchor_go_ids": [],
-    "core_keywords": []
-  },
-  "Muscle & Movement": {
-    "keywords": [
-      "muscle",
-      "muscular",
-      "somatic muscle",
-      "body wall muscle",
-      "contractile",
-      "myosin",
-      "actin filament"
-    ],
-    "anchor_go_ids": [
-      "GO:0005884"
-    ],
-    "core_keywords": []
-  },
-  "Cuticle & Body Wall": {
-    "keywords": [
-      "cuticle",
-      "cuticular",
-      "body wall",
-      "hypodermis",
-      "epidermis",
-      "tegument",
-      "syncytium",
-      "surface"
-    ],
-    "anchor_go_ids": [],
-    "core_keywords": []
-  },
-  "Reproductive System": {
-    "keywords": [
-      "reproductive system",
-      "gonad",
-      "ovary",
-      "testis",
-      "uterus",
-      "seminal vesicle",
-      "ootype",
-      "vitellarium",
-      "germline"
-    ],
-    "anchor_go_ids": [],
-    "core_keywords": []
-  },
-  "Excretory System": {
-    "keywords": [
-      "excretory system",
-      "nephridium",
-      "flame cell",
-      "protonephridium",
-      "excretory canal",
-      "excretory pore"
-    ],
-    "anchor_go_ids": [],
-    "core_keywords": []
-  },
-  "Secretory Structures": {
-    "keywords": [
-      "secretory",
-      "gland",
-      "salivary gland",
-      "cement gland",
-      "penetration gland",
-      "adhesive organ"
-    ],
-    "anchor_go_ids": [
-      "GO:0005576"
     ],
     "core_keywords": []
   },
@@ -150,7 +53,7 @@
     ],
     "core_keywords": []
   },
-  "Membrane Systems": {
+  "Membrane": {
     "keywords": [
       "membrane",
       "plasma membrane",
@@ -158,7 +61,8 @@
       "transmembrane",
       "integral membrane",
       "peripheral membrane",
-      "basement membrane"
+      "membrane protein",
+      "membrane-bound"
     ],
     "anchor_go_ids": [
       "GO:0016020",
@@ -184,7 +88,8 @@
       "Golgi",
       "Golgi apparatus",
       "cis-Golgi",
-      "trans-Golgi"
+      "trans-Golgi",
+      "Golgi membrane"
     ],
     "anchor_go_ids": [
       "GO:0005794"
@@ -225,9 +130,9 @@
       "extracellular",
       "secreted",
       "extracellular space",
-      "host tissue",
       "extracellular matrix",
-      "collagen"
+      "cell surface",
+      "cell wall"
     ],
     "anchor_go_ids": [
       "GO:0005576",

@@ -224,16 +224,15 @@ SLIM_MAP = {
     "insect": ["goslim_drosophila", "goslim_flybase_ribbon"],
     "general": ["goslim_generic"],
     "parasite_protozoan": ["goslim_generic"],
-    "parasite_metazoan": ["goslim_generic"],
     "protist_dinoflagellate": ["goslim_generic"],
-    "model_organism": ["goslim_generic", "goslim_mouse", "goslim_yeast", "goslim_drosophila"],
+    "helminth_nematode": ["goslim_generic"],
+    "helminth_platyhelminth": ["goslim_generic"],
+    "human_host": ["goslim_generic", "goslim_chembl"],
     "plant": ["goslim_plant"],
     "bacteria": ["goslim_prokaryote"],
     "bacteria_gram_negative": ["goslim_prokaryote"],
     "bacteria_gram_positive": ["goslim_prokaryote"],
-    "virus": ["goslim_virus"],
     "vertebrate_host": ["goslim_generic", "goslim_chembl"],
-    "vertebrate_host_hallmark": ["goslim_generic", "goslim_chembl"],
 }
 
 

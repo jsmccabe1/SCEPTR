@@ -83,6 +83,42 @@
       "CIITA"
     ]
   },
+  "Interferon Response (Type III)": {
+    "keywords": [
+      "interferon lambda",
+      "interferon-lambda",
+      "IFN-lambda",
+      "type III interferon",
+      "interleukin-28A",
+      "interleukin-28B",
+      "interleukin-29",
+      "IL-28A",
+      "IL-28B",
+      "IL-29",
+      "IFNL1",
+      "IFNL2",
+      "IFNL3",
+      "IFNL4",
+      "interferon lambda receptor",
+      "IFNLR1",
+      "IL10RB",
+      "IL-10 receptor subunit beta",
+      "lambda interferon"
+    ],
+    "anchor_go_ids": [
+      "GO:0038196",
+      "GO:0034344"
+    ],
+    "core_keywords": [
+      "interferon lambda",
+      "interferon-lambda",
+      "IFN-lambda",
+      "type III interferon",
+      "IFNL1",
+      "IFNL3",
+      "IFNLR1"
+    ]
+  },
   "Antiviral Defense": {
     "keywords": [
       "antiviral",
@@ -312,6 +348,62 @@
       "caspase-1",
       "gasdermin",
       "pyroptosis"
+    ]
+  },
+  "Interleukin Signaling": {
+    "keywords": [
+      "interleukin-6",
+      "interleukin-6 receptor",
+      "IL-6",
+      "IL6R",
+      "IL6ST",
+      "gp130",
+      "interleukin-6 signal transducer",
+      "interleukin-10",
+      "IL-10",
+      "IL10RA",
+      "IL10RB",
+      "interleukin-10 receptor",
+      "interleukin-12",
+      "IL-12",
+      "interleukin-17",
+      "interleukin-17A",
+      "IL-17",
+      "IL17A",
+      "IL17F",
+      "IL17RA",
+      "interleukin-17 receptor",
+      "interleukin-23",
+      "IL-23",
+      "IL23A",
+      "IL12RB1",
+      "interleukin-4",
+      "interleukin-13",
+      "IL-4",
+      "IL-13",
+      "interleukin-2",
+      "IL-2",
+      "IL2RA",
+      "interleukin-21",
+      "interleukin-22",
+      "IL-22",
+      "cytokine signaling",
+      "cytokine-cytokine receptor"
+    ],
+    "anchor_go_ids": [
+      "GO:0070102",
+      "GO:0032653",
+      "GO:0050727",
+      "GO:0070106"
+    ],
+    "core_keywords": [
+      "interleukin-6",
+      "interleukin-10",
+      "interleukin-17",
+      "interleukin-23",
+      "IL6ST",
+      "gp130",
+      "cytokine signaling"
     ]
   },
   "Adaptive Immunity": {
@@ -573,8 +665,7 @@
     ],
     "anchor_go_ids": [
       "GO:0043491",
-      "GO:0031929",
-      "GO:0043491"
+      "GO:0031929"
     ],
     "core_keywords": [
       "PI3K",
@@ -946,6 +1037,62 @@
       "poly(ADP-ribose) polymerase"
     ]
   },
+  "Epigenetic Regulation": {
+    "keywords": [
+      "histone methylation",
+      "histone acetylation",
+      "histone deacetylase",
+      "HDAC",
+      "histone acetyltransferase",
+      "histone methyltransferase",
+      "histone demethylase",
+      "chromatin remodeling",
+      "chromatin remodelling",
+      "SWI/SNF",
+      "SMARCA",
+      "SMARCB",
+      "ARID1A",
+      "BRG1",
+      "BRM",
+      "DNA methyltransferase",
+      "DNMT1",
+      "DNMT3A",
+      "DNMT3B",
+      "ten-eleven translocation",
+      "TET1",
+      "TET2",
+      "TET3",
+      "5-methylcytosine",
+      "bromodomain",
+      "chromodomain",
+      "polycomb",
+      "EZH2",
+      "PRC2",
+      "trithorax",
+      "KDM",
+      "lysine-specific demethylase",
+      "SIRT1",
+      "sirtuin",
+      "heterochromatin",
+      "euchromatin"
+    ],
+    "anchor_go_ids": [
+      "GO:0016571",
+      "GO:0016573",
+      "GO:0006338",
+      "GO:0031507"
+    ],
+    "core_keywords": [
+      "histone deacetylase",
+      "histone acetyltransferase",
+      "histone methyltransferase",
+      "chromatin remodeling",
+      "DNA methyltransferase",
+      "polycomb",
+      "EZH2",
+      "bromodomain"
+    ]
+  },
   "Protein Homeostasis": {
     "keywords": [
       "ubiquitin",
@@ -1039,7 +1186,6 @@
       "laminin",
       "proteoglycan",
       "tissue remodelling",
-      "coagulation factor",
       "plasminogen",
       "fibrinogen"
     ],
@@ -1054,6 +1200,55 @@
       "fibronectin",
       "wound healing",
       "extracellular matrix"
+    ]
+  },
+  "Coagulation & Thromboinflammation": {
+    "keywords": [
+      "blood coagulation",
+      "coagulation factor",
+      "coagulation cascade",
+      "thrombin",
+      "prothrombin",
+      "tissue factor",
+      "factor VII",
+      "factor VIII",
+      "factor IX",
+      "factor X",
+      "factor XI",
+      "factor XII",
+      "factor XIII",
+      "von Willebrand factor",
+      "fibrinogen",
+      "fibrin",
+      "antithrombin",
+      "protein C",
+      "protein S",
+      "thrombomodulin",
+      "plasminogen activator",
+      "tissue-type plasminogen activator",
+      "urokinase-type plasminogen activator",
+      "platelet activation",
+      "platelet aggregation",
+      "platelet factor",
+      "thromboxane",
+      "PAI-1",
+      "serpine",
+      "D-dimer"
+    ],
+    "anchor_go_ids": [
+      "GO:0007596",
+      "GO:0030168",
+      "GO:0007597",
+      "GO:0007598"
+    ],
+    "core_keywords": [
+      "blood coagulation",
+      "coagulation factor",
+      "thrombin",
+      "tissue factor",
+      "von Willebrand factor",
+      "platelet activation",
+      "antithrombin"
     ]
   },
   "Uncharacterised": {

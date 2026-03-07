@@ -195,19 +195,18 @@ SCEPTR ships with organism-specific functional category sets optimised for diffe
 | Category Set             | Description                             | Example Organisms                        |
 |--------------------------|-----------------------------------------|------------------------------------------|
 | `general`                | Universal functional categories         | Any organism (default)                   |
-| `parasite_protozoan`     | Protozoan parasite biology              | *Plasmodium*, *Toxoplasma*, *Leishmania* |
-| `parasite_metazoan`      | Metazoan parasite biology               | Helminths, arthropod parasites           |
-| `protist_dinoflagellate` | Dinoflagellate-specific processes        | *Symbiodinium*, HAB species              |
+| `human_host`             | Human host response (33 detailed pathways) | Human infection, inflammation, clinical studies |
+| `vertebrate_host`        | Vertebrate host response (17 broad categories) | Mouse, fish, bird host-side studies      |
+| `cancer`                 | Hallmarks of cancer (17 categories)     | Tumour transcriptomes, cell lines        |
 | `bacteria`               | Prokaryotic functional systems (14 broad) | *Salmonella*, *E. coli*, *Mycobacterium* |
 | `bacteria_gram_negative` | Gram-negative bacteria (18 categories)  | *E. coli*, *Pseudomonas*, *Salmonella*   |
 | `bacteria_gram_positive` | Gram-positive bacteria (18 categories)  | *Staphylococcus*, *Streptococcus*, *Bacillus* |
-| `virus`                  | Viral life cycle processes              | RNA/DNA viruses                          |
-| `vertebrate_host`        | Host immune/defence response (11 broad) | Host-side infection studies              |
-| `vertebrate_host_hallmark` | Hallmark-resolution pathways (28 specific) | Host studies requiring pathway-level detail |
-| `model_organism`         | Well-characterised species              | Mouse, human, fly, worm, yeast           |
-| `plant`                  | Plant-specific processes                | *Arabidopsis*, crop species              |
+| `parasite_protozoan`     | Protozoan parasite biology              | *Plasmodium*, *Toxoplasma*, *Leishmania* |
+| `helminth_nematode`      | Parasitic nematode biology (15 categories) | *Ascaris*, *Haemonchus*, *Brugia*, hookworms |
+| `helminth_platyhelminth` | Fluke and tapeworm biology (15 categories) | *Schistosoma*, *Fasciola*, *Echinococcus* |
 | `fungi`                  | Fungal biology (15 categories)          | *Aspergillus*, *Candida*, *Fusarium*     |
-| `cancer`                 | Hallmarks of cancer (17 categories)     | Tumour transcriptomes, cell lines        |
+| `plant`                  | Plant-specific processes                | *Arabidopsis*, crop species              |
+| `protist_dinoflagellate` | Dinoflagellate-specific processes        | *Symbiodinium*, HAB species              |
 | `insect`                 | Insect biology (16 categories)          | *Drosophila*, mosquitoes, bees, beetles  |
 
 Each category uses **dual-method assignment** (keyword + GO hierarchy) with optional **core keywords** that provide high-confidence diagnostic terms, reporting a specificity percentage alongside enrichment statistics.
@@ -231,25 +230,40 @@ Use `bacteria_gram_negative` for Proteobacteria and other diderm organisms with 
 </details>
 
 <details>
-<summary><strong>vertebrate_host vs vertebrate_host_hallmark</strong></summary>
+<summary><strong>human_host vs vertebrate_host</strong></summary>
 
-The `vertebrate_host` set provides 11 broad functional categories suitable for initial characterisation. The `vertebrate_host_hallmark` set splits these into 28 MSigDB Hallmark-inspired pathway categories for higher biological resolution:
+The `human_host` set provides 33 detailed pathway-level categories optimised for human infection, inflammation, and clinical studies. The `vertebrate_host` set provides 17 broader categories suitable for non-human vertebrate hosts (mouse, fish, birds) where pathway-specific annotations are sparser:
 
-| vertebrate_host (11 broad) | vertebrate_host_hallmark (28 specific) |
+| vertebrate_host (17 broad) | human_host (33 detailed) |
 |---|---|
-| Innate Immunity | Interferon Response (Type I), Interferon Gamma Response, Antiviral Defense, Pattern Recognition & TLR Signaling, Complement System |
-| Inflammatory Response | TNF-NF-kB Signaling, Chemokine Signaling, Inflammasome & IL-1 Signaling |
-| Cell Signalling | JAK-STAT Signaling, MAPK-RAS Signaling, PI3K-AKT-mTOR Signaling, TGF-Beta & Developmental Signaling |
-| Stress Response | Unfolded Protein Response, Hypoxia Response, Oxidative Stress & ROS |
-| Metabolism & Energy | Glycolysis, Oxidative Phosphorylation, Fatty Acid Metabolism, Cholesterol & Steroid Metabolism |
-| Apoptosis & Cell Death | Apoptosis, Autophagy |
-| Cell Cycle & Proliferation | E2F Targets & DNA Replication, G2M Checkpoint & Mitosis |
-| *(new)* | DNA Damage & Repair, Protein Homeostasis |
+| Interferon & Antiviral Response | Interferon Response (Type I), Interferon Response (Type II), Interferon Response (Type III), Antiviral Defense |
+| Inflammatory Signaling | TNF-NF-kB Signaling, Chemokine Signaling, Inflammasome & IL-1 Signaling, Interleukin Signaling |
+| Signaling Pathways | JAK-STAT Signaling, MAPK-RAS Signaling, PI3K-AKT-mTOR Signaling, TGF-Beta & Developmental Signaling |
+| Innate Immunity | Pattern Recognition & TLR Signaling, Complement System |
 | Adaptive Immunity | Adaptive Immunity |
-| Translation & Ribosome | Translation & Ribosome |
-| Tissue Repair & Remodelling | Tissue Repair & Remodelling |
+| Stress Response | Unfolded Protein Response, Hypoxia Response, Oxidative Stress & ROS |
+| Metabolism | Glycolysis, Oxidative Phosphorylation, Fatty Acid Metabolism, Cholesterol & Steroid Metabolism |
+| Cell Death | Apoptosis, Autophagy |
+| Cell Cycle & Proliferation | E2F Targets & DNA Replication, G2M Checkpoint & Mitosis |
+| Tissue Repair & Coagulation | Tissue Repair & Remodelling, Coagulation & Thromboinflammation |
 
-Use `vertebrate_host_hallmark` when you need to distinguish, for example, interferon-driven from complement-driven innate immunity, or glycolysis from oxidative phosphorylation.
+Use `human_host` for human-derived samples requiring pathway-level resolution. Use `vertebrate_host` for broader vertebrate studies.
+
+</details>
+
+<details>
+<summary><strong>helminth_nematode vs helminth_platyhelminth</strong></summary>
+
+Two specialised helminth category sets reflecting distinct biology:
+
+| helminth_nematode (15 categories) | helminth_platyhelminth (15 categories) |
+|---|---|
+| Cuticle & Molting | Tegument & Surface Biology |
+| Dauer & Larval Development | Lifecycle & Morphological Development |
+| Sensory & Chemoreception | Neoblasts & Stem Cell Biology |
+| — | Egg Biology & Granuloma Formation |
+
+Both share analogous categories for immune evasion, neuromuscular function, reproduction, digestion, detoxification, metabolism, and signaling, but with organism-specific GO anchors and keywords.
 
 </details>
 
@@ -403,7 +417,7 @@ Auto-detects read files, validates inputs, and builds the pipeline command inter
 ./run_sceptr.sh -r data/reads -t assembly.fasta -c bacteria
 
 # Single-end reads
-./run_sceptr.sh -r 'data/*.fastq.gz' -t cds.fasta -c virus --single-end
+./run_sceptr.sh -r 'data/*.fastq.gz' -t cds.fasta -c bacteria --single-end
 
 # With host contamination removal (parasite studies)
 ./run_sceptr.sh -r data/reads -t parasite.fasta -c parasite_protozoan -H host.fasta
@@ -436,7 +450,7 @@ nextflow run main.nf \
 nextflow run main.nf \
   --reads "data/*.fastq.gz" \
   --transcripts cds.fasta \
-  --category_set virus \
+  --category_set bacteria_gram_negative \
   --single_end true \
   --outdir results \
   -profile docker
@@ -525,7 +539,7 @@ SCEPTR automatically adapts based on `--category_set`:
 | Parameter               | Description                                                              |
 |-------------------------|--------------------------------------------------------------------------|
 | `--skip_transdecoder`   | Skip TransDecoder; use direct CDS translation                            |
-| `--skip_contamination`  | Skip contaminant filtering (auto-enabled for bacteria/bacteria_gram_*/virus/vertebrate_host/model_organism) |
+| `--skip_contamination`  | Skip contaminant filtering (auto-enabled for bacteria/bacteria_gram_*/human_host/vertebrate_host) |
 | `--skip_explot`         | Skip multi-resolution enrichment profiling                               |
 | `--skip_landscape`      | Skip landscape characterisation                                          |
 

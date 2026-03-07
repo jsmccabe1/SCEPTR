@@ -142,40 +142,38 @@ declare -A CATEGORY_DESCRIPTIONS
 
 CATEGORY_NAMES=(
     [1]="general"
-    [2]="parasite_protozoan"
-    [3]="parasite_metazoan"
-    [4]="protist_dinoflagellate"
+    [2]="human_host"
+    [3]="vertebrate_host"
+    [4]="cancer"
     [5]="bacteria"
     [6]="bacteria_gram_negative"
     [7]="bacteria_gram_positive"
-    [8]="virus"
-    [9]="vertebrate_host"
-    [10]="model_organism"
-    [11]="plant"
-    [12]="vertebrate_host_hallmark"
-    [13]="fungi"
-    [14]="cancer"
-    [15]="insect"
-    [16]="custom"
+    [8]="parasite_protozoan"
+    [9]="helminth_nematode"
+    [10]="helminth_platyhelminth"
+    [11]="fungi"
+    [12]="plant"
+    [13]="protist_dinoflagellate"
+    [14]="insect"
+    [15]="custom"
 )
 
 CATEGORY_DESCRIPTIONS=(
     [1]="General              │ Universal categories, works for any organism"
-    [2]="Parasite (protozoan) │ Plasmodium, Toxoplasma, Leishmania, Trypanosoma, etc."
-    [3]="Parasite (metazoan)  │ Helminths, nematodes, arthropod parasites"
-    [4]="Dinoflagellate        │ Symbiodiniaceae, HABs, coral symbionts, free-living dinos"
+    [2]="Human host           │ 33 detailed pathway categories (IFN, NFkB, coagulation, etc.)"
+    [3]="Vertebrate host      │ 17 broad categories for mouse, fish, birds, etc."
+    [4]="Cancer               │ Hallmarks of cancer, EMT, immune evasion, epigenetics"
     [5]="Bacteria (general)   │ Virulence, cell wall, motility, AMR, iron acquisition"
     [6]="Bacteria (Gram-)     │ LPS, outer membrane, T3SS/T6SS, porins, siderophores"
     [7]="Bacteria (Gram+)     │ Teichoic acids, sortase, sporulation, competence"
-    [8]="Virus                │ Replication, entry, assembly, immune evasion"
-    [9]="Vertebrate host      │ Host immune response, inflammation, apoptosis"
-    [10]="Model organism       │ Mouse, human, fly, worm, yeast"
-    [11]="Plant                │ Photosynthesis, cell wall, hormones, defence"
-    [12]="Vertebrate host (hi-res) │ 28 Hallmark-inspired pathways (IFN, TNF-NFkB, etc.)"
-    [13]="Fungi                │ Cell wall, secondary metabolism, sporulation, virulence"
-    [14]="Cancer               │ Hallmarks of cancer, EMT, immune evasion, epigenetics"
-    [15]="Insect               │ Cuticle, metamorphosis, chemosensation, detoxification"
-    [16]="Custom               │ Provide your own category JSON files"
+    [8]="Parasite (protozoan) │ Plasmodium, Toxoplasma, Leishmania, Trypanosoma, etc."
+    [9]="Helminth (nematode)  │ Cuticle, dauer, neuromuscular, ES products"
+    [10]="Helminth (platyhelminth) │ Tegument, neoblasts, lifecycle stages, egg biology"
+    [11]="Fungi                │ Cell wall, secondary metabolism, sporulation, virulence"
+    [12]="Plant                │ Photosynthesis, cell wall, hormones, defence"
+    [13]="Dinoflagellate       │ Symbiodiniaceae, HABs, coral symbionts, free-living dinos"
+    [14]="Insect               │ Cuticle, metamorphosis, chemosensation, detoxification"
+    [15]="Custom               │ Provide your own category JSON files"
 )
 
 # ── CLI argument parsing ─────────────────────────────────────────────────────
@@ -212,9 +210,9 @@ usage() {
     echo -e "${BOLD}Full Pipeline Options:${NC}"
     echo "  -r, --reads DIR|GLOB       Path to reads directory or glob pattern"
     echo "  -t, --transcripts FILE     Reference transcriptome FASTA"
-    echo "  -c, --category SET         Category set (general, bacteria, virus, etc.)"
+    echo "  -c, --category SET         Category set (general, human_host, bacteria, etc.)"
     echo "  -s, --single-end           Single-end reads (default: paired-end)"
-    echo "      --skip-transdecoder    Skip TransDecoder, directly translate CDS (for bacteria/virus)"
+    echo "      --skip-transdecoder    Skip TransDecoder, directly translate CDS (for bacteria)"
     echo "  -H, --host FILE            Host reference for decontamination"
     echo "      --host-proteome FILE   Pre-translated host proteome (faster)"
     echo "  -o, --outdir DIR           Output directory (default: results)"
@@ -243,7 +241,7 @@ usage() {
     echo "    --label-a Mock --label-b Infected -c vertebrate_host"
     echo ""
     echo -e "${BOLD}Category sets:${NC}"
-    for i in $(seq 1 16); do
+    for i in $(seq 1 15); do
         echo -e "  ${CYAN}${CATEGORY_NAMES[$i]}${NC} - ${CATEGORY_DESCRIPTIONS[$i]#*│ }"
     done
     echo ""
@@ -326,7 +324,7 @@ if $INTERACTIVE; then
         echo ""
         echo -e "${BOLD}${CYAN}Category Set${NC}"
         cat_options=()
-        for i in $(seq 1 16); do
+        for i in $(seq 1 15); do
             cat_options+=("${CATEGORY_DESCRIPTIONS[$i]}")
         done
         cat_idx=$(select_option "What type of organism are you studying?" "${cat_options[@]}")
@@ -370,7 +368,7 @@ if $INTERACTIVE; then
 
         # Category set
         cat_options=()
-        for i in $(seq 1 16); do
+        for i in $(seq 1 15); do
             cat_options+=("${CATEGORY_DESCRIPTIONS[$i]}")
         done
         cat_idx=$(select_option "What type of organism?" "${cat_options[@]}")
@@ -509,7 +507,7 @@ if $INTERACTIVE; then
     echo -e "${BOLD}${CYAN}Step 3/4: Organism Type${NC}"
 
     cat_options=()
-    for i in $(seq 1 16); do
+    for i in $(seq 1 15); do
         cat_options+=("${CATEGORY_DESCRIPTIONS[$i]}")
     done
 
@@ -541,8 +539,8 @@ if $INTERACTIVE; then
         done
     fi
 
-    # Auto-enable direct translation for bacteria/virus (CDS inputs)
-    if [[ "$CATEGORY_SET" == "bacteria" || "$CATEGORY_SET" == "bacteria_gram_negative" || "$CATEGORY_SET" == "bacteria_gram_positive" || "$CATEGORY_SET" == "virus" ]]; then
+    # Auto-enable direct translation for bacteria (CDS inputs)
+    if [[ "$CATEGORY_SET" == "bacteria" || "$CATEGORY_SET" == "bacteria_gram_negative" || "$CATEGORY_SET" == "bacteria_gram_positive" ]]; then
         SKIP_TRANSDECODER=true
         echo ""
         echo -e "  ${YELLOW}ℹ  ${CATEGORY_SET} category detected - will use direct CDS translation instead of TransDecoder.${NC}"
@@ -556,7 +554,7 @@ if $INTERACTIVE; then
     # Suggest host filtering for relevant category sets
     suggest_host=false
     case "$CATEGORY_SET" in
-        parasite_protozoan|parasite_metazoan|virus)
+        parasite_protozoan|helminth_nematode|helminth_platyhelminth)
             suggest_host=true
             echo -e "  ${YELLOW}You selected ${CATEGORY_SET} - host contamination filtering is recommended.${NC}"
             ;;
@@ -781,8 +779,8 @@ if (( errors > 0 )); then
     exit 1
 fi
 
-# Auto-enable direct translation for bacteria/virus in CLI mode
-if [[ "$CATEGORY_SET" == "bacteria" || "$CATEGORY_SET" == "bacteria_gram_negative" || "$CATEGORY_SET" == "bacteria_gram_positive" || "$CATEGORY_SET" == "virus" ]] && ! $SKIP_TRANSDECODER; then
+# Auto-enable direct translation for bacteria in CLI mode
+if [[ "$CATEGORY_SET" == "bacteria" || "$CATEGORY_SET" == "bacteria_gram_negative" || "$CATEGORY_SET" == "bacteria_gram_positive" ]] && ! $SKIP_TRANSDECODER; then
     SKIP_TRANSDECODER=true
 fi
 

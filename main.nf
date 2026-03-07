@@ -65,34 +65,34 @@ def resolveCategoryFiles() {
         Available sets: ${available_sets.join(', ')}
         
         Category Set Descriptions:
-          general               - Universal categories, works for any organism
-          parasite_protozoan    - Single-celled parasites (Toxoplasma, Plasmodium, etc.)
-          parasite_metazoan     - Multicellular parasites (helminths, arthropods)
-          protist_dinoflagellate - Dinoflagellates and related protists (blooms, toxins)
-          model_organism        - Well-studied species (mouse, human, fly, worm, yeast)
-          plant                 - Plant-specific processes (photosynthesis, etc.)
-          bacteria              - Prokaryotic systems (virulence, cell wall, motility, AMR)
+          general                - Universal categories, works for any organism
+          human_host             - Human host response (33 detailed pathway categories)
+          vertebrate_host        - Vertebrate host response (17 broad categories, mouse/fish/birds)
+          cancer                 - Hallmarks of cancer (EMT, immune evasion, epigenetics)
+          bacteria               - Prokaryotic systems (virulence, cell wall, motility, AMR)
           bacteria_gram_negative - Gram-negative bacteria (LPS, outer membrane, T3SS/T6SS, porins)
           bacteria_gram_positive - Gram-positive bacteria (teichoic acids, sortase, sporulation, competence)
-          virus                 - Viral life cycle (replication, entry, immune evasion)
-          vertebrate_host       - Host response to infection (immunity, inflammation)
-          vertebrate_host_hallmark - High-resolution host response (28 Hallmark-inspired pathways)
-          fungi                 - Fungal biology (cell wall, secondary metabolism, sporulation)
-          cancer                - Hallmarks of cancer (EMT, immune evasion, epigenetics)
-          insect                - Insect biology (cuticle, metamorphosis, chemosensation)
-          custom                - User-provided JSON files
+          parasite_protozoan     - Single-celled parasites (Toxoplasma, Plasmodium, etc.)
+          helminth_nematode      - Parasitic nematodes (cuticle, dauer, neuromuscular, ES products)
+          helminth_platyhelminth - Flukes and tapeworms (tegument, neoblasts, lifecycle stages)
+          fungi                  - Fungal biology (cell wall, secondary metabolism, sporulation)
+          plant                  - Plant-specific processes (photosynthesis, etc.)
+          protist_dinoflagellate - Dinoflagellates and related protists (blooms, toxins)
+          insect                 - Insect biology (cuticle, metamorphosis, chemosensation)
+          custom                 - User-provided JSON files
 
         Usage examples:
           --category_set general
-          --category_set parasite_protozoan
+          --category_set human_host
+          --category_set vertebrate_host
+          --category_set cancer
           --category_set bacteria
           --category_set bacteria_gram_negative
           --category_set bacteria_gram_positive
-          --category_set virus
-          --category_set vertebrate_host
-          --category_set vertebrate_host_hallmark
+          --category_set parasite_protozoan
+          --category_set helminth_nematode
+          --category_set helminth_platyhelminth
           --category_set fungi
-          --category_set cancer
           --category_set insect
           --category_set custom --custom_functional_categories my_func.json --custom_cellular_categories my_cell.json
         """
@@ -404,10 +404,10 @@ workflow {
         proteome_ch = Channel.fromPath(params.proteome, checkIfExists: true)
         transdecoder_results = [ predicted_proteome: proteome_ch ]
     } else {
-        // Auto-detect: bacteria and virus category sets typically use CDS inputs
-        def use_direct_translate = params.skip_transdecoder || params.category_set in ['bacteria', 'bacteria_gram_negative', 'bacteria_gram_positive', 'virus', 'vertebrate_host', 'vertebrate_host_hallmark', 'model_organism']
+        // Auto-detect: bacteria category sets typically use CDS inputs; host sets skip TransDecoder
+        def use_direct_translate = params.skip_transdecoder || params.category_set in ['bacteria', 'bacteria_gram_negative', 'bacteria_gram_positive', 'human_host', 'vertebrate_host']
         if (use_direct_translate) {
-            if (!params.skip_transdecoder && params.category_set in ['bacteria', 'bacteria_gram_negative', 'bacteria_gram_positive', 'virus']) {
+            if (!params.skip_transdecoder && params.category_set in ['bacteria', 'bacteria_gram_negative', 'bacteria_gram_positive']) {
                 log.info "Step 3: Direct CDS Translation (auto-detected from '${params.category_set}' category set)"
                 log.info "        Override with --skip_transdecoder false if using a de novo transcriptome assembly"
             } else {
@@ -471,9 +471,9 @@ workflow {
     }
     
     // General contamination filtering
-    // Auto-skip for bacteria/virus - the contaminant database contains bacterial proteins
+    // Auto-skip for bacteria/host - the contaminant database contains bacterial/vertebrate proteins
     // which would incorrectly flag the target organism's own proteins
-    def skip_contam = params.skip_contamination ?: (params.category_set in ['bacteria', 'bacteria_gram_negative', 'bacteria_gram_positive', 'virus', 'vertebrate_host', 'vertebrate_host_hallmark', 'model_organism'])
+    def skip_contam = params.skip_contamination ?: (params.category_set in ['bacteria', 'bacteria_gram_negative', 'bacteria_gram_positive', 'human_host', 'vertebrate_host'])
     if (skip_contam) {
         log.info "  Skipping contaminant filtering (${params.category_set} category - contaminant DB contains bacterial/viral proteins)"
         proteome_for_annotation = proteome_for_decon
@@ -583,7 +583,7 @@ workflow decon {
         proteome_ch = Channel.fromPath(params.proteome, checkIfExists: true)
         transdecoder_results = [ predicted_proteome: proteome_ch ]
     } else {
-        def use_direct_translate = params.skip_transdecoder || params.category_set in ['bacteria', 'bacteria_gram_negative', 'bacteria_gram_positive', 'virus', 'vertebrate_host', 'vertebrate_host_hallmark', 'model_organism']
+        def use_direct_translate = params.skip_transdecoder || params.category_set in ['bacteria', 'bacteria_gram_negative', 'bacteria_gram_positive', 'human_host', 'vertebrate_host']
         if (use_direct_translate) {
             transdecoder_results = DirectTranslate(transcripts_ch)
         } else {
@@ -640,7 +640,7 @@ workflow annotate {
         proteome_ch = Channel.fromPath(params.proteome, checkIfExists: true)
         transdecoder_results = [ predicted_proteome: proteome_ch ]
     } else {
-        def use_direct_translate = params.skip_transdecoder || params.category_set in ['bacteria', 'bacteria_gram_negative', 'bacteria_gram_positive', 'virus', 'vertebrate_host', 'vertebrate_host_hallmark', 'model_organism']
+        def use_direct_translate = params.skip_transdecoder || params.category_set in ['bacteria', 'bacteria_gram_negative', 'bacteria_gram_positive', 'human_host', 'vertebrate_host']
         if (use_direct_translate) {
             transdecoder_results = DirectTranslate(transcripts_ch)
         } else {
