@@ -26,8 +26,9 @@ sys.path.insert(0, _module_dir)
 import go_utils
 import categorisation
 import enrichment
-from visualisation import radar_charts, bar_charts
-from reporting import html_report
+import continuous_enrichment
+from visualisation import bar_charts, continuous_curves
+from reporting import interactive_report
 
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -50,6 +51,18 @@ def parse_arguments():
     parser.add_argument('--go_expansion_depth', type=int, default=2)
     parser.add_argument('--outdir', default='.',
                         help='Output directory (default: current directory)')
+    parser.add_argument('--continuous', action='store_true', default=True,
+                        help='Compute continuous enrichment functions (default: on)')
+    parser.add_argument('--no_continuous', action='store_true', default=False,
+                        help='Disable continuous enrichment computation')
+    parser.add_argument('--continuous_step', type=int, default=5,
+                        help='Step size for continuous enrichment (default: 5)')
+    parser.add_argument('--continuous_k_min', type=int, default=10,
+                        help='Minimum tier size for continuous enrichment (default: 10)')
+    parser.add_argument('--continuous_k_max', type=int, default=None,
+                        help='Maximum tier size for continuous enrichment (default: N/2)')
+    parser.add_argument('--profile_permutations', type=int, default=1000,
+                        help='Permutations for global profile test (default: 1000)')
     parser.add_argument('--debug', action='store_true')
     return parser.parse_args()
 
@@ -255,29 +268,71 @@ def main():
             tier_data['enrichment'], p_threshold=args.p_threshold, use_adjusted_p=True)
         logger.info(f"{tier_name}: {len(sig)} significant categories")
 
-    # Visualisations
+    # Continuous enrichment analysis
+    cont_results = None
+    if args.continuous and not args.no_continuous:
+        logger.info("Computing continuous enrichment functions (CC)...")
+
+        membership, cont_cat_names, cont_bg_counts, _ = \
+            continuous_enrichment.build_membership_matrix(
+                df_sorted, expanded_categories, categorisation.categorise_genes,
+                expanded_go_sets=expanded_go_sets,
+                core_keyword_sets=core_keyword_sets)
+
+        N = len(df_sorted)
+        k_max = args.continuous_k_max
+
+        k_values, enrichment_matrix = continuous_enrichment.compute_continuous_enrichment(
+            membership, cont_cat_names, cont_bg_counts, N,
+            k_min=args.continuous_k_min, k_max=k_max, step=args.continuous_step)
+        logger.info(f"  Computed enrichment at {len(k_values)} evaluation points")
+
+        _, dkl_values = continuous_enrichment.compute_continuous_dkl(
+            membership, cont_cat_names, cont_bg_counts, N,
+            k_min=args.continuous_k_min, k_max=k_max, step=args.continuous_step)
+
+        shape_stats = continuous_enrichment.classify_profile_shapes(
+            k_values, enrichment_matrix, cont_cat_names)
+
+        logger.info(f"Running global profile test ({args.profile_permutations} permutations)...")
+        _, profile_stats = continuous_enrichment.permutation_global_test(
+            membership, cont_cat_names, cont_bg_counts, N,
+            k_min=args.continuous_k_min, k_max=k_max, step=args.continuous_step,
+            n_permutations=args.profile_permutations)
+
+        n_sig = sum(1 for s in profile_stats.values() if s['supremum_p'] < 0.05)
+        logger.info(f"  {n_sig}/{len(cont_cat_names)} categories with significant profiles")
+
+        continuous_enrichment.save_continuous_enrichment_tsv(
+            k_values, enrichment_matrix, cont_cat_names, data_prefix, "CC")
+
+        try:
+            continuous_curves.create_continuous_enrichment_plot(
+                k_values, enrichment_matrix, cont_cat_names, profile_stats,
+                fig_prefix, "CC", default_tiers=tiers)
+            continuous_curves.create_continuous_dkl_plot(
+                k_values, dkl_values, fig_prefix, "CC", default_tiers=tiers)
+        except Exception as e:
+            logger.error(f"Continuous visualisation error: {e}")
+            import traceback
+            traceback.print_exc()
+
+        cont_results = {
+            'k_values': k_values,
+            'enrichment_matrix': enrichment_matrix,
+            'dkl_values': dkl_values,
+            'profile_stats': profile_stats,
+            'shape_stats': shape_stats,
+            'cat_names': cont_cat_names,
+        }
+
+    # Generate static publication figures (trimmed set)
     tier_names = [f"top_{t}" for t in tiers]
     cat_names = list(keyword_map.keys())
 
     try:
-        radar_charts.create_radar_chart(
-            results, tier_names, cat_names, fig_prefix, "CC",
-            min_percentage=args.min_percentage)
-
-        bar_charts.create_bar_charts(
-            results, tier_names, cat_names, fig_prefix, "CC")
-
-        for tier_name in tier_names:
-            bar_charts.create_enrichment_bar_chart(
-                results, tier_name, fig_prefix, "CC")
-
-        bar_charts.create_grouped_bar_chart(
-            results, tier_names, cat_names, fig_prefix, "CC")
-
-        # Create multi-tier enrichment bar chart
         bar_charts.create_multi_tier_enrichment_bar_chart(
             results, tier_names, fig_prefix, "CC")
-
     except Exception as e:
         logger.error(f"Visualisation error: {e}")
         import traceback
@@ -286,20 +341,28 @@ def main():
     # Save enrichment results TSV
     enrichment.save_enrichment_tsv(results, tier_names, data_prefix, "CC")
 
-    # HTML report
+    # Generate interactive HTML report
     try:
-        html_report.generate_cellular_report(
+        interactive_report.generate_interactive_report(
             results, all_results, data_prefix, len(df),
-            figures_dir=fig_dir)
+            cont_results=cont_results,
+            chart_type='CC',
+            report_title='Cellular Component Profiling',
+            description='cellular component localisation',
+            figures_dir=fig_dir,
+            df_sorted=df_sorted)
     except Exception as e:
-        logger.error(f"HTML report error: {e}")
-        for tier_data in results.values():
-            for cat, s in tier_data['enrichment'].items():
-                for k, v in s.items():
-                    if isinstance(v, (np.integer, np.floating)):
-                        tier_data['enrichment'][cat][k] = float(v)
-        with open(f"{data_prefix}_CC_results.json", 'w') as f:
-            json.dump(results, f, indent=2, default=str)
+        logger.error(f"Interactive report error: {e}")
+        import traceback
+        traceback.print_exc()
+
+    # Save report data for combined report generation
+    try:
+        interactive_report.save_report_data(
+            results, all_results, cont_results,
+            f"{data_prefix}_CC_report_data.json")
+    except Exception as e:
+        logger.warning(f"Could not save report data: {e}")
 
     logger.info("Cellular component profiling complete!")
 

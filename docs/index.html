@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SCEPTR - Multi-Resolution Enrichment Profiling</title>
-    <meta name="description" content="SCEPTR: Statistical Characterisation of Enrichment Profiles at Tiered Resolution. A framework for characterising the functional architecture of transcriptomes from single samples.">
+    <title>SCEPTR - Continuous Enrichment Profiling</title>
+    <meta name="description" content="SCEPTR: Statistical Characterisation of Expression Profiles Across Transcriptomic Resolution. A framework for characterising the functional architecture of transcriptomes from single samples.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -436,7 +436,7 @@
         <div class="links">
             <a href="#method">Method</a>
             <a href="#categories">Categories</a>
-            <a href="#validation">Validation</a>
+            <a href="#validation">Why SCEPTR</a>
             <a href="#pipeline">Pipeline</a>
             <a href="https://github.com/jsmccabe1/SCEPTR">GitHub</a>
         </div>
@@ -450,7 +450,7 @@
         <img src="assets/SCEPTR_high_res.png" alt="SCEPTR">
         <p class="tagline">
             <strong>What is your transcriptome doing, and where is it investing its resources?</strong><br>
-            Multi-resolution enrichment profiling reveals the functional architecture of any transcriptome from a single sample.
+            Continuous enrichment profiling reveals the functional architecture of any transcriptome from a single sample.
         </p>
         <div class="cta-group">
             <a href="https://github.com/jsmccabe1/SCEPTR" class="btn btn-primary">
@@ -477,7 +477,7 @@
 <div class="container">
     <div class="stats reveal">
         <div class="stat">
-            <div class="number">15</div>
+            <div class="number">14</div>
             <div class="label">Category Sets</div>
         </div>
         <div class="stat">
@@ -497,29 +497,31 @@
     <div class="container">
         <div class="section-title reveal">The Method</div>
         <p class="section-subtitle reveal">
-            Three statistical ideas that reveal what standard approaches miss.
+            A continuous enrichment framework that reveals what standard approaches miss.
         </p>
         <div class="features stagger-children">
             <div class="feature reveal" style="--i:0">
                 <div class="icon icon-green">&#x25B2;</div>
-                <h3>Multi-Resolution Enrichment Profiling</h3>
+                <h3>Continuous Enrichment Profiling</h3>
                 <p>
-                    Genes ranked by TPM are evaluated at nested tiers (top 50, 100, 250, 500).
-                    At each tier, functional category proportions are compared to the transcriptome-wide
-                    background using Fisher's exact test with Benjamini-Hochberg correction.
-                    The result is an enrichment profile: a curve showing how each programme's
-                    dominance changes across the expression gradient.
+                    Genes ranked by TPM are evaluated at every tier from k=10 to the full
+                    transcriptome in configurable steps, computing a continuous enrichment
+                    function E<sub>C</sub>(k) for each functional category. Fisher's exact test with
+                    Benjamini-Hochberg correction at each tier produces smooth enrichment
+                    profiles that reveal how each programme's dominance changes across the
+                    entire expression gradient - not just at a few arbitrary thresholds.
                 </p>
             </div>
             <div class="feature reveal" style="--i:1">
                 <div class="icon icon-blue">D<sub>KL</sub></div>
                 <h3>KL Divergence as Functional Specialisation</h3>
                 <p>
-                    Kullback-Leibler divergence at each tier measures how different the functional
-                    composition is from the background. This decreases monotonically with tier size
-                    across every organism tested. The rate of decrease is itself a quantitative
-                    phenotype: steep gradients indicate extreme functional concentration, shallow
-                    gradients indicate distributed investment.
+                    Kullback-Leibler divergence computed across the continuous enrichment profile
+                    measures how functional composition diverges from the background at every
+                    resolution. This decreases monotonically with tier size across every organism
+                    tested. The rate of decrease is itself a quantitative phenotype: steep gradients
+                    indicate extreme functional concentration, shallow gradients indicate
+                    distributed investment.
                 </p>
             </div>
             <div class="feature reveal" style="--i:2">
@@ -535,12 +537,13 @@
             </div>
             <div class="feature reveal" style="--i:3">
                 <div class="icon icon-amber">&#x25C9;</div>
-                <h3>Bootstrap Stability</h3>
+                <h3>Permutation Profile Testing</h3>
                 <p>
-                    Bootstrap resampling (default 50 iterations) assesses whether enrichment
-                    estimates are robust to perturbation of gene composition. Each result carries
-                    a stability score and Clopper-Pearson confidence intervals so you know which
-                    findings to trust.
+                    A global profile test permutes gene-category labels (default 1000 iterations)
+                    to assess whether the observed continuous enrichment profile for each category
+                    is significantly non-random. Each result carries a permutation p-value so you
+                    know which findings reflect genuine transcriptomic investment rather than
+                    annotation noise.
                 </p>
             </div>
             <div class="feature reveal" style="--i:4">
@@ -638,46 +641,45 @@
     </div>
 </section>
 
-<!-- Validation -->
+<!-- Why SCEPTR -->
 <section id="validation">
     <div class="container">
-        <div class="section-title reveal">Validated Across Kingdoms</div>
+        <div class="section-title reveal">What You Get</div>
         <p class="section-subtitle reveal">
-            Tested on four phylogenetically diverse systems spanning protozoan parasites, bacteria, vertebrate host cells, and marine dinoflagellates.
+            From raw reads to biological insight in a single self-contained report.
         </p>
         <div class="validation-grid reveal">
             <div class="val-card">
-                <div class="organism"><em>Plasmodium falciparum</em></div>
+                <div class="organism">Interactive Report</div>
                 <div class="detail">
-                    Steepest KL divergence gradient. Translational dominance at the apex,
-                    invasion machinery concentrated in the top 50 genes then absent at broader tiers.
+                    A single HTML file containing enrichment profiles, significance testing,
+                    and full results tables. Self-contained and shareable - open it in any
+                    browser, no additional software required.
                 </div>
-                <span class="tag">parasite_protozoan</span>
             </div>
             <div class="val-card">
-                <div class="organism"><em>Salmonella</em> Typhimurium</div>
+                <div class="organism">Transcriptome Overview</div>
                 <div class="detail">
-                    Three biological replicates. Within-study GO fold-change correlation > 0.96.
-                    Between-study divergence correctly detects stationary-phase vs active-growth physiology.
+                    Interactive Lorenz curve, expression distribution, annotation quality
+                    by expression decile, and taxonomic composition - a complete summary
+                    of your transcriptome's structure before any enrichment analysis.
                 </div>
-                <span class="tag">bacteria</span>
             </div>
             <div class="val-card">
-                <div class="organism">Calu-3 human cells</div>
+                <div class="organism">Continuous Enrichment Profiles</div>
                 <div class="detail">
-                    SARS-CoV-2 infected. Recovers 59% of DESeq2-validated categories from a
-                    single sample. ssGSEA and GSVA recover effectively none.
+                    Visualise how each functional programme rises and falls across the
+                    full expression gradient. Identify where investment peaks, where it
+                    drops off, and which programmes dominate at which expression levels.
                 </div>
-                <span class="tag">vertebrate_host</span>
             </div>
             <div class="val-card">
-                <div class="organism"><em>Durusdinium trenchii</em></div>
+                <div class="organism">Built for Any Transcriptome</div>
                 <div class="detail">
-                    Coral symbiont under heat stress. Layered investment hierarchy revealed
-                    despite no close reference: photosynthesis at the apex, nutrient acquisition
-                    at intermediate tiers.
+                    Whether you work with clinical isolates, environmental metagenomes,
+                    agricultural pathogens, cancer cell lines, or coral symbionts - SCEPTR
+                    characterises functional investment from whatever expression data you have.
                 </div>
-                <span class="tag">protist_dinoflagellate</span>
             </div>
         </div>
     </div>
@@ -688,7 +690,7 @@
     <div class="container">
         <div class="section-title reveal">End-to-End Pipeline</div>
         <p class="section-subtitle reveal">
-            From raw FASTQ reads to publication-ready reports in a single command.
+            From raw FASTQ reads to an interactive HTML report in a single command.
             Nextflow + Docker for full reproducibility.
         </p>
         <div class="pipeline-steps reveal">
@@ -717,12 +719,12 @@
                 <div class="step-desc">Per-tier topGO enrichment with weight01 algorithm</div>
             </div>
             <div class="step">
-                <div class="step-title">Multi-Resolution Enrichment Profiling</div>
-                <div class="step-desc">Tiered enrichment, KL divergence, bootstrap stability, HTML reports</div>
+                <div class="step-title">Continuous Enrichment Profiling</div>
+                <div class="step-desc">Continuous enrichment functions, KL divergence, permutation testing, interactive HTML report</div>
             </div>
             <div class="step">
-                <div class="step-title">Transcriptome Landscape</div>
-                <div class="step-desc">Expression concentration, annotation quality, taxonomic distribution</div>
+                <div class="step-title">Transcriptome Overview</div>
+                <div class="step-desc">Lorenz curve, expression distribution, annotation quality, and taxonomic composition - integrated into the interactive report</div>
             </div>
         </div>
     </div>
@@ -733,7 +735,7 @@
     <div class="container" style="text-align:center; padding: 4rem 0;">
         <div class="section-title reveal">Citation</div>
         <p style="color: var(--text-dim); font-size: 0.95rem; margin-top: 1rem; max-width: 700px; margin-left: auto; margin-right: auto;">
-            McCabe, J. and Janouškovec, J. (2026). SCEPTR: multi-resolution enrichment profiling
+            McCabe, J. and Janouškovec, J. (2026). SCEPTR: continuous enrichment profiling
             reveals functional architecture across the expression gradient. <em>In review</em>.
         </p>
     </div>

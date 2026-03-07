@@ -21,6 +21,10 @@ process ExPlotFunctional {
         path "functional/${params.output_prefix ?: 'sceptr'}_expanded_categories.json", emit: expanded_categories, optional: true
         path "functional/${params.output_prefix ?: 'sceptr'}_BP_MF_assignment_methods.json", emit: bp_mf_methods, optional: true
         path "functional/${params.output_prefix ?: 'sceptr'}_BP_MF_core_specificity.json", emit: bp_mf_core, optional: true
+        path "functional/${params.output_prefix ?: 'sceptr'}_BP_MF_continuous_enrichment.tsv", emit: bp_mf_continuous, optional: true
+        path "functional/${params.output_prefix ?: 'sceptr'}_BP_MF_profile_test.tsv", emit: bp_mf_profile_test, optional: true
+        path "functional/${params.output_prefix ?: 'sceptr'}_BP_MF_continuous_dkl.tsv", emit: bp_mf_continuous_dkl, optional: true
+        path "functional/${params.output_prefix ?: 'sceptr'}_BP_MF_profile_shapes.tsv", emit: bp_mf_shapes, optional: true
 
     script:
         def cat_set = params.category_set ?: "general"
@@ -29,6 +33,11 @@ process ExPlotFunctional {
         def tiers = params.explot_tiers ? "--tiers ${params.explot_tiers}" : ""
         def multi_category = params.explot_multi_category ? "--multi_category" : ""
         def expand_go = params.explot_expand_go ? "--expand_go --go_expansion_depth ${params.explot_go_expansion_depth}" : ""
+        def continuous = params.explot_continuous ? "" : "--no_continuous"
+        def cont_step = params.explot_continuous_step ? "--continuous_step ${params.explot_continuous_step}" : ""
+        def cont_k_min = params.explot_continuous_k_min ? "--continuous_k_min ${params.explot_continuous_k_min}" : ""
+        def cont_k_max = params.explot_continuous_k_max ? "--continuous_k_max ${params.explot_continuous_k_max}" : ""
+        def cont_perms = params.explot_profile_permutations ? "--profile_permutations ${params.explot_profile_permutations}" : ""
         def debug = params.debug ? "--debug" : ""
 
         """
@@ -40,7 +49,9 @@ process ExPlotFunctional {
         python3 ${params.explot_cli}/functional_profiling_cli.py ${integrated_results} \\
             --prefix ${params.output_prefix ?: "sceptr"} \\
             --outdir . \\
-            ${custom_categories} ${tiers} ${multi_category} ${expand_go} ${debug}
+            ${custom_categories} ${tiers} ${multi_category} ${expand_go} \\
+            ${continuous} ${cont_step} ${cont_k_min} ${cont_k_max} ${cont_perms} \\
+            ${debug}
 
         if [ ! -f "functional/${params.output_prefix ?: 'sceptr'}_BP_MF_report.html" ]; then
             echo "ERROR: Failed to generate report file"
@@ -65,6 +76,10 @@ process ExPlotCellular {
         path "cellular/${params.output_prefix ?: 'sceptr'}_expanded_cc_categories.json", emit: expanded_categories, optional: true
         path "cellular/${params.output_prefix ?: 'sceptr'}_CC_assignment_methods.json", emit: cc_methods, optional: true
         path "cellular/${params.output_prefix ?: 'sceptr'}_CC_core_specificity.json", emit: cc_core, optional: true
+        path "cellular/${params.output_prefix ?: 'sceptr'}_CC_continuous_enrichment.tsv", emit: cc_continuous, optional: true
+        path "cellular/${params.output_prefix ?: 'sceptr'}_CC_profile_test.tsv", emit: cc_profile_test, optional: true
+        path "cellular/${params.output_prefix ?: 'sceptr'}_CC_continuous_dkl.tsv", emit: cc_continuous_dkl, optional: true
+        path "cellular/${params.output_prefix ?: 'sceptr'}_CC_profile_shapes.tsv", emit: cc_shapes, optional: true
 
     script:
         def cat_set = params.category_set ?: "general"
@@ -73,6 +88,11 @@ process ExPlotCellular {
         def tiers = params.explot_tiers ? "--tiers ${params.explot_tiers}" : ""
         def multi_category = params.explot_multi_category ? "--multi_category" : ""
         def expand_go = params.explot_expand_go ? "--expand_go --go_expansion_depth ${params.explot_go_expansion_depth}" : ""
+        def continuous = params.explot_continuous ? "" : "--no_continuous"
+        def cont_step = params.explot_continuous_step ? "--continuous_step ${params.explot_continuous_step}" : ""
+        def cont_k_min = params.explot_continuous_k_min ? "--continuous_k_min ${params.explot_continuous_k_min}" : ""
+        def cont_k_max = params.explot_continuous_k_max ? "--continuous_k_max ${params.explot_continuous_k_max}" : ""
+        def cont_perms = params.explot_profile_permutations ? "--profile_permutations ${params.explot_profile_permutations}" : ""
         def debug = params.debug ? "--debug" : ""
 
         """
@@ -84,7 +104,9 @@ process ExPlotCellular {
         python3 ${params.explot_cli}/cellular_profiling_cli.py ${integrated_results} \\
             --prefix ${params.output_prefix ?: "sceptr"} \\
             --outdir . \\
-            ${custom_categories} ${tiers} ${multi_category} ${expand_go} ${debug}
+            ${custom_categories} ${tiers} ${multi_category} ${expand_go} \\
+            ${continuous} ${cont_step} ${cont_k_min} ${cont_k_max} ${cont_perms} \\
+            ${debug}
 
         if [ ! -f "cellular/${params.output_prefix ?: 'sceptr'}_CC_report.html" ]; then
             echo "ERROR: Failed to generate report file"
