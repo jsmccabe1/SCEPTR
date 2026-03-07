@@ -10,16 +10,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0a0e17;
+            --bg: #020408;
             --bg-card: #111827;
             --bg-card-hover: #1a2332;
             --border: #1e293b;
             --text: #e2e8f0;
             --text-dim: #94a3b8;
             --text-bright: #f8fafc;
-            --accent: #22c55e;
-            --accent-dim: #16a34a;
-            --accent-glow: rgba(34, 197, 94, 0.15);
+            --accent: #06b6d4;
+            --accent-dim: #0891b2;
+            --accent-glow: rgba(6, 182, 212, 0.15);
             --blue: #3b82f6;
             --purple: #a855f7;
             --amber: #f59e0b;
@@ -37,18 +37,6 @@
             overflow-x: hidden;
         }
 
-        /* Subtle grid background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image:
-                linear-gradient(rgba(34, 197, 94, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(34, 197, 94, 0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
-            pointer-events: none;
-            z-index: -1;
-        }
 
         a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
         a:hover { color: var(--text-bright); }
@@ -58,7 +46,7 @@
         /* ── Nav ── */
         nav {
             position: fixed; top: 0; left: 0; right: 0;
-            background: rgba(10, 14, 23, 0.85);
+            background: rgba(2, 4, 8, 0.85);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
             z-index: 100;
@@ -86,7 +74,7 @@
         .hero img {
             max-width: 500px; width: 80%;
             margin-bottom: 1.5rem;
-            filter: drop-shadow(0 0 30px rgba(34, 197, 94, 0.1));
+            filter: drop-shadow(0 0 30px rgba(6, 182, 212, 0.1));
         }
         .hero .tagline {
             font-size: 1.1rem; color: var(--text-dim);
@@ -112,8 +100,8 @@
             border-color: var(--accent);
         }
         .btn-primary:hover {
-            background: #16a34a; color: var(--bg);
-            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+            background: #0891b2; color: var(--bg);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
         }
         .btn-secondary {
             background: transparent; color: var(--text);
@@ -201,7 +189,7 @@
         }
         .feature p { color: var(--text-dim); font-size: 0.9rem; line-height: 1.6; }
 
-        .icon-green { background: rgba(34,197,94,0.1); color: var(--accent); }
+        .icon-green { background: rgba(6,182,212,0.1); color: var(--accent); }
         .icon-blue { background: rgba(59,130,246,0.1); color: var(--blue); }
         .icon-purple { background: rgba(168,85,247,0.1); color: var(--purple); }
         .icon-amber { background: rgba(245,158,11,0.1); color: var(--amber); }
@@ -279,7 +267,7 @@
             display: inline-block;
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.7rem;
-            background: rgba(34,197,94,0.1);
+            background: rgba(6,182,212,0.1);
             color: var(--accent);
             padding: 0.15rem 0.5rem;
             border-radius: 4px;
@@ -339,6 +327,89 @@
             margin-bottom: 1rem;
         }
 
+        /* ── Scroll reveal ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Stagger children */
+        .stagger-children .reveal { transition-delay: calc(var(--i, 0) * 0.1s); }
+
+        /* ── Logo pulse glow ── */
+        .hero img {
+            mix-blend-mode: lighten;
+            -webkit-mask-image: radial-gradient(ellipse 80% 80% at center, black 45%, transparent 70%);
+            mask-image: radial-gradient(ellipse 80% 80% at center, black 45%, transparent 70%);
+            animation: logoPulse 4s ease-in-out infinite;
+        }
+        @keyframes logoPulse {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(6, 182, 212, 0.15)) drop-shadow(0 0 60px rgba(56, 189, 248, 0.05)); }
+            50% { filter: drop-shadow(0 0 35px rgba(6, 182, 212, 0.3)) drop-shadow(0 0 80px rgba(56, 189, 248, 0.15)); }
+        }
+
+        /* ── Cursor trail canvas ── */
+        #cursor-trail {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 99;
+            pointer-events: none;
+        }
+
+        /* ── Canvases ── */
+        #particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .hero {
+            position: relative;
+            overflow: hidden;
+        }
+        #hero-waves {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .hero .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Ensure all content sits above particles */
+        nav, section, .container, footer {
+            position: relative;
+            z-index: 1;
+        }
+
         /* ── Responsive ── */
         @media (max-width: 640px) {
             .hero { padding: 8rem 0 3rem; }
@@ -352,6 +423,11 @@
     </style>
 </head>
 <body>
+
+<!-- Particle network background -->
+<canvas id="particles"></canvas>
+<!-- Cursor trail -->
+<canvas id="cursor-trail"></canvas>
 
 <!-- Nav -->
 <nav>
@@ -369,8 +445,9 @@
 
 <!-- Hero -->
 <section class="hero">
+    <canvas id="hero-waves"></canvas>
     <div class="container">
-        <img src="assets/SCEPTR_banner_black.png" alt="SCEPTR">
+        <img src="assets/SCEPTR_high_res.png" alt="SCEPTR">
         <p class="tagline">
             <strong>What is your transcriptome doing, and where is it investing its resources?</strong><br>
             Multi-resolution enrichment profiling reveals the functional architecture of any transcriptome from a single sample.
@@ -398,7 +475,7 @@
 
 <!-- Stats -->
 <div class="container">
-    <div class="stats">
+    <div class="stats reveal">
         <div class="stat">
             <div class="number">15</div>
             <div class="label">Category Sets</div>
@@ -411,34 +488,19 @@
             <div class="number">0</div>
             <div class="label">Replicates Required</div>
         </div>
-        <div class="stat">
-            <div class="number">~11 min</div>
-            <div class="label">Per Sample</div>
-        </div>
     </div>
 </div>
 
-<!-- Output showcase -->
-<div class="container">
-    <div class="output-showcase">
-        <img src="assets/explot_example_output.png" alt="SCEPTR example outputs">
-        <p class="caption">
-            Example outputs. (A) Enrichment profiles in SARS-CoV-2-infected human cells showing immune and stress programmes.
-            (B) Expression distribution for a marine dinoflagellate. (C) Functional radar for an apicomplexan parasite.
-            (D) Multi-tier enrichment for <em>P. falciparum</em> with significant categories marked.
-        </p>
-    </div>
-</div>
 
 <!-- Method -->
 <section id="method">
     <div class="container">
-        <div class="section-title">The Method</div>
-        <p class="section-subtitle">
+        <div class="section-title reveal">The Method</div>
+        <p class="section-subtitle reveal">
             Three statistical ideas that reveal what standard approaches miss.
         </p>
-        <div class="features">
-            <div class="feature">
+        <div class="features stagger-children">
+            <div class="feature reveal" style="--i:0">
                 <div class="icon icon-green">&#x25B2;</div>
                 <h3>Multi-Resolution Enrichment Profiling</h3>
                 <p>
@@ -449,7 +511,7 @@
                     dominance changes across the expression gradient.
                 </p>
             </div>
-            <div class="feature">
+            <div class="feature reveal" style="--i:1">
                 <div class="icon icon-blue">D<sub>KL</sub></div>
                 <h3>KL Divergence as Functional Specialisation</h3>
                 <p>
@@ -460,7 +522,7 @@
                     gradients indicate distributed investment.
                 </p>
             </div>
-            <div class="feature">
+            <div class="feature reveal" style="--i:2">
                 <div class="icon icon-purple">&#x2726;</div>
                 <h3>Dual-Method Category Assignment</h3>
                 <p>
@@ -471,7 +533,7 @@
                     supplementary.
                 </p>
             </div>
-            <div class="feature">
+            <div class="feature reveal" style="--i:3">
                 <div class="icon icon-amber">&#x25C9;</div>
                 <h3>Bootstrap Stability</h3>
                 <p>
@@ -481,7 +543,7 @@
                     findings to trust.
                 </p>
             </div>
-            <div class="feature">
+            <div class="feature reveal" style="--i:4">
                 <div class="icon icon-cyan">&#x21C4;</div>
                 <h3>Cross-Sample Comparison</h3>
                 <p>
@@ -491,7 +553,7 @@
                     significance and effect size.
                 </p>
             </div>
-            <div class="feature">
+            <div class="feature reveal" style="--i:5">
                 <div class="icon icon-rose">&#x2609;</div>
                 <h3>Single Sample. No Replicates.</h3>
                 <p>
@@ -508,11 +570,11 @@
 <!-- Categories -->
 <section id="categories">
     <div class="container">
-        <div class="section-title">Category Sets</div>
-        <p class="section-subtitle">
+        <div class="section-title reveal">Category Sets</div>
+        <p class="section-subtitle reveal">
             Organism-specific functional categories validated against Gene Ontology, Swiss-Prot, and GO slim sets.
         </p>
-        <div class="categories-grid">
+        <div class="categories-grid reveal">
             <div class="cat-tag">
                 <code>general</code>
                 <div class="desc">Universal categories for any organism</div>
@@ -583,11 +645,11 @@
 <!-- Validation -->
 <section id="validation">
     <div class="container">
-        <div class="section-title">Validated Across Kingdoms</div>
-        <p class="section-subtitle">
+        <div class="section-title reveal">Validated Across Kingdoms</div>
+        <p class="section-subtitle reveal">
             Tested on four phylogenetically diverse systems spanning protozoan parasites, bacteria, vertebrate host cells, and marine dinoflagellates.
         </p>
-        <div class="validation-grid">
+        <div class="validation-grid reveal">
             <div class="val-card">
                 <div class="organism"><em>Plasmodium falciparum</em></div>
                 <div class="detail">
@@ -628,12 +690,12 @@
 <!-- Pipeline -->
 <section id="pipeline">
     <div class="container">
-        <div class="section-title">End-to-End Pipeline</div>
-        <p class="section-subtitle">
+        <div class="section-title reveal">End-to-End Pipeline</div>
+        <p class="section-subtitle reveal">
             From raw FASTQ reads to publication-ready reports in a single command.
             Nextflow + Docker for full reproducibility.
         </p>
-        <div class="pipeline-steps">
+        <div class="pipeline-steps reveal">
             <div class="step">
                 <div class="step-title">Quality Control</div>
                 <div class="step-desc">FastQC + MultiQC aggregation</div>
@@ -673,9 +735,9 @@
 <!-- Citation -->
 <section>
     <div class="container" style="text-align:center; padding: 4rem 0;">
-        <div class="section-title">Citation</div>
+        <div class="section-title reveal">Citation</div>
         <p style="color: var(--text-dim); font-size: 0.95rem; margin-top: 1rem; max-width: 700px; margin-left: auto; margin-right: auto;">
-            McCabe, J. and Janouskovec, J. (2025). SCEPTR: multi-resolution enrichment profiling
+            McCabe, J. and Janouškovec, J. (2026). SCEPTR: multi-resolution enrichment profiling
             reveals functional architecture across the expression gradient. <em>In review</em>.
         </p>
     </div>
@@ -692,6 +754,298 @@
         <p>SCEPTR is freely available under the MIT License.</p>
     </div>
 </footer>
+
+<script>
+// ── Mouse tracking ──
+const mouse = { x: -1000, y: -1000 };
+document.addEventListener('mousemove', e => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+});
+
+// ── Scroll Reveal Observer ──
+(function() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+        observer.observe(el);
+    });
+})();
+
+// ── Particle Network ──
+(function() {
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let w, h, particles;
+    const COUNT = 60;
+    const CONNECT_DIST = 180;
+    const MOUSE_RADIUS = 200;
+
+    function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+    }
+
+    function init() {
+        resize();
+        particles = [];
+        for (let i = 0; i < COUNT; i++) {
+            particles.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.4,
+                r: Math.random() * 2.5 + 1.5
+            });
+        }
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, w, h);
+
+        for (let i = 0; i < particles.length; i++) {
+            const p = particles[i];
+
+            // Drift
+            p.x += p.vx;
+            p.y += p.vy;
+
+            // Wrap
+            if (p.x < 0) p.x = w;
+            if (p.x > w) p.x = 0;
+            if (p.y < 0) p.y = h;
+            if (p.y > h) p.y = 0;
+
+            // Mouse attraction (gentle pull toward cursor)
+            const dx = mouse.x - p.x;
+            const dy = mouse.y - p.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < MOUSE_RADIUS && dist > 30) {
+                const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS * 0.3;
+                p.vx += (dx / dist) * force * 0.1;
+                p.vy += (dy / dist) * force * 0.1;
+            }
+
+            // Dampen velocity
+            p.vx *= 0.99;
+            p.vy *= 0.99;
+
+            // Glow effect
+            const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4);
+            gradient.addColorStop(0, 'rgba(6, 182, 212, 0.6)');
+            gradient.addColorStop(0.4, 'rgba(6, 182, 212, 0.2)');
+            gradient.addColorStop(1, 'rgba(6, 182, 212, 0)');
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2);
+            ctx.fillStyle = gradient;
+            ctx.fill();
+
+            // Core dot
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(6, 182, 212, 0.8)';
+            ctx.fill();
+
+            // Connect nearby particles
+            for (let j = i + 1; j < particles.length; j++) {
+                const p2 = particles[j];
+                const ddx = p.x - p2.x;
+                const ddy = p.y - p2.y;
+                const d = Math.sqrt(ddx * ddx + ddy * ddy);
+                if (d < CONNECT_DIST) {
+                    const alpha = 0.2 * (1 - d / CONNECT_DIST);
+                    ctx.beginPath();
+                    ctx.moveTo(p.x, p.y);
+                    ctx.lineTo(p2.x, p2.y);
+                    ctx.strokeStyle = `rgba(6, 182, 212, ${alpha})`;
+                    ctx.lineWidth = 0.8;
+                    ctx.stroke();
+                }
+            }
+
+            // Brighter lines to cursor when close
+            if (dist < MOUSE_RADIUS && dist > 30) {
+                const alpha = 0.15 * (1 - dist / MOUSE_RADIUS);
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(mouse.x, mouse.y);
+                ctx.strokeStyle = `rgba(6, 182, 212, ${alpha})`;
+                ctx.lineWidth = 0.5;
+                ctx.stroke();
+            }
+        }
+        requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', resize);
+    init();
+    draw();
+})();
+
+// ── Cursor Trail ──
+(function() {
+    const canvas = document.getElementById('cursor-trail');
+    const ctx = canvas.getContext('2d');
+    let w, h;
+    const trail = [];
+    const MAX_TRAIL = 25;
+
+    function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+    }
+
+    document.addEventListener('mousemove', () => {
+        trail.push({ x: mouse.x, y: mouse.y, life: 1.0 });
+        if (trail.length > MAX_TRAIL) trail.shift();
+    });
+
+    function draw() {
+        ctx.clearRect(0, 0, w, h);
+
+        for (let i = trail.length - 1; i >= 0; i--) {
+            const p = trail[i];
+            p.life -= 0.03;
+            if (p.life <= 0) {
+                trail.splice(i, 1);
+                continue;
+            }
+            const radius = p.life * 8;
+            const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, radius);
+            gradient.addColorStop(0, `rgba(6, 182, 212, ${p.life * 0.3})`);
+            gradient.addColorStop(0.5, `rgba(59, 130, 246, ${p.life * 0.15})`);
+            gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
+            ctx.fillStyle = gradient;
+            ctx.fill();
+        }
+        requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+    draw();
+})();
+
+// ── Hero Waves ──
+(function() {
+    const canvas = document.getElementById('hero-waves');
+    const ctx = canvas.getContext('2d');
+    const hero = canvas.parentElement;
+    let w, h;
+
+    function resize() {
+        const rect = hero.getBoundingClientRect();
+        w = canvas.width = rect.width;
+        h = canvas.height = rect.height;
+    }
+
+    // [r,g,b] for glow coloring
+    const CYAN = [6,182,212];
+    const BLUE = [59,130,246];
+    const SKY  = [56,189,248];
+
+    const waves = [
+        { amplitude: 18, wavelength: 500, speed: 0.0006, yOffset: 0.58, phase: 0,    lineWidth: 2.0, glowWidth: 12, color: CYAN,  glowAlpha: 0.12, coreAlpha: 0.5, mouseInfluence: 0.05 },
+        { amplitude: 22, wavelength: 400, speed: 0.0008, yOffset: 0.63, phase: 1.2,  lineWidth: 1.8, glowWidth: 10, color: SKY,   glowAlpha: 0.10, coreAlpha: 0.45, mouseInfluence: 0.06 },
+        { amplitude: 15, wavelength: 600, speed: 0.0004, yOffset: 0.68, phase: 2.5,  lineWidth: 1.5, glowWidth: 9,  color: BLUE,  glowAlpha: 0.08, coreAlpha: 0.35, mouseInfluence: 0.04 },
+        { amplitude: 25, wavelength: 350, speed: 0.001,  yOffset: 0.73, phase: 3.8,  lineWidth: 1.3, glowWidth: 8,  color: CYAN,  glowAlpha: 0.07, coreAlpha: 0.3, mouseInfluence: 0.07 },
+        { amplitude: 12, wavelength: 450, speed: 0.0005, yOffset: 0.53, phase: 5.0,  lineWidth: 1.0, glowWidth: 7,  color: BLUE,  glowAlpha: 0.06, coreAlpha: 0.25, mouseInfluence: 0.03 },
+        { amplitude: 20, wavelength: 550, speed: 0.0007, yOffset: 0.78, phase: 0.7,  lineWidth: 1.2, glowWidth: 8,  color: SKY,   glowAlpha: 0.06, coreAlpha: 0.28, mouseInfluence: 0.05 },
+        { amplitude: 10, wavelength: 700, speed: 0.0003, yOffset: 0.48, phase: 4.2,  lineWidth: 0.8, glowWidth: 6,  color: CYAN,  glowAlpha: 0.04, coreAlpha: 0.2, mouseInfluence: 0.02 },
+    ];
+
+    let time = 0;
+
+    function getWavePoints(wave, t) {
+        const points = [];
+        for (let x = 0; x <= w; x += 2) {
+            const baseY = h * wave.yOffset;
+            let y = baseY + Math.sin((x / wave.wavelength) * Math.PI * 2 + t + wave.phase) * wave.amplitude;
+            y += Math.sin((x / (wave.wavelength * 0.6)) * Math.PI * 2 + t * 0.7 + wave.phase * 1.3) * wave.amplitude * 0.2;
+            y += Math.sin((x / (wave.wavelength * 0.3)) * Math.PI * 2 + t * 0.4 + wave.phase * 0.8) * wave.amplitude * 0.08;
+            points.push({ x, y });
+        }
+        return points;
+    }
+
+    function tracePath(points) {
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+            ctx.lineTo(points[i].x, points[i].y);
+        }
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, w, h);
+
+        const heroRect = hero.getBoundingClientRect();
+        const localMouseX = mouse.x;
+        const localMouseY = mouse.y - heroRect.top;
+        const mouseInHero = localMouseY > 0 && localMouseY < h && mouse.x > 0 && mouse.x < w;
+
+        const t = time * 0.06;
+
+        waves.forEach(wave => {
+            const rawPoints = getWavePoints(wave, t * wave.speed * 1000);
+
+            // Apply mouse influence
+            if (mouseInHero) {
+                rawPoints.forEach(p => {
+                    const dx = p.x - localMouseX;
+                    const baseY = h * wave.yOffset;
+                    const proximity = Math.exp(-(dx * dx) / 50000);
+                    const dy = localMouseY - baseY;
+                    p.y += dy * proximity * wave.mouseInfluence * 3;
+                });
+            }
+
+            // Horizontal fade: compute alpha multiplier per-point
+            const [r, g, b] = wave.color;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            // Glow pass (wide, blurred, soft)
+            ctx.save();
+            ctx.shadowColor = `rgba(${r},${g},${b},${wave.glowAlpha})`;
+            ctx.shadowBlur = wave.glowWidth;
+            tracePath(rawPoints);
+            ctx.strokeStyle = `rgba(${r},${g},${b},${wave.glowAlpha})`;
+            ctx.lineWidth = wave.glowWidth;
+            ctx.stroke();
+            ctx.restore();
+
+            // Core pass (crisp bright line)
+            tracePath(rawPoints);
+            // Horizontal gradient for edge fade
+            const grad = ctx.createLinearGradient(0, 0, w, 0);
+            grad.addColorStop(0, `rgba(${r},${g},${b},0)`);
+            grad.addColorStop(0.15, `rgba(${r},${g},${b},${wave.coreAlpha})`);
+            grad.addColorStop(0.5, `rgba(${r},${g},${b},${wave.coreAlpha})`);
+            grad.addColorStop(0.85, `rgba(${r},${g},${b},${wave.coreAlpha})`);
+            grad.addColorStop(1, `rgba(${r},${g},${b},0)`);
+            ctx.strokeStyle = grad;
+            ctx.lineWidth = wave.lineWidth;
+            ctx.stroke();
+        });
+
+        time++;
+        requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+    draw();
+})();
+</script>
 
 </body>
 </html>
