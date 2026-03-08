@@ -479,6 +479,10 @@ Example:
                         help='Max GO expansion depth (default: 2)')
     parser.add_argument('--seed', type=int, default=42,
                         help='Random seed for reproducibility (default: 42)')
+    parser.add_argument('--continuous_a', default=None,
+                        help='Path to condition A continuous enrichment TSV')
+    parser.add_argument('--continuous_b', default=None,
+                        help='Path to condition B continuous enrichment TSV')
 
     args = parser.parse_args()
 
@@ -619,7 +623,23 @@ Example:
         logger.warning(f"Gradient overlay failed: {e}")
 
     # -----------------------------------------------------------------------
-    # Step 6: Generate HTML report
+    # Step 6: Load continuous enrichment data (if provided)
+    # -----------------------------------------------------------------------
+    cont_a = None
+    cont_b = None
+    if args.continuous_a and os.path.exists(args.continuous_a):
+        logger.info(f"Loading continuous enrichment A: {args.continuous_a}")
+        cont_a = pd.read_csv(args.continuous_a, sep='\t')
+    if args.continuous_b and os.path.exists(args.continuous_b):
+        logger.info(f"Loading continuous enrichment B: {args.continuous_b}")
+        cont_b = pd.read_csv(args.continuous_b, sep='\t')
+
+    # Get gene counts per category for sparse-category filtering
+    cat_counts_a = all_results_a.get('category_counts', {})
+    cat_counts_b = all_results_b.get('category_counts', {})
+
+    # -----------------------------------------------------------------------
+    # Step 7: Generate HTML report
     # -----------------------------------------------------------------------
     logger.info("Generating HTML comparison report...")
     try:
@@ -635,6 +655,10 @@ Example:
             tiers=tiers,
             output_prefix=data_prefix,
             figures_dir=fig_dir,
+            continuous_a=cont_a,
+            continuous_b=cont_b,
+            cat_gene_counts_a=cat_counts_a,
+            cat_gene_counts_b=cat_counts_b,
         )
     except Exception as e:
         logger.error(f"HTML report generation failed: {e}")

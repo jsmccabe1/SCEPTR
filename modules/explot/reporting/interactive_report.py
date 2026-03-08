@@ -856,7 +856,7 @@ def _build_enrichment_plotly_data(cont_results, colour_map, id_prefix='',
             'line': {'color': colour, 'width': 2.5 if rank < 5 else 1.2},
             'visible': visible,
             'hovertemplate': (f'<b>{cat}</b><br>k = %{{x:,.0f}}<br>'
-                              f'E(k) = %{{y:.2f}}x{p_info}<extra></extra>'),
+                              f'E_C(t) = %{{y:.2f}}x{p_info}<extra></extra>'),
         })
 
     traces.append({
@@ -868,7 +868,7 @@ def _build_enrichment_plotly_data(cont_results, colour_map, id_prefix='',
     })
 
     layout = {
-        'xaxis': {'title': 'Tier size k (genes)', 'type': 'log', 'gridcolor': '#f0f0f0'},
+        'xaxis': {'title': 'Gene rank k', 'type': 'log', 'gridcolor': '#f0f0f0'},
         'yaxis': {'title': 'Fold enrichment E<sub>C</sub>(k)', 'gridcolor': '#f0f0f0'},
         'legend': {'orientation': 'v', 'x': 1.02, 'y': 1, 'font': {'size': 11}},
         'hovermode': 'closest',
@@ -907,7 +907,7 @@ def _build_dkl_plotly_data(cont_results):
             'hoverinfo': 'skip',
         })
     layout = {
-        'xaxis': {'title': 'Tier size k', 'type': 'log', 'gridcolor': '#f0f0f0'},
+        'xaxis': {'title': 'Gene rank k', 'type': 'log', 'gridcolor': '#f0f0f0'},
         'yaxis': {'title': 'D<sub>KL</sub> (bits)', 'type': 'log', 'gridcolor': '#f0f0f0'},
         'hovermode': 'closest',
         'plot_bgcolor': 'white', 'paper_bgcolor': 'white',
@@ -993,7 +993,7 @@ def _build_significance_landscape_data(cont_results, colour_map,
                               f'to k={sig_k[-1]:.0f}<extra></extra>'),
         })
     layout = {
-        'xaxis': {'title': 'Tier size k', 'type': 'log', 'gridcolor': '#f0f0f0'},
+        'xaxis': {'title': 'Gene rank k', 'type': 'log', 'gridcolor': '#f0f0f0'},
         'yaxis': {'tickfont': {'size': 10}},
         'plot_bgcolor': 'white', 'paper_bgcolor': 'white',
         'margin': {'l': 250, 'r': 30, 't': 20, 'b': 50},
@@ -1793,9 +1793,9 @@ def _generate_report(analysis_blocks, output_prefix, total_genes,
             relative to the full-dataset background. Statistical significance was assessed
             using Fisher's exact test with Benjamini-Hochberg FDR correction.</p>
 
-            {"<p><strong>Continuous enrichment:</strong> The enrichment function E<sub>C</sub>(k) was computed at regular intervals from k=10 to k=N/2, producing a dense enrichment curve for each category. A permutation-based global profile test assessed whether each category's enrichment profile differs significantly from the null expectation (E=1 for all k), using supremum and integral test statistics.</p>" if has_continuous else ""}
+            {"<p><strong>Continuous enrichment:</strong> The enrichment function E<sub>C</sub>(t) was computed at every integer gene rank k from 10 to N/2, then smoothed with an adaptive Gaussian kernel whose bandwidth scales with inter-member spacing (sigma = max(3, 0.5 * sqrt(N/|C|))). A permutation-based global profile test assessed whether each category's enrichment profile differs significantly from the null expectation (E=1 for all k), using supremum and integral test statistics. Null curves are smoothed with the same kernel for valid comparison.</p>" if has_continuous else ""}
 
-            {"<p><strong>D<sub>KL</sub> gradient:</strong> The Kullback-Leibler divergence from the uniform expectation was computed at each tier size, quantifying overall functional specialisation. A log-linear fit captures the power-law decay of D<sub>KL</sub> with increasing tier size.</p>" if has_continuous else ""}
+            {"<p><strong>D<sub>KL</sub> gradient:</strong> The Kullback-Leibler divergence from the uniform expectation was computed at each gene rank k, quantifying overall functional specialisation. A log-linear fit captures the power-law decay of D<sub>KL</sub> with increasing k.</p>" if has_continuous else ""}
 
             <p><strong>Expression tiers:</strong> Genes ranked by TPM (Transcripts Per Million)
             from Salmon quantification. Each tier represents the top N most highly expressed genes.</p>

@@ -7,56 +7,200 @@
       "host cell invasion",
       "cell invasion",
       "tissue invasion",
-      "penetration",
       "host membrane penetration",
-      "adhesins",
-      "invasin",
-      "host-pathogen interaction",
-      "parasitophorous vacuole",
-      "intracellular survival",
       "host cell entry",
-      "attachment to host"
+      "attachment to host",
+      "micronemal protein",
+      "microneme protein",
+      "TgMIC",
+      "MIC1",
+      "MIC2",
+      "MIC3",
+      "MIC4",
+      "MIC6",
+      "MIC8",
+      "apical membrane antigen",
+      "AMA1",
+      "TgAMA",
+      "SporoAMA",
+      "rhoptry neck protein",
+      "RON2",
+      "RON4",
+      "RON5",
+      "RON8",
+      "surface antigen",
+      "SAG1",
+      "SAG-related",
+      "SRS29",
+      "SRS34",
+      "major surface antigen",
+      "moving junction",
+      "perforin-like protein",
+      "TgPLP",
+      "exit from host cell",
+      "cell adhesion molecule production",
+      "gliding-associated protein",
+      "GAP45",
+      "GAP50",
+      "penetration",
+      "invasin"
     ],
     "anchor_go_ids": [
       "GO:0044409",
-      "GO:0007155"
+      "GO:0007155",
+      "GO:0035891",
+      "GO:0031640",
+      "GO:0060352",
+      "GO:0030646"
     ],
     "core_keywords": [
+      "micronemal protein",
+      "microneme protein",
+      "apical membrane antigen",
+      "AMA1",
+      "rhoptry neck protein",
+      "surface antigen",
+      "SAG1",
+      "moving junction",
+      "perforin-like protein",
       "host cell invasion",
-      "parasitophorous vacuole",
       "host cell entry"
+    ]
+  },
+  "Immune Evasion & Host Manipulation": {
+    "keywords": [
+      "immune modulation",
+      "immune evasion",
+      "immune suppression",
+      "antigenic variation",
+      "host manipulation",
+      "virulence",
+      "pathogenesis",
+      "host response",
+      "cytokine modulation",
+      "antigen presentation",
+      "variant surface",
+      "PfEMP1",
+      "var gene",
+      "clonally variant",
+      "dense granule protein",
+      "Protein GRA",
+      "GRA 1",
+      "GRA 2",
+      "GRA 3",
+      "GRA 4",
+      "GRA 5",
+      "GRA 6",
+      "GRA 7",
+      "GRA 8",
+      "GRA 9",
+      "GRA 10",
+      "GRA 11",
+      "GRA 12",
+      "GRA 14",
+      "GRA 15",
+      "GRA 16",
+      "GRA 24",
+      "GRA 25",
+      "TgIST",
+      "inhibitor of STAT1",
+      "rhoptry kinase",
+      "WNG1",
+      "WNG2",
+      "ROP16",
+      "ROP18",
+      "ROP5",
+      "ROP17",
+      "NTPase",
+      "Nucleoside-triphosphatase",
+      "effector protein",
+      "effector-mediated",
+      "host immune",
+      "immune response",
+      "immune system process",
+      "replication vacuole",
+      "parasitophorous vacuole",
+      "intracellular survival",
+      "host signaling",
+      "host signal transduction"
+    ],
+    "anchor_go_ids": [
+      "GO:0030682",
+      "GO:0051701",
+      "GO:0141213",
+      "GO:0140403",
+      "GO:0042784",
+      "GO:0020033",
+      "GO:0002376",
+      "GO:0044409",
+      "GO:1990215",
+      "GO:0006955",
+      "GO:0045087",
+      "GO:0045824"
+    ],
+    "core_keywords": [
+      "dense granule protein",
+      "Protein GRA",
+      "antigenic variation",
+      "PfEMP1",
+      "var gene",
+      "TgIST",
+      "rhoptry kinase",
+      "WNG1",
+      "WNG2",
+      "ROP16",
+      "ROP18",
+      "NTPase",
+      "immune evasion",
+      "replication vacuole",
+      "effector-mediated"
     ]
   },
   "Specialised Organelles & Secretion": {
     "keywords": [
       "rhoptry",
       "rhoptries",
+      "Rhoptry protein",
+      "Rhoptry apical surface",
+      "TgRASP",
+      "rhoptry bulb",
       "microneme",
       "micronemes",
       "dense granule",
       "apical complex",
       "secretory pathway",
-      "ROP",
       "secreted protein",
       "exocyst",
       "protein secretion",
       "regulated secretion",
       "secretory organelle",
       "vesicle transport",
-      "organelle biogenesis"
+      "vesicle-mediated transport",
+      "Golgi to vacuole",
+      "endoplasmic reticulum to Golgi",
+      "COPII vesicle",
+      "clathrin",
+      "coat protein",
+      "adaptor protein complex",
+      "centrin",
+      "TgCEN"
     ],
     "anchor_go_ids": [
       "GO:0006886",
-      "GO:0016192"
+      "GO:0016192",
+      "GO:0006888",
+      "GO:0006896",
+      "GO:0048227"
     ],
     "core_keywords": [
       "rhoptry",
       "rhoptries",
+      "Rhoptry protein",
+      "Rhoptry apical surface",
       "microneme",
       "micronemes",
       "dense granule",
-      "apical complex",
-      "ROP"
+      "apical complex"
     ]
   },
   "Motility & Cytoskeletal Dynamics": {
@@ -72,21 +216,37 @@
       "actin-based motility",
       "actin polymerization",
       "actin filament",
+      "actin depolymerizing",
       "tubulin polymerization",
       "microtubule-based movement",
       "microtubule motor",
       "motor protein",
       "cell motility",
-      "inner membrane complex"
+      "inner membrane complex",
+      "myosin",
+      "MyoA",
+      "MyoB",
+      "MyoC",
+      "MyoD",
+      "doublecortin",
+      "TgDCX",
+      "conoid",
+      "subpellicular"
     ],
     "anchor_go_ids": [
       "GO:0030048",
-      "GO:0048870"
+      "GO:0048870",
+      "GO:0030042",
+      "GO:0030832",
+      "GO:0007015"
     ],
     "core_keywords": [
       "glideosome",
       "gliding motility",
-      "inner membrane complex"
+      "inner membrane complex",
+      "actin depolymerizing",
+      "conoid",
+      "subpellicular"
     ]
   },
   "Life Cycle & Development": {
@@ -107,11 +267,23 @@
       "excystation",
       "gametocyte",
       "schizont",
-      "schizogony"
+      "schizogony",
+      "bradyzoite-formation",
+      "cell fate commitment",
+      "entry into dormancy",
+      "dormancy maintenance",
+      "stage-specific",
+      "cyst wall",
+      "tissue cyst",
+      "cell division"
     ],
     "anchor_go_ids": [
       "GO:0007049",
-      "GO:0030154"
+      "GO:0030154",
+      "GO:0097436",
+      "GO:0085015",
+      "GO:0045165",
+      "GO:0051301"
     ],
     "core_keywords": [
       "tachyzoite",
@@ -120,35 +292,10 @@
       "merozoite",
       "oocyst",
       "gametocyte",
-      "schizont"
-    ]
-  },
-  "Immune Evasion & Host Manipulation": {
-    "keywords": [
-      "immune modulation",
-      "immune evasion",
-      "immune suppression",
-      "antigenic variation",
-      "host manipulation",
-      "virulence",
-      "pathogenesis",
-      "host response",
-      "cytokine modulation",
-      "antigen presentation",
-      "variant surface",
-      "PfEMP1",
-      "var gene",
-      "clonally variant"
-    ],
-    "anchor_go_ids": [
-      "GO:0030682",
-      "GO:0051701"
-    ],
-    "core_keywords": [
-      "antigenic variation",
-      "PfEMP1",
-      "var gene",
-      "clonally variant"
+      "schizont",
+      "bradyzoite-formation",
+      "entry into dormancy",
+      "cyst wall"
     ]
   },
   "Central Metabolism & Nutrient Acquisition": {
@@ -156,6 +303,7 @@
       "nutrient transporter",
       "glucose transporter",
       "amino acid transporter",
+      "hexose transporter",
       "scavenging",
       "salvage",
       "glycolysis",
@@ -164,7 +312,6 @@
       "fatty acid oxidation",
       "lipid metabolic",
       "iron acquisition",
-      "siderophore",
       "iron binding",
       "purine salvage",
       "pyrimidine salvage",
@@ -172,17 +319,43 @@
       "TCA cycle",
       "citric acid cycle",
       "pentose phosphate",
-      "carbohydrate metabolism"
+      "carbohydrate metabolism",
+      "gluconeogenesis",
+      "fructose-bisphosphate aldolase",
+      "glyceraldehyde-3-phosphate dehydrogenase",
+      "GAPDH",
+      "enolase",
+      "hexokinase",
+      "lactate dehydrogenase",
+      "phosphoribosyltransferase",
+      "chorismate synthase",
+      "aquaglyceroporin",
+      "phosphate transporter",
+      "arginine transporter",
+      "sodium-dependent phosphate"
     ],
     "anchor_go_ids": [
       "GO:0006096",
       "GO:0006099",
-      "GO:0006629"
+      "GO:0006629",
+      "GO:0006094",
+      "GO:0006006",
+      "GO:0006089",
+      "GO:0032263",
+      "GO:0006178",
+      "GO:0044206"
     ],
     "core_keywords": [
       "glycolysis",
+      "glycolytic process",
       "purine salvage",
-      "pyrimidine salvage"
+      "pyrimidine salvage",
+      "hexose transporter",
+      "fructose-bisphosphate aldolase",
+      "GAPDH",
+      "enolase",
+      "hexokinase",
+      "lactate dehydrogenase"
     ]
   },
   "Organellar Functions": {
@@ -197,18 +370,27 @@
       "oxidoreductase",
       "electron transport",
       "ATP synthesis",
+      "ATP synthase",
       "heme biosynthesis",
       "isoprenoid",
-      "fatty acid synthesis",
-      "type II fatty acid synthesis"
+      "type II fatty acid synthesis",
+      "lipoyl synthase",
+      "iron-sulfur cluster",
+      "mitochondrial association factor",
+      "MAF1"
     ],
     "anchor_go_ids": [
       "GO:0005739",
-      "GO:0009536"
+      "GO:0009536",
+      "GO:0022900",
+      "GO:0016226"
     ],
     "core_keywords": [
       "apicoplast",
-      "heme biosynthesis"
+      "heme biosynthesis",
+      "mitochondrial association factor",
+      "MAF1",
+      "lipoyl synthase"
     ]
   },
   "Protein Folding & Quality Control": {
@@ -223,20 +405,26 @@
       "aspartic protease",
       "ubiquitin",
       "protein degradation",
-      "proteolytic degradation",
       "unfolded protein response",
       "endoplasmic reticulum stress",
-      "proteasome"
+      "proteasome",
+      "rhomboid-like protease",
+      "autophagy",
+      "protein processing"
     ],
     "anchor_go_ids": [
       "GO:0006457",
       "GO:0006508",
-      "GO:0051082"
+      "GO:0051082",
+      "GO:0016540",
+      "GO:0016485"
     ],
     "core_keywords": [
       "chaperone",
       "heat shock protein",
-      "proteasome"
+      "proteasome",
+      "aspartic protease",
+      "rhomboid-like protease"
     ]
   },
   "DNA Replication & Repair": {
@@ -249,14 +437,18 @@
       "recombination",
       "telomere",
       "chromosome organization",
-      "nucleotide metabolism",
       "nucleotide excision repair",
       "base excision repair",
-      "mismatch repair"
+      "mismatch repair",
+      "DNA damage response",
+      "chromatin remodeling",
+      "histone"
     ],
     "anchor_go_ids": [
       "GO:0006260",
-      "GO:0006281"
+      "GO:0006281",
+      "GO:0006334",
+      "GO:0006974"
     ],
     "core_keywords": [
       "DNA replication",
@@ -276,20 +468,57 @@
       "signal transduction",
       "calcium signaling",
       "cAMP",
+      "cGMP",
       "cyclic nucleotide",
       "second messenger",
       "GTPase",
       "Ras",
       "regulatory protein",
-      "phosphatase"
+      "phosphatase",
+      "guanylate cyclase",
+      "casein kinase"
     ],
     "anchor_go_ids": [
       "GO:0007165",
-      "GO:0006468"
+      "GO:0006468",
+      "GO:0035556"
     ],
     "core_keywords": [
       "calcium-dependent protein kinase",
-      "CDPK"
+      "CDPK",
+      "guanylate cyclase",
+      "cGMP-dependent protein kinase"
+    ]
+  },
+  "RNA Processing & Gene Regulation": {
+    "keywords": [
+      "mRNA splicing",
+      "mRNA processing",
+      "RNA splicing",
+      "spliceosome",
+      "RNA polymerase",
+      "transcription factor",
+      "transcription by RNA polymerase",
+      "regulation of transcription",
+      "RNA helicase",
+      "RNA binding",
+      "rRNA processing",
+      "snRNA",
+      "ribonucleoprotein",
+      "methylation",
+      "histone modification",
+      "epigenetic"
+    ],
+    "anchor_go_ids": [
+      "GO:0000398",
+      "GO:0006397",
+      "GO:0006396",
+      "GO:0006351"
+    ],
+    "core_keywords": [
+      "mRNA splicing",
+      "spliceosome",
+      "transcription factor"
     ]
   },
   "Translation & Ribosome": {
@@ -304,7 +533,6 @@
       "aminoacyl-tRNA synthetase",
       "tRNA synthetase",
       "protein synthesis",
-      "ribonucleoprotein",
       "cytoplasmic translation",
       "structural constituent of ribosome",
       "translation termination",
@@ -317,29 +545,14 @@
     "anchor_go_ids": [
       "GO:0006412",
       "GO:0042254",
-      "GO:0003735"
+      "GO:0003735",
+      "GO:0002181",
+      "GO:0002182"
     ],
     "core_keywords": [
       "ribosomal protein",
       "aminoacyl-tRNA synthetase",
       "structural constituent of ribosome"
-    ]
-  },
-  "Uncharacterised": {
-    "keywords": [
-      "uncharacterized protein",
-      "hypothetical protein",
-      "unknown function",
-      "putative uncharacterized protein",
-      "conserved protein",
-      "domain unknown function",
-      "domain of unknown function"
-    ],
-    "anchor_go_ids": [],
-    "core_keywords": [
-      "hypothetical protein",
-      "uncharacterized protein",
-      "unknown function"
     ]
   }
 }

@@ -176,12 +176,12 @@ def compute_continuous_enrichment(membership, cat_names, bg_counts, N,
         cat_names: list of category names
         bg_counts: dict {category: count in full dataset}
         N: total number of genes
-        k_min: minimum tier size (default: 10)
-        k_max: maximum tier size (default: N//2)
+        k_min: minimum gene rank (default: 10)
+        k_max: maximum gene rank (default: N//2)
         step: step between output evaluation points (default: 5)
 
     Returns:
-        k_values: 1D array of output tier sizes
+        k_values: 1D array of output gene ranks
         enrichment_matrix: (K, C) array of smoothed fold changes
     """
     # Compute at every integer k
@@ -222,7 +222,7 @@ def compute_continuous_dkl(membership, cat_names, bg_counts, N,
         laplace_alpha: smoothing constant
 
     Returns:
-        k_values: 1D array of tier sizes
+        k_values: 1D array of gene ranks
         dkl_values: 1D array of smoothed D_KL at each k
     """
     if k_max is None:

@@ -58,9 +58,9 @@ def parse_arguments():
     parser.add_argument('--continuous_step', type=int, default=5,
                         help='Step size for continuous enrichment (default: 5)')
     parser.add_argument('--continuous_k_min', type=int, default=10,
-                        help='Minimum tier size for continuous enrichment (default: 10)')
+                        help='Minimum gene rank for continuous enrichment (default: 10)')
     parser.add_argument('--continuous_k_max', type=int, default=None,
-                        help='Maximum tier size for continuous enrichment (default: N/2)')
+                        help='Maximum gene rank for continuous enrichment (default: N/2)')
     parser.add_argument('--profile_permutations', type=int, default=1000,
                         help='Permutations for global profile test (default: 1000)')
     parser.add_argument('--debug', action='store_true')

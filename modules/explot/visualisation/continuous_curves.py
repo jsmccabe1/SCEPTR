@@ -35,14 +35,14 @@ def create_continuous_enrichment_plot(
     """Create continuous enrichment curve plot with null envelope.
 
     Args:
-        k_values: 1D array of tier sizes
+        k_values: 1D array of gene ranks
         enrichment_matrix: (K, C) array of fold changes
         cat_names: list of category names
         profile_stats: dict from permutation_global_test
         prefix: output file prefix
         analysis_type: 'BP_MF' or 'CC'
         highlight_categories: list of categories to highlight (auto-selected if None)
-        default_tiers: vertical reference lines for default tier sizes
+        default_tiers: vertical reference lines at default gene ranks
         max_categories_highlight: max categories to highlight
         figsize: figure size
     """
@@ -120,8 +120,8 @@ def create_continuous_enrichment_plot(
             ax.axvline(x=tier, color='grey', linestyle=':', linewidth=0.5, alpha=0.4)
 
     # Axes
-    ax.set_xlabel('Tier size (k)', fontsize=12)
-    ax.set_ylabel('Fold enrichment E(k)', fontsize=12)
+    ax.set_xlabel('Gene rank k', fontsize=12)
+    ax.set_ylabel('Fold enrichment E_C(t)', fontsize=12)
     ax.set_title('Continuous Enrichment Profiles', fontsize=14)
 
     # Legend
@@ -172,7 +172,7 @@ def create_continuous_dkl_plot(
         if tier <= k_values[-1]:
             ax.axvline(x=tier, color='grey', linestyle=':', linewidth=0.5, alpha=0.4)
 
-    ax.set_xlabel('Tier size (k)', fontsize=12)
+    ax.set_xlabel('Gene rank k', fontsize=12)
     ax.set_ylabel('D_KL (bits)', fontsize=12)
     ax.set_title('Continuous Functional Specialisation Gradient', fontsize=14)
     ax.set_xscale('log')
@@ -230,7 +230,7 @@ def create_significance_landscape(
 
     ax.set_yticks(range(n_cats))
     ax.set_yticklabels(sorted_cats, fontsize=7)
-    ax.set_xlabel('Tier size (k)', fontsize=11)
+    ax.set_xlabel('Gene rank k', fontsize=11)
     ax.set_title('Enrichment Significance Landscape', fontsize=13)
 
     cbar = plt.colorbar(im, ax=ax, shrink=0.8, pad=0.02)
