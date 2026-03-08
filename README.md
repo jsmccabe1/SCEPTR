@@ -80,7 +80,7 @@ Statistical significance is assessed at both discrete tiers (Fisher's exact test
 
 ### Measuring functional specialisation
 
-To capture the overall picture, SCEPTR computes a **Kullback-Leibler divergence** D<sub>KL</sub> at each tier, measuring how different the functional composition of that tier is from the transcriptome as a whole. Across every organism tested, this divergence decreases monotonically with tier size: the expression apex is always the most functionally specialised region of the transcriptome. The *rate* of that decrease varies between organisms and is itself a quantitative phenotype. A blood-stage malaria parasite with its extreme translational dominance shows a steep gradient; a bacterium with more distributed functional investment shows a shallow one.
+To capture the overall picture, SCEPTR computes a **Kullback-Leibler divergence** D<sub>KL</sub> at each point along the expression gradient, measuring how different the functional composition of the top-k genes is from the transcriptome as a whole. Across every organism tested, this divergence decreases monotonically as k increases: the expression apex is always the most functionally specialised region of the transcriptome. The *rate* of that decrease varies between organisms and is itself a quantitative phenotype. A blood-stage malaria parasite with its extreme translational dominance shows a steep gradient; a bacterium with more distributed functional investment shows a shallow one.
 
 ### Dual-method category assignment
 
@@ -536,8 +536,8 @@ SCEPTR automatically adapts based on `--category_set`:
 |--------------------------------|---------|----------------------------------------------------|
 | `--explot_continuous`          | `true`  | Compute continuous enrichment functions             |
 | `--explot_continuous_step`     | `5`     | Output resampling step (enrichment is computed at every gene rank internally) |
-| `--explot_continuous_k_min`    | `10`    | Minimum tier size                                   |
-| `--explot_continuous_k_max`    | N/2     | Maximum tier size (default: half of total genes)    |
+| `--explot_continuous_k_min`    | `10`    | Minimum gene rank k                                 |
+| `--explot_continuous_k_max`    | N/2     | Maximum gene rank k (default: half of total genes)  |
 | `--explot_profile_permutations`| `1000`  | Permutations for global profile significance test   |
 
 ### Host filtering (parasite/pathogen studies)
