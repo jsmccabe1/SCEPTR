@@ -504,24 +504,25 @@
                 <div class="icon icon-green">&#x25B2;</div>
                 <h3>Continuous Enrichment Profiling</h3>
                 <p>
-                    Genes ranked by TPM are evaluated at every tier from k=10 to the full
-                    transcriptome in configurable steps, computing a continuous enrichment
-                    function E<sub>C</sub>(k) for each functional category. Fisher's exact test with
-                    Benjamini-Hochberg correction at each tier produces smooth enrichment
-                    profiles that reveal how each programme's dominance changes across the
-                    entire expression gradient - not just at a few arbitrary thresholds.
+                    Genes ranked by TPM are evaluated at every integer gene rank from k=10
+                    to N/2, then smoothed with an adaptive Gaussian kernel to produce a
+                    genuinely continuous enrichment function E<sub>C</sub>(t) for each functional
+                    category. The kernel bandwidth scales with inter-member spacing, preserving
+                    sharp apex features in dense categories while stabilising sparse ones.
+                    The result: smooth enrichment profiles that reveal how each programme's
+                    dominance changes across the entire expression gradient.
                 </p>
             </div>
             <div class="feature reveal" style="--i:1">
                 <div class="icon icon-blue">D<sub>KL</sub></div>
                 <h3>KL Divergence as Functional Specialisation</h3>
                 <p>
-                    Kullback-Leibler divergence computed across the continuous enrichment profile
+                    Kullback-Leibler divergence computed across the smoothed enrichment profile
                     measures how functional composition diverges from the background at every
-                    resolution. This decreases monotonically with tier size across every organism
-                    tested. The rate of decrease is itself a quantitative phenotype: steep gradients
-                    indicate extreme functional concentration, shallow gradients indicate
-                    distributed investment.
+                    point along the expression gradient. This decreases monotonically with tier
+                    size across every organism tested. The rate of decrease is itself a quantitative
+                    phenotype: steep gradients indicate extreme functional concentration, shallow
+                    gradients indicate distributed investment.
                 </p>
             </div>
             <div class="feature reveal" style="--i:2">
@@ -540,10 +541,11 @@
                 <h3>Permutation Profile Testing</h3>
                 <p>
                     A global profile test permutes gene-category labels (default 1000 iterations)
-                    to assess whether the observed continuous enrichment profile for each category
-                    is significantly non-random. Each result carries a permutation p-value so you
-                    know which findings reflect genuine transcriptomic investment rather than
-                    annotation noise.
+                    to assess whether the observed enrichment profile for each category is
+                    significantly non-random. Both observed and null curves are smoothed with
+                    the same adaptive kernel for valid comparison. Each result carries a
+                    permutation p-value so you know which findings reflect genuine transcriptomic
+                    investment rather than annotation noise.
                 </p>
             </div>
             <div class="feature reveal" style="--i:4">
@@ -690,7 +692,7 @@
     <div class="container">
         <div class="section-title reveal">Automated End-to-End</div>
         <p class="section-subtitle reveal">
-            SCEPTR's methodology is implemented in a fully automated pipeline.
+            SCEPTR's methodology is implemented in a fully automated framework.
             From raw FASTQ reads to an interactive HTML report in a single command, with Nextflow and Docker for full reproducibility.
         </p>
         <div class="pipeline-steps reveal">
@@ -720,7 +722,7 @@
             </div>
             <div class="step">
                 <div class="step-title">Continuous Enrichment Profiling</div>
-                <div class="step-desc">Continuous enrichment functions, KL divergence, permutation testing, interactive HTML report</div>
+                <div class="step-desc">Kernel-smoothed enrichment functions, KL divergence, permutation testing, interactive HTML report</div>
             </div>
             <div class="step">
                 <div class="step-title">Transcriptome Overview</div>
