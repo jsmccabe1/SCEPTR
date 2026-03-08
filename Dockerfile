@@ -177,7 +177,7 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["bash"]
 
 LABEL version="1.0.0" \
-      description="SCEPTR Pipeline - Single-sample Characterisation of Expression Profiles in Transcriptomics" \
+      description="SCEPTR - Statistical Characterisation of Expression Profiles in Transcriptomes" \
       maintainer="James McCabe" \
       databases.included="true" \
       databases.uniprot="Swiss-Prot (curated)" \
