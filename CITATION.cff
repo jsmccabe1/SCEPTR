@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 type: software
-title: "SCEPTR: multi-resolution enrichment profiling reveals functional architecture across the expression gradient"
+title: "SCEPTR: continuous enrichment profiling reveals functional architecture across the expression gradient"
 version: 1.0.0
 license: MIT
 repository-code: "https://github.com/jsmccabe1/SCEPTR"
@@ -12,7 +12,7 @@ authors:
     given-names: Jan
 preferred-citation:
   type: article
-  title: "SCEPTR: multi-resolution enrichment profiling reveals functional architecture across the expression gradient"
+  title: "SCEPTR: continuous enrichment profiling reveals functional architecture across the expression gradient"
   authors:
     - family-names: McCabe
       given-names: James S.
