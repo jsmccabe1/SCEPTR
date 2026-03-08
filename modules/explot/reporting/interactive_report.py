@@ -330,20 +330,14 @@ def _gini_interpretation(gini):
         return "Broadly distributed -many genes contribute to total expression."
 
 
-def _build_landscape_section(landscape_data, chart_render_calls):
+def _build_landscape_section(landscape_data, chart_render_calls,
+                              chart_tab_map=None, tab_id=None):
     """Build the Transcriptome Overview section HTML with Plotly charts."""
     if landscape_data is None:
         return ""
 
     ld = landscape_data
     html = ""
-
-    # Section header
-    html += """
-    <div class="section-divider">
-        <h2 class="analysis-title">Transcriptome Overview</h2>
-        <p class="analysis-desc">Expression landscape, annotation quality, and taxonomic context</p>
-    </div>"""
 
     # Stats cards
     html += f"""
@@ -800,17 +794,31 @@ def _build_category_interpretation(cat, cont_results, method_summary,
 # ---------------------------------------------------------------------------
 # Plotly data builders
 # ---------------------------------------------------------------------------
-def _build_enrichment_plotly_data(cont_results, colour_map, id_prefix=''):
+_MIN_GENES_CONTINUOUS = 25  # Suppress continuous curves for categories below this
+
+
+def _build_enrichment_plotly_data(cont_results, colour_map, id_prefix='',
+                                   cat_gene_counts=None):
     k_values = cont_results['k_values']
     enrichment_matrix = cont_results['enrichment_matrix']
     cat_names = cont_results['cat_names']
     profile_stats = cont_results.get('profile_stats', {})
     traces = []
 
-    # Null envelope
+    # Identify categories with enough genes for stable continuous curves
+    if cat_gene_counts is None:
+        cat_gene_counts = {}
+    sparse_cats = {cat for cat in cat_names
+                   if cat_gene_counts.get(cat, 9999) < _MIN_GENES_CONTINUOUS}
+    if sparse_cats:
+        logger.info(f"Suppressing continuous curves for {len(sparse_cats)} "
+                     f"sparse categories (<{_MIN_GENES_CONTINUOUS} genes): "
+                     f"{', '.join(sorted(sparse_cats))}")
+
+    # Null envelope (only from non-sparse categories)
     all_lower, all_upper = [], []
     for cat in cat_names:
-        if cat in profile_stats:
+        if cat in profile_stats and cat not in sparse_cats:
             all_lower.append(profile_stats[cat]['null_envelope_lower'])
             all_upper.append(profile_stats[cat]['null_envelope_upper'])
     if all_lower:
@@ -829,11 +837,12 @@ def _build_enrichment_plotly_data(cont_results, colour_map, id_prefix=''):
             'name': '95% null envelope', 'hoverinfo': 'skip',
         })
 
-    max_fcs = [(i, cat, np.max(enrichment_matrix[:, i]))
-               for i, cat in enumerate(cat_names)]
-    max_fcs.sort(key=lambda x: x[2], reverse=True)
+    # Filter out sparse categories before ranking
+    plottable = [(i, cat, np.max(enrichment_matrix[:, i]))
+                 for i, cat in enumerate(cat_names) if cat not in sparse_cats]
+    plottable.sort(key=lambda x: x[2], reverse=True)
 
-    for rank, (i, cat, max_fc) in enumerate(max_fcs):
+    for rank, (i, cat, max_fc) in enumerate(plottable):
         colour = colour_map.get(cat, '#CCCCCC')
         p_info = ''
         if cat in profile_stats:
@@ -847,7 +856,7 @@ def _build_enrichment_plotly_data(cont_results, colour_map, id_prefix=''):
             'line': {'color': colour, 'width': 2.5 if rank < 5 else 1.2},
             'visible': visible,
             'hovertemplate': (f'<b>{cat}</b><br>k = %{{x:,.0f}}<br>'
-                              f'E(k) = %{{y:.2f}}×{p_info}<extra></extra>'),
+                              f'E(k) = %{{y:.2f}}x{p_info}<extra></extra>'),
         })
 
     traces.append({
@@ -945,17 +954,24 @@ def _build_bar_plotly_data(results, tier_name, colour_map):
     return [trace], layout
 
 
-def _build_significance_landscape_data(cont_results, colour_map):
+def _build_significance_landscape_data(cont_results, colour_map,
+                                        cat_gene_counts=None):
     k_values = cont_results['k_values']
     enrichment_matrix = cont_results['enrichment_matrix']
     cat_names = cont_results['cat_names']
     profile_stats = cont_results.get('profile_stats', {})
+    if cat_gene_counts is None:
+        cat_gene_counts = {}
+    sparse_cats = {cat for cat in cat_names
+                   if cat_gene_counts.get(cat, 9999) < _MIN_GENES_CONTINUOUS}
     integrals = [profile_stats[cat]['integral_obs'] if cat in profile_stats else 0
                  for cat in cat_names]
     sort_idx = np.argsort(integrals)[::-1]
     sorted_cats = [cat_names[i] for i in sort_idx]
     traces = []
     for cat in sorted_cats:
+        if cat in sparse_cats:
+            continue
         i = cat_names.index(cat)
         colour = colour_map.get(cat, '#CCCCCC')
         if cat not in profile_stats:
@@ -1060,6 +1076,13 @@ def _build_analysis_sections(block, chart_render_calls, chart_counter):
 
     html = ""
 
+    # Count genes per category for sparse-category filtering
+    gene_cats = all_results.get('gene_categories', {})
+    cat_gene_counts = {}
+    for gid, cats in gene_cats.items():
+        for c in cats:
+            cat_gene_counts[c] = cat_gene_counts.get(c, 0) + 1
+
     # Section header
     html += f"""
     <div class="section-divider">
@@ -1069,7 +1092,8 @@ def _build_analysis_sections(block, chart_render_calls, chart_counter):
 
     # Enrichment curves
     if cont_results:
-        traces, layout = _build_enrichment_plotly_data(cont_results, colour_map)
+        traces, layout = _build_enrichment_plotly_data(
+            cont_results, colour_map, cat_gene_counts=cat_gene_counts)
         chart_id = f'{prefix}-enrichment'
         html += f"""
         <div class="section">
@@ -1158,7 +1182,7 @@ def _build_analysis_sections(block, chart_render_calls, chart_counter):
     # Significance landscape
     if cont_results and 'profile_stats' in cont_results:
         sig_traces, sig_layout = _build_significance_landscape_data(
-            cont_results, colour_map)
+            cont_results, colour_map, cat_gene_counts=cat_gene_counts)
         if sig_traces:
             chart_id = f'{prefix}-sig'
             html += f"""
@@ -1224,6 +1248,88 @@ body {
 .header h1 { font-size: 1.8em; font-weight: 700; margin-bottom: 4px; position: relative; z-index: 1; }
 .header .subtitle { opacity: 0.85; font-size: 1.0em; position: relative; z-index: 1; }
 .header .meta { opacity: 0.6; font-size: 0.82em; margin-top: 8px; position: relative; z-index: 1; }
+
+/* --- Tab navigation --- */
+.tab-bar {
+    display: flex; gap: 0;
+    background: var(--card);
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    margin-bottom: 0;
+    position: sticky; top: 0; z-index: 100;
+    overflow: hidden;
+}
+.tab-btn {
+    flex: 1;
+    padding: 18px 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.95em;
+    font-weight: 600;
+    color: var(--text-light);
+    position: relative;
+    transition: color 0.2s, background 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+.tab-btn:hover {
+    background: rgba(15,43,70,0.04);
+    color: var(--text);
+}
+.tab-btn.active {
+    color: var(--primary);
+    background: rgba(15,43,70,0.06);
+}
+.tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 20%; right: 20%;
+    height: 3px;
+    background: transparent;
+    border-radius: 3px 3px 0 0;
+    transition: background 0.25s, left 0.25s, right 0.25s;
+}
+.tab-btn.active::after {
+    background: var(--accent);
+    left: 10%; right: 10%;
+}
+.tab-icon {
+    font-size: 1.4em;
+    line-height: 1;
+}
+.tab-label {
+    font-size: 0.82em;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+.tab-hint {
+    font-size: 0.68em;
+    font-weight: 400;
+    color: var(--text-light);
+    opacity: 0.7;
+}
+.tab-btn.active .tab-hint { opacity: 1; color: var(--accent-dim); }
+.tab-panel {
+    display: none;
+    animation: tabFadeIn 0.3s ease;
+}
+.tab-panel.active { display: block; }
+@keyframes tabFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.tab-content-area {
+    background: var(--card);
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    padding: 4px 0 0 0;
+    margin-bottom: 24px;
+}
+
 .section {
     background: var(--card); padding: 24px 28px;
     margin-bottom: 20px; border-radius: 10px;
@@ -1342,6 +1448,15 @@ body {
 .gene-table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 0.78em; }
 .gene-table th, .gene-table td { padding: 3px 8px; text-align: left; border-bottom: 1px solid #eee; }
 .gene-table th { background: var(--primary-light); color: white; font-size: 0.82em; font-weight: 600; }
+.dominance-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.85em; }
+.dominance-table th, .dominance-table td {
+    padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border);
+}
+.dominance-table th {
+    background: var(--primary); color: white;
+    font-weight: 600; font-size: 0.82em;
+}
+.dominance-table tr:hover { background: #f8fafb; }
 .methods-box {
     background: #f8fafb; padding: 18px 22px; border-radius: 8px;
     border-left: 3px solid var(--accent);
@@ -1352,10 +1467,15 @@ body {
 .footer { text-align: center; padding: 16px; color: var(--text-light); font-size: 0.78em; }
 @media print {
     .export-btn { display: none; }
+    .tab-bar { display: none; }
+    .tab-panel { display: block !important; }
     .plot-container { page-break-inside: avoid; }
 }
 @media (max-width: 850px) {
     .category-cards { grid-template-columns: 1fr; }
+    .tab-btn { padding: 12px 8px; }
+    .tab-label { font-size: 0.72em; }
+    .tab-hint { display: none; }
 }
 """
 
@@ -1368,7 +1488,47 @@ document.addEventListener('DOMContentLoaded', function() {
         modeBarButtonsToRemove: ['lasso2d', 'select2d'],
         toImageButtonOptions: { format: 'svg', filename: 'sceptr_figure', scale: 2 }
     };
+
+    // Tab switching
+    var tabBtns = document.querySelectorAll('.tab-btn');
+    var tabPanels = document.querySelectorAll('.tab-panel');
+    var pendingRender = {};
+
+    TAB_CHART_MAP
+
+    function switchTab(tabId) {
+        tabBtns.forEach(function(b) { b.classList.remove('active'); });
+        tabPanels.forEach(function(p) { p.classList.remove('active'); });
+        var btn = document.querySelector('[data-tab="' + tabId + '"]');
+        var panel = document.getElementById(tabId);
+        if (btn) btn.classList.add('active');
+        if (panel) panel.classList.add('active');
+        // Render charts for this tab on first visit
+        if (pendingRender[tabId]) {
+            pendingRender[tabId].forEach(function(fn) { fn(); });
+            delete pendingRender[tabId];
+            // Relayout after render so Plotly sizes correctly
+            setTimeout(function() {
+                panel.querySelectorAll('.plot-container > div').forEach(function(el) {
+                    if (el.id) Plotly.Plots.resize(el);
+                });
+            }, 50);
+        }
+    }
+
+    tabBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            switchTab(this.getAttribute('data-tab'));
+        });
+    });
+
+    // Register chart render functions by tab
     CHART_RENDER_CALLS
+
+    // Activate first tab and render its charts
+    if (tabBtns.length > 0) {
+        switchTab(tabBtns[0].getAttribute('data-tab'));
+    }
 });
 function exportPlot(divId, filename, format) {
     var opts = {format: format, width: 1200, height: 700, scale: 3};
@@ -1380,7 +1540,47 @@ function exportPlot(divId, filename, format) {
 
 
 # ---------------------------------------------------------------------------
-# Main report generator -supports single or combined analysis
+# Dominance table builder (for landscape tab)
+# ---------------------------------------------------------------------------
+def _build_dominance_table(df_sorted, top_n=30):
+    """Build HTML table showing the most highly expressed genes."""
+    if df_sorted is None or len(df_sorted) == 0:
+        return ""
+    tpm = df_sorted['TPM'].values
+    total_expr = tpm.sum()
+    if total_expr == 0:
+        return ""
+
+    top = df_sorted.head(top_n).copy()
+    rows = []
+    cum_pct = 0.0
+    for i, (_, row) in enumerate(top.iterrows()):
+        tpm_val = row.get('TPM', 0)
+        pct = tpm_val / total_expr * 100
+        cum_pct += pct
+        name = str(row.get('protein_name', row.get('gene_names', 'unknown')))
+        if len(name) > 55:
+            name = name[:52] + '...'
+        rows.append(
+            f'<tr><td>{i+1}</td><td>{name}</td>'
+            f'<td><strong>{tpm_val:,.1f}</strong></td>'
+            f'<td>{pct:.1f}%</td><td>{cum_pct:.1f}%</td></tr>')
+
+    return f"""
+    <div class="section">
+        <h2>Transcriptome Dominance</h2>
+        <p>The {min(top_n, len(top))} most highly expressed genes and their
+        cumulative contribution to total expression.</p>
+        <table class="dominance-table">
+            <thead><tr><th>Rank</th><th>Protein</th><th>TPM</th>
+            <th>% Total</th><th>Cumul. %</th></tr></thead>
+            <tbody>{''.join(rows)}</tbody>
+        </table>
+    </div>"""
+
+
+# ---------------------------------------------------------------------------
+# Main report generator - supports single or combined analysis
 # ---------------------------------------------------------------------------
 def generate_interactive_report(
     results: Dict[str, Dict[str, Any]],
@@ -1408,8 +1608,9 @@ def generate_combined_report(
     output_path: str,
     total_genes: int,
     df_sorted=None,
+    landscape_data: Optional[Dict] = None,
 ) -> Optional[str]:
-    """Generate a unified report combining functional + cellular analysis."""
+    """Generate a unified tabbed report combining functional + cellular + landscape."""
     blocks = []
 
     func_block = _make_block(
@@ -1431,7 +1632,7 @@ def generate_combined_report(
     return _generate_report(
         blocks, output_path, total_genes,
         'Expression Profile Report', 'combined',
-        is_path=True)
+        is_path=True, landscape_data=landscape_data)
 
 
 def _make_block(results, all_results, cont_results, id_prefix,
@@ -1458,12 +1659,12 @@ def _make_block(results, all_results, cont_results, id_prefix,
 
 
 def _generate_report(analysis_blocks, output_prefix, total_genes,
-                     report_title, chart_type, is_path=False):
-    """Core report generator supporting one or multiple analysis blocks."""
+                     report_title, chart_type, is_path=False,
+                     landscape_data=None):
+    """Core report generator supporting one or multiple analysis blocks with tabs."""
     html_path = output_prefix if is_path else f"{output_prefix}_{chart_type}_report.html"
 
     # Aggregate stats across blocks
-    total_cat = sum(b['all_results'].get('total_categorised', 0) for b in analysis_blocks)
     all_cat_names = []
     for b in analysis_blocks:
         all_cat_names.extend(b['cat_names'])
@@ -1491,21 +1692,93 @@ def _generate_report(analysis_blocks, output_prefix, total_genes,
     # Hero summary
     hero_text = _generate_hero_summary(analysis_blocks)
 
-    # Build sections for each analysis block
+    # Compute landscape data from expression dataframe if not provided
+    df_sorted = primary.get('df_sorted')
+    if landscape_data is None and df_sorted is not None and len(df_sorted) > 0:
+        landscape_data = _compute_landscape_data(df_sorted)
+
+    # Determine which tabs to show
+    # tab_id -> (icon, label, hint)
+    # SVG icons for tabs (inline, 20x20)
+    _icon_func = ('<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" '
+                  'viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+                  'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+                  '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>')
+    _icon_cell = ('<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" '
+                  'viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+                  'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+                  '<circle cx="12" cy="12" r="10"/>'
+                  '<circle cx="12" cy="12" r="4"/>'
+                  '<line x1="12" y1="2" x2="12" y2="8"/>'
+                  '<line x1="12" y1="16" x2="12" y2="22"/>'
+                  '<line x1="2" y1="12" x2="8" y2="12"/>'
+                  '<line x1="16" y1="12" x2="22" y2="12"/></svg>')
+    _icon_land = ('<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" '
+                  'viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+                  'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+                  '<rect x="3" y="3" width="18" height="18" rx="2"/>'
+                  '<line x1="3" y1="9" x2="21" y2="9"/>'
+                  '<line x1="9" y1="21" x2="9" y2="9"/></svg>')
+
+    tabs = []
+    tabs.append(('tab-functional', _icon_func,
+                 'Functional Profiling', 'Biological process & molecular function'))
+    if len(analysis_blocks) > 1:
+        tabs.append(('tab-cellular', _icon_cell,
+                     'Localisation Profiling', 'Cellular component'))
+    if landscape_data is not None:
+        tabs.append(('tab-landscape', _icon_land,
+                     'Transcriptome Landscape', 'Expression, annotation & taxonomy'))
+
+    # Build tab bar HTML
+    tab_bar_html = '<div class="tab-bar">\n'
+    for tab_id, icon, label, hint in tabs:
+        tab_bar_html += (
+            f'    <button class="tab-btn" data-tab="{tab_id}">'
+            f'<span class="tab-icon">{icon}</span>'
+            f'<span class="tab-label">{label}</span>'
+            f'<span class="tab-hint">{hint}</span>'
+            f'</button>\n')
+    tab_bar_html += '</div>\n'
+
+    # Build each tab panel's content
+    # chart_render_calls is now list of (tab_id, js_code)
     chart_render_calls = []
 
-    # Transcriptome overview (landscape) from the first block's df_sorted
-    landscape_html = ""
-    df_sorted = primary.get('df_sorted')
-    if df_sorted is not None and len(df_sorted) > 0:
-        landscape_data = _compute_landscape_data(df_sorted)
-        landscape_html = _build_landscape_section(landscape_data, chart_render_calls)
+    # Functional tab
+    func_calls = []
+    func_html = _build_analysis_sections(
+        analysis_blocks[0], func_calls, 0)
+    for js in func_calls:
+        chart_render_calls.append(('tab-functional', js))
 
-    sections_html = ""
-    for i, block in enumerate(analysis_blocks):
-        sections_html += _build_analysis_sections(block, chart_render_calls, i)
+    # Cellular tab (if present)
+    cell_html = ""
+    if len(analysis_blocks) > 1:
+        cell_calls = []
+        cell_html = _build_analysis_sections(
+            analysis_blocks[1], cell_calls, 1)
+        for js in cell_calls:
+            chart_render_calls.append(('tab-cellular', js))
 
-    # Methods (shared, once at the end)
+    # Landscape tab (if data available)
+    land_html = ""
+    if landscape_data is not None:
+        land_calls = []
+        land_html = _build_landscape_section(landscape_data, land_calls)
+        # Add dominance table
+        land_html += _build_dominance_table(df_sorted)
+        for js in land_calls:
+            chart_render_calls.append(('tab-landscape', js))
+
+    # Build tab panels HTML
+    panels_html = f'<div id="tab-functional" class="tab-panel">{func_html}</div>\n'
+    if cell_html:
+        panels_html += f'<div id="tab-cellular" class="tab-panel">{cell_html}</div>\n'
+    if land_html:
+        panels_html += f'<div id="tab-landscape" class="tab-panel">{land_html}</div>\n'
+
+    # Methods (shared, after tabs)
     methods_html = f"""
     <div class="section">
         <h2>Methods</h2>
@@ -1529,8 +1802,24 @@ def _generate_report(analysis_blocks, output_prefix, total_genes,
         </div>
     </div>"""
 
+    # Build JS: group chart renders by tab for lazy loading
+    tab_js_map = {}
+    for tab_id, js_code in chart_render_calls:
+        if tab_id not in tab_js_map:
+            tab_js_map[tab_id] = []
+        tab_js_map[tab_id].append(js_code)
+
+    # Build the pendingRender map
+    pending_lines = []
+    for tab_id, js_list in tab_js_map.items():
+        fns = ', '.join(
+            [f'function() {{ {js} }}' for js in js_list])
+        pending_lines.append(f"pendingRender['{tab_id}'] = [{fns}];")
+    tab_chart_map_js = '\n    '.join(pending_lines)
+
     render_js = _JS_TEMPLATE.replace(
-        'CHART_RENDER_CALLS', '\n    '.join(chart_render_calls))
+        'TAB_CHART_MAP', tab_chart_map_js).replace(
+        'CHART_RENDER_CALLS', '// Charts registered via pendingRender above')
 
     try:
         html = f"""<!DOCTYPE html>
@@ -1546,7 +1835,7 @@ def _generate_report(analysis_blocks, output_prefix, total_genes,
 
 <div class="header">
     <h1>SCEPTR {report_title}</h1>
-    <div class="subtitle">Multi-resolution expression profiling</div>
+    <div class="subtitle">Continuous enrichment profiling</div>
     <div class="meta">Generated {datetime.now().strftime('%Y-%m-%d %H:%M')}
     &middot; SCEPTR v1.0</div>
 </div>
@@ -1567,7 +1856,7 @@ def _generate_report(analysis_blocks, output_prefix, total_genes,
         <div class="stat-card accent">
             <div class="label">Significant Enrichments</div>
             <div class="value">{sig_count}</div>
-            <div class="detail">across {n_tiers} tiers{f" × {len(analysis_blocks)} analyses" if len(analysis_blocks) > 1 else ""}</div>
+            <div class="detail">across {n_tiers} tiers{f" x {len(analysis_blocks)} analyses" if len(analysis_blocks) > 1 else ""}</div>
         </div>
         <div class="stat-card accent">
             <div class="label">{"Significant Profiles" if has_continuous else "Analysis Types"}</div>
@@ -1577,9 +1866,11 @@ def _generate_report(analysis_blocks, output_prefix, total_genes,
     </div>
 </div>
 
-{landscape_html}
+{tab_bar_html}
 
-{sections_html}
+<div class="tab-content-area">
+{panels_html}
+</div>
 
 {methods_html}
 

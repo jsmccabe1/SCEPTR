@@ -25,6 +25,7 @@ process ExPlotFunctional {
         path "functional/${params.output_prefix ?: 'sceptr'}_BP_MF_profile_test.tsv", emit: bp_mf_profile_test, optional: true
         path "functional/${params.output_prefix ?: 'sceptr'}_BP_MF_continuous_dkl.tsv", emit: bp_mf_continuous_dkl, optional: true
         path "functional/${params.output_prefix ?: 'sceptr'}_BP_MF_profile_shapes.tsv", emit: bp_mf_shapes, optional: true
+        path "functional/${params.output_prefix ?: 'sceptr'}_BP_MF_report_data.json", emit: bp_mf_report_data, optional: true
 
     script:
         def cat_set = params.category_set ?: "general"
@@ -80,6 +81,7 @@ process ExPlotCellular {
         path "cellular/${params.output_prefix ?: 'sceptr'}_CC_profile_test.tsv", emit: cc_profile_test, optional: true
         path "cellular/${params.output_prefix ?: 'sceptr'}_CC_continuous_dkl.tsv", emit: cc_continuous_dkl, optional: true
         path "cellular/${params.output_prefix ?: 'sceptr'}_CC_profile_shapes.tsv", emit: cc_shapes, optional: true
+        path "cellular/${params.output_prefix ?: 'sceptr'}_CC_report_data.json", emit: cc_report_data, optional: true
 
     script:
         def cat_set = params.category_set ?: "general"
@@ -115,6 +117,28 @@ process ExPlotCellular {
         """
 }
 
+process GenerateCombinedReport {
+    tag "combined_report"
+    publishDir "${params.outdir}/enrichment_profiles", mode: 'copy'
+    errorStrategy 'ignore'
+
+    input:
+        path integrated_results
+        path func_report_data
+        path cell_report_data
+
+    output:
+        path "${params.output_prefix ?: 'sceptr'}_report.html", emit: combined_report
+
+    script:
+        """
+        python3 ${params.explot_cli}/generate_report_cli.py ${integrated_results} \\
+            --functional ${func_report_data} \\
+            --cellular ${cell_report_data} \\
+            --output ${params.output_prefix ?: "sceptr"}_report.html
+        """
+}
+
 workflow ExPlot {
     take:
         integrated_results
@@ -130,9 +154,17 @@ workflow ExPlot {
         ExPlotFunctional(integrated_results)
         ExPlotCellular(integrated_results)
 
+        // Generate unified tabbed report if both analyses produce report data
+        GenerateCombinedReport(
+            integrated_results,
+            ExPlotFunctional.out.bp_mf_report_data,
+            ExPlotCellular.out.cc_report_data
+        )
+
     emit:
         bp_mf_plots = ExPlotFunctional.out.bp_mf_plots
         bp_mf_report = ExPlotFunctional.out.bp_mf_report
         cc_plots = ExPlotCellular.out.cc_plots
         cc_report = ExPlotCellular.out.cc_report
+        combined_report = GenerateCombinedReport.out.combined_report
 }

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-CLI for generating a combined SCEPTR interactive report.
+CLI for generating a unified SCEPTR interactive report.
 
-Takes functional + cellular report data JSONs and produces one unified
-HTML report with both analyses.
+Takes functional + cellular report data JSONs and produces one HTML
+report with tabbed navigation across all analyses.
 
 Usage:
     python generate_report_cli.py integrated_results.tsv \
@@ -34,7 +34,7 @@ logger = logging.getLogger('sceptr.explot.report_cli')
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
-        description='SCEPTR: Generate Combined Interactive Report')
+        description='SCEPTR: Generate Unified Interactive Report')
     parser.add_argument('integrated_results',
                         help='Path to integrated results TSV')
     parser.add_argument('--functional', required=True,
@@ -73,7 +73,7 @@ def main():
             func_data, cell_data, args.output, total_genes,
             df_sorted=df_sorted)
     else:
-        logger.info("No cellular data — generating functional-only report")
+        logger.info("No cellular data - generating functional-only report")
         interactive_report.generate_interactive_report(
             func_data['results'], func_data['all_results'],
             os.path.splitext(args.output)[0], total_genes,
