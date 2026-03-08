@@ -80,7 +80,7 @@ Statistical significance is assessed at both discrete tiers (Fisher's exact test
 
 ### Measuring functional specialisation
 
-To capture the overall picture, SCEPTR computes a **Kullback-Leibler divergence** D<sub>KL</sub> at each point along the expression gradient, measuring how different the functional composition of the top-k genes is from the transcriptome as a whole. Across every organism tested, this divergence decreases monotonically as k increases: the expression apex is always the most functionally specialised region of the transcriptome. The *rate* of that decrease varies between organisms and is itself a quantitative phenotype. A blood-stage malaria parasite with its extreme translational dominance shows a steep gradient; a bacterium with more distributed functional investment shows a shallow one.
+To capture the overall picture, SCEPTR computes a **Kullback-Leibler divergence** D<sub>KL</sub> at each point along the expression gradient, measuring how different the functional composition of the top-k genes is from the transcriptome as a whole. The shape of this gradient is a quantitative phenotype of transcriptome organisation. A blood-stage malaria parasite with its extreme translational dominance shows a steep D<sub>KL</sub> gradient; a bacterium with more distributed functional investment shows a shallow one.
 
 ### Dual-method category assignment
 
