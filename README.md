@@ -18,11 +18,11 @@
 
 ---
 
-Every transcriptome has a structure. A small fraction of genes dominates expression, and the functional programmes encoded in those genes shape cellular phenotype. But current methods throw this structure away. Differential expression reduces everything to binary up/down calls between conditions. ssGSEA and GSVA compress pathway activity into a single score. Standard GO enrichment applies one threshold and calls it a day.
+Every transcriptome has a structure. A small fraction of genes dominates expression, and the functional programmes encoded in those genes shape cellular phenotype. But current methods throw this structure away. Differential expression reduces everything to binary up/down calls between conditions. ssGSEA and GSVA compress pathway activity into a single score. Standard GO enrichment applies one threshold and calls it quits!
 
-**SCEPTR** takes a different approach. It ranks genes by expression and computes a **continuous enrichment function** for every functional category, evaluating enrichment at fine resolution across the entire expression gradient (default step size: 5 genes). The result is an *enrichment profile* for every category: a curve showing whether a programme dominates the expression apex, emerges gradually at broader tiers, or sits at background levels throughout. These profile shapes are biologically meaningful. Translation machinery concentrated at the very top of expression looks fundamentally different from an immune response distributed across hundreds of moderately expressed genes, and SCEPTR distinguishes the two.
+**SCEPTR** takes a different approach. It ranks genes by expression and computes a **continuous enrichment function** for every functional category, evaluating enrichment at fine resolution across the entire expression gradient (default step size: 5 genes). The result is an *enrichment profile* for every category: a curve showing whether a programme dominates the expression apex, emerges gradually at broader tiers, or sits at background levels throughout. These profile shapes are biologically meaningful. Translation machinery concentrated at the very top of expression looks fundamentally different from an antiviral immune response distributed across hundreds of moderately expressed genes, and SCEPTR distinguishes the two.
 
-Because SCEPTR compares each tier against the sample's own transcriptome-wide background, it works from a single sample with no replicates, no control, and no comparative data. This makes it directly applicable to the datasets that fill real-world transcriptomics: the single clinical isolate, the irreplaceable field sample, the experiment before replicates are funded. Parasitology, environmental microbiology, emerging pathogen response, non-model organisms. If you have expression data, SCEPTR can tell you what your transcriptome is investing in.
+Because SCEPTR compares each tier against the sample's own transcriptome-wide background, it works from a single sample with no replicates, no control, and no comparative data. This makes it directly applicable to the datasets that fill real-world transcriptomics: single clinical isolates, irreplaceable field samples, experiments that happen before replicates are funded. Parasitology, environmental microbiology, emerging pathogen response, non-model organisms. If you have expression data, SCEPTR can tell you what your transcriptome is investing in.
 
 > SCEPTR also includes a [comparison module](#comparing-two-conditions) for testing whether enrichment profiles differ between two conditions (e.g. mock vs infected) using gene-label permutation testing, but the core framework is designed around single-sample analysis.
 
@@ -70,7 +70,7 @@ Or specify everything directly:
 
 ### Continuous enrichment profiling
 
-The core idea is simple. Genes at the top of the expression hierarchy are not a random sample of the transcriptome. They are enriched for specific biological programmes, and which programmes dominate changes depending on how far down the hierarchy you look.
+The core idea is straightforward. Genes at the top of the expression hierarchy are not a random sample of the transcriptome. They are enriched for specific biological programmes, and which programmes dominate changes depending on how far down the hierarchy you look.
 
 SCEPTR formalises this by computing a **continuous enrichment function** E<sub>C</sub>(k) for every functional category C. Genes are ranked by TPM, and at each tier size k (from k=10 up to N/2, default step size 5), the proportion of category C in the top-k genes is compared to its proportion in the full transcriptome. The result is a fold-enrichment curve across the entire expression gradient, not just a handful of arbitrary thresholds.
 
