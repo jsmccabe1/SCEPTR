@@ -31,7 +31,7 @@ Because SCEPTR compares each tier against the sample's own transcriptome-wide ba
 <p align="center">
   <img src="docs/assets/example_sceptr_output.png" alt="SCEPTR interactive enrichment profile showing continuous functional enrichment across the expression gradient" width="900">
   <br>
-  <sub><em>Interactive enrichment profile from the SCEPTR report. Each curve traces a functional category's enrichment across the full expression gradient. Here, Immune Evasion & Host Manipulation dominates the apex of <em>Toxoplasma gondii</em> tachyzoite expression - driven by dense granule effectors (GRA proteins) - while Translation & Ribosome investment emerges more gradually. The grey band shows the 95% null envelope from permutation testing. Hover for per-gene-rank values; click legend entries to show/hide categories.</em></sub>
+  <sub><em>Interactive enrichment profile from the SCEPTR report. Each curve traces a functional category's enrichment across the full expression gradient. Here, Host Cell Invasion & Attachment dominates the apex of <em>Toxoplasma gondii</em> tachyzoite expression - driven by micronemal and surface antigen proteins - while Immune Evasion & Host Manipulation and Translation & Ribosome show broader enrichment patterns. The grey band shows the 95% null envelope from permutation testing. Hover for per-gene-rank values; click legend entries to show/hide categories.</em></sub>
 </p>
 
 <br>
