@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <strong>Statistical Characterisation of Expression Profiles Across Transcriptomic Resolution</strong>
+  <strong>Statistical Characterisation of Expression Profiles in Transcriptomes</strong>
 </p>
 
 <p align="center">

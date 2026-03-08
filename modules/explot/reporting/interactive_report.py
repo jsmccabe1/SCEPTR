@@ -1875,7 +1875,7 @@ def _generate_report(analysis_blocks, output_prefix, total_genes,
 {methods_html}
 
 <div class="footer">
-    SCEPTR &middot; Statistical Characterisation of Expression Profiles Across Transcriptomic Resolution
+    SCEPTR &middot; Statistical Characterisation of Expression Profiles in Transcriptomes
     &middot; {datetime.now().strftime('%Y-%m-%d')}
 </div>
 

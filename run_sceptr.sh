@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# SCEPTR: Statistical Characterisation of Expression Profiles Across Transcriptomic Resolution
+# SCEPTR: Statistical Characterisation of Expression Profiles in Transcriptomes
 # Interactive pipeline launcher
 #
 
@@ -27,7 +27,7 @@ banner() {
     echo -e "${CYAN}${BOLD}│                                                             │${NC}"
     echo -e "${CYAN}${BOLD}│   SCEPTR v${VERSION}                                            │${NC}"
     echo -e "${CYAN}${BOLD}│   Statistical Characterisation of Expression Profiles        │${NC}"
-    echo -e "${CYAN}${BOLD}│   Across Transcriptomic Resolution                          │${NC}"
+    echo -e "${CYAN}${BOLD}│   in Transcriptomes                                         │${NC}"
     echo -e "${CYAN}${BOLD}│                                                             │${NC}"
     echo -e "${CYAN}${BOLD}└─────────────────────────────────────────────────────────────┘${NC}"
     echo ""
