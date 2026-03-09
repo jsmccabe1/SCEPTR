@@ -7,12 +7,12 @@ A statistical framework for continuous enrichment profiling of ranked transcript
 ## Installation
 
 ```bash
-pip install sceptr
+pip install sceptr-profiling
 ```
 
 For GO hierarchy support:
 ```bash
-pip install sceptr[go]
+pip install sceptr-profiling[go]
 ```
 
 ## Quick Start

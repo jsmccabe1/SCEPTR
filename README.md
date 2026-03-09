@@ -43,7 +43,7 @@ Because SCEPTR compares each tier against the sample's own transcriptome-wide ba
 Run the SCEPTR statistical method on any annotated expression table. No Nextflow, no Docker.
 
 ```bash
-pip install sceptr
+pip install sceptr-profiling
 sceptr profile --expression my_data.tsv --category-set bacteria -o results/
 ```
 
