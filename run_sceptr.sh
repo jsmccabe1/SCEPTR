@@ -358,7 +358,7 @@ if $INTERACTIVE; then
         echo ""
         echo -e "${BOLD}${CYAN}Enrichment Profiling Only${NC}\n"
         echo "  Run the SCEPTR statistical method on your own annotated expression data."
-        echo -e "  ${DIM}No raw reads, no preprocessing, no Docker required.${NC}"
+        echo -e "  ${DIM}Skips all preprocessing - goes straight to enrichment profiling.${NC}"
         echo ""
         echo "  Your input file should be a tab-separated table with at minimum:"
         echo "    - sequence_id: gene/transcript identifiers"

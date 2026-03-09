@@ -36,6 +36,13 @@ Because SCEPTR compares each tier against the sample's own transcriptome-wide ba
 
 <br>
 
+## Prerequisites
+
+- [Nextflow](https://www.nextflow.io/) >= 21.10.0
+- [Docker](https://www.docker.com/) (recommended) or [Singularity](https://sylabs.io/singularity/)
+- ~4 GB disk space for databases
+- ~8 GB RAM recommended
+
 ## Quick Start
 
 ```bash
@@ -88,7 +95,7 @@ Functional categories are assigned to genes through two complementary methods: k
 
 ### Two ways to use SCEPTR
 
-**As a statistical method** - bring any ranked gene list and run the enrichment profiling module directly. No preprocessing, no pipeline, no Docker required. SCEPTR computes continuous enrichment profiles, permutation-based significance, and D<sub>KL</sub> functional specialisation from expression data alone.
+**As a statistical method** - bring any annotated expression table and run enrichment profiling directly, skipping all preprocessing steps. SCEPTR computes continuous enrichment profiles, permutation-based significance, and D<sub>KL</sub> functional specialisation from your existing data.
 
 **As an automated framework** - provide raw reads and a reference, and SCEPTR handles everything from QC to a finished interactive report in a single command.
 
@@ -413,13 +420,6 @@ The permutation test evaluates per-tier enrichment differences. The module ident
 <br>
 
 ## Installation
-
-### Requirements
-
-- [Nextflow](https://www.nextflow.io/) >= 21.10.0
-- [Docker](https://www.docker.com/) (recommended) or Singularity
-- ~4 GB disk space for databases
-- ~8 GB RAM recommended
 
 ### Step 1: Clone
 
