@@ -86,36 +86,57 @@ To capture the overall picture, SCEPTR computes a **Kullback-Leibler divergence*
 
 Functional categories are assigned to genes through two complementary methods: keyword matching via word-boundary regex against UniProt annotations, and GO hierarchy traversal from curated anchor GO terms. Each assignment is tagged with its source (keyword, GO, or both) for full transparency. A GO-only ablation recovers 100% of significantly enriched categories across all validated organisms (mean Pearson r = 0.90 with the dual method), confirming that keywords are supplementary rather than load-bearing. External validation against 17 MSigDB Hallmark gene sets shows 100% concordance with independently curated pathway definitions.
 
-### How it works
+### Two ways to use SCEPTR
 
-SCEPTR handles every step from raw sequencing reads to a finished interactive report. You provide reads and a reference - SCEPTR handles quality control, quantification, protein prediction, annotation, and enrichment profiling automatically.
+**As a statistical method** - bring any ranked gene list and run the enrichment profiling module directly. No preprocessing, no pipeline, no Docker required. SCEPTR computes continuous enrichment profiles, permutation-based significance, and D<sub>KL</sub> functional specialisation from expression data alone.
+
+**As an automated framework** - provide raw reads and a reference, and SCEPTR handles everything from QC to a finished interactive report in a single command.
 
 ```mermaid
-graph LR
-    subgraph Input
-        A["Reads + Reference"]
-    end
-    subgraph Preprocessing
-        B["QC & Quantification"]
-        C["Protein Prediction & Annotation"]
-    end
-    subgraph Analysis
-        D["Continuous Enrichment<br/>Profiling"]
-        E["GO Enrichment"]
-        F["Transcriptome<br/>Overview"]
-    end
-    subgraph Output
-        G["Interactive<br/>HTML Report"]
+graph TB
+    subgraph entry ["Start from either entry point"]
+        direction LR
+        A["Raw reads + reference\n(full automated framework)"]
+        B["Ranked gene list\n(method only)"]
     end
 
-    A --> B --> C --> D --> G
-    C --> E --> G
-    C --> F --> G
-    B --> D
+    subgraph auto ["Automated preprocessing"]
+        direction LR
+        C["QC &\nQuantification"]
+        D["Protein Prediction\n& Annotation"]
+        E["Contamination\nFiltering"]
+    end
+
+    subgraph method ["SCEPTR statistical method"]
+        direction LR
+        F["Continuous enrichment\nprofiling"]
+        G["Permutation\nsignificance testing"]
+        H["DKL specialisation\ngradient"]
+    end
+
+    subgraph insight ["What you discover"]
+        direction LR
+        I["Which programmes\ndominate and where"]
+        J["Whether enrichment\nis significant"]
+        K["How resources are\nallocated"]
+    end
+
+    A --> C --> D --> E --> F
     B --> F
+    F --> G --> I
+    F --> H --> K
+    G --> J
 
-    style D fill:#0e7490,stroke:#0c4a6e,color:#fff
-    style G fill:#0f2b46,stroke:#0c4a6e,color:#fff
+    style entry fill:none,stroke:#334155
+    style auto fill:none,stroke:#475569
+    style method fill:#0e7490,stroke:#0c4a6e,color:#fff
+    style insight fill:#0f2b46,stroke:#0c4a6e,color:#fff
+    style F fill:#0e7490,stroke:#0c4a6e,color:#fff
+    style G fill:#0e7490,stroke:#0c4a6e,color:#fff
+    style H fill:#0e7490,stroke:#0c4a6e,color:#fff
+    style I fill:#0f2b46,stroke:#164e63,color:#fff
+    style J fill:#0f2b46,stroke:#164e63,color:#fff
+    style K fill:#0f2b46,stroke:#164e63,color:#fff
 ```
 
 <sub>*Protein prediction uses TransDecoder for de novo eukaryotic assemblies and direct CDS translation for bacterial and vertebrate host inputs. Contamination filtering is auto-enabled for eukaryotic assemblies.*</sub>
@@ -149,7 +170,7 @@ SCEPTR generates a self-contained **interactive HTML report** combining both fun
 
 <sub>Cellular component outputs follow the same pattern with `_CC_` prefix.</sub>
 
-### Other pipeline reports
+### Other framework reports
 
 | Report | What it shows |
 |--------|--------------|
@@ -434,9 +455,9 @@ docker build -t sceptr:1.0.0 .
 ./run_sceptr.sh
 ```
 
-Auto-detects read files, validates inputs, and builds the pipeline command interactively. Supports three modes:
+Auto-detects read files, validates inputs, and builds the framework command interactively. Supports three modes:
 
-1. **Full pipeline** - Run SCEPTR from reads to reports
+1. **Full framework** - Run SCEPTR from reads to reports
 2. **Compare conditions** - Compare two existing SCEPTR outputs
 3. **Re-run enrichment profiling** - Re-analyse with different categories or parameters
 
@@ -594,14 +615,14 @@ SCEPTR automatically adapts based on `--category_set`:
 
 ```
 SCEPTR/
-├── main.nf                  # Main pipeline workflow
-├── nextflow.config          # Pipeline configuration
+├── main.nf                  # Main framework workflow
+├── nextflow.config          # Framework configuration
 ├── run_sceptr.sh            # Interactive launcher
 ├── setup_databases.sh       # Database download/build script
 ├── Dockerfile               # Container definition
 ├── LICENSE                  # MIT License
 ├── README.md
-├── bin/                     # Pipeline scripts
+├── bin/                     # Framework scripts
 │   ├── annotation/          # UniProt annotation scripts
 │   ├── contamination/       # Contaminant filtering scripts
 │   ├── enrichment/          # GO enrichment scripts

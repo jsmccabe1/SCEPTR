@@ -246,14 +246,20 @@
         /* ── Validation ── */
         .validation-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.25rem;
         }
         .val-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 1.5rem;
+            border-radius: 12px;
+            padding: 1.75rem;
+            transition: all 0.25s;
+        }
+        .val-card:hover {
+            border-color: var(--accent);
+            background: var(--bg-card-hover);
+            box-shadow: 0 0 30px var(--accent-glow);
         }
         .val-card .organism {
             font-weight: 600; color: var(--text-bright);
@@ -274,7 +280,7 @@
             margin-top: 0.5rem;
         }
 
-        /* ── Pipeline steps ── */
+        /* ── Usage tracks ── */
         .pipeline-steps {
             display: flex;
             flex-direction: column;
@@ -411,6 +417,11 @@
         }
 
         /* ── Responsive ── */
+        @media (max-width: 768px) {
+            #pipeline [style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
+            }
+        }
         @media (max-width: 640px) {
             .hero { padding: 8rem 0 3rem; }
             .hero img { max-width: 280px; }
@@ -437,7 +448,7 @@
             <a href="#method">Method</a>
             <a href="#categories">Categories</a>
             <a href="#validation">Why SCEPTR</a>
-            <a href="#pipeline">How It Runs</a>
+            <a href="#pipeline">Get Started</a>
             <a href="https://github.com/jsmccabe1/SCEPTR">GitHub</a>
         </div>
     </div>
@@ -687,46 +698,69 @@
     </div>
 </section>
 
-<!-- Pipeline -->
+<!-- How to use -->
 <section id="pipeline">
     <div class="container">
-        <div class="section-title reveal">Automated End-to-End</div>
+        <div class="section-title reveal">Two Ways to Use SCEPTR</div>
         <p class="section-subtitle reveal">
-            SCEPTR's methodology is implemented in a fully automated framework.
-            From raw FASTQ reads to an interactive HTML report in a single command, with Nextflow and Docker for full reproducibility.
+            Use the statistical method on its own, or let the framework handle everything from raw reads.
         </p>
-        <div class="pipeline-steps reveal">
-            <div class="step">
-                <div class="step-title">Quality Control</div>
-                <div class="step-desc">FastQC + MultiQC aggregation</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem;" class="reveal">
+            <!-- Method track -->
+            <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                    <div class="icon icon-green" style="width: 32px; height: 32px; font-size: 14px;">&#x25B2;</div>
+                    <h3 style="color: var(--text-bright); font-size: 1.05rem;">The Statistical Method</h3>
+                </div>
+                <p style="color: var(--text-dim); font-size: 0.88rem; margin-bottom: 1.25rem;">
+                    Bring any ranked gene list. No pipeline, no Docker, no preprocessing required.
+                </p>
+                <div class="pipeline-steps" style="padding-left: 1.5rem;">
+                    <div class="step">
+                        <div class="step-title">Your ranked gene list</div>
+                        <div class="step-desc">Any expression-ranked genes with functional annotation</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-title">Continuous enrichment profiling</div>
+                        <div class="step-desc">E<sub>C</sub>(k) computed at every gene rank, kernel-smoothed</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-title">Permutation significance testing</div>
+                        <div class="step-desc">Per-category p-values from whole-profile permutation</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-title">D<sub>KL</sub> specialisation gradient</div>
+                        <div class="step-desc">Quantifies how your transcriptome allocates resources</div>
+                    </div>
+                </div>
             </div>
-            <div class="step">
-                <div class="step-title">Expression Quantification</div>
-                <div class="step-desc">Salmon index + pseudo-alignment</div>
-            </div>
-            <div class="step">
-                <div class="step-title">Protein Prediction</div>
-                <div class="step-desc">TransDecoder ORF prediction or direct CDS translation</div>
-            </div>
-            <div class="step">
-                <div class="step-title">Contamination Filtering</div>
-                <div class="step-desc">DIAMOND-based screening with optional host sequence removal</div>
-            </div>
-            <div class="step">
-                <div class="step-title">Functional Annotation</div>
-                <div class="step-desc">UniProt DIAMOND + GO term assignment</div>
-            </div>
-            <div class="step">
-                <div class="step-title">GO Enrichment</div>
-                <div class="step-desc">Per-tier topGO enrichment with weight01 algorithm</div>
-            </div>
-            <div class="step">
-                <div class="step-title">Continuous Enrichment Profiling</div>
-                <div class="step-desc">Kernel-smoothed enrichment functions, KL divergence, permutation testing, interactive HTML report</div>
-            </div>
-            <div class="step">
-                <div class="step-title">Transcriptome Overview</div>
-                <div class="step-desc">Lorenz curve, expression distribution, annotation quality, and taxonomic composition - integrated into the interactive report</div>
+            <!-- Framework track -->
+            <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                    <div class="icon icon-cyan" style="width: 32px; height: 32px; font-size: 14px;">&#x2699;</div>
+                    <h3 style="color: var(--text-bright); font-size: 1.05rem;">The Automated Framework</h3>
+                </div>
+                <p style="color: var(--text-dim); font-size: 0.88rem; margin-bottom: 1.25rem;">
+                    Raw reads to interactive report in a single command. Nextflow + Docker for reproducibility.
+                </p>
+                <div class="pipeline-steps" style="padding-left: 1.5rem;">
+                    <div class="step">
+                        <div class="step-title">QC & expression quantification</div>
+                        <div class="step-desc">FastQC, MultiQC, Salmon pseudo-alignment</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-title">Protein prediction & annotation</div>
+                        <div class="step-desc">TransDecoder / CDS translation, UniProt DIAMOND, GO terms</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-title">Contamination filtering</div>
+                        <div class="step-desc">DIAMOND-based screening with optional host removal</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-title">Full SCEPTR analysis + report</div>
+                        <div class="step-desc">Everything from the method track, packaged in an interactive HTML report</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
