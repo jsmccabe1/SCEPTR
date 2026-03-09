@@ -291,9 +291,9 @@
         .pipeline-steps::before {
             content: '';
             position: absolute;
-            left: 0.55rem;
-            top: 0.5rem;
-            bottom: 0.5rem;
+            left: 0.45rem;
+            top: 1.5rem;
+            bottom: 1.5rem;
             width: 2px;
             background: var(--border);
         }
@@ -304,12 +304,13 @@
         .step::before {
             content: '';
             position: absolute;
-            left: -1.65rem;
-            top: 1.15rem;
+            left: -1.55rem;
+            top: 50%;
+            transform: translateY(-50%);
             width: 10px; height: 10px;
             border-radius: 50%;
             background: var(--accent);
-            border: 2px solid var(--bg);
+            border: 2px solid var(--bg-card);
         }
         .step .step-title {
             font-weight: 600; font-size: 0.95rem; color: var(--text-bright);
@@ -709,8 +710,8 @@
             <!-- Method track -->
             <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem;">
                 <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
-                    <div class="icon icon-green" style="width: 32px; height: 32px; font-size: 14px;">&#x25B2;</div>
-                    <h3 style="color: var(--text-bright); font-size: 1.05rem;">The Statistical Method</h3>
+                    <div class="icon icon-green" style="width: 32px; height: 32px; font-size: 14px; margin: 0; flex-shrink: 0;">&#x25B2;</div>
+                    <h3 style="color: var(--text-bright); font-size: 1.05rem; margin: 0;">The Statistical Method</h3>
                 </div>
                 <p style="color: var(--text-dim); font-size: 0.88rem; margin-bottom: 1.25rem;">
                     Bring any ranked gene list. No pipeline, no Docker, no preprocessing required.
@@ -737,8 +738,8 @@
             <!-- Framework track -->
             <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem;">
                 <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
-                    <div class="icon icon-cyan" style="width: 32px; height: 32px; font-size: 14px;">&#x2699;</div>
-                    <h3 style="color: var(--text-bright); font-size: 1.05rem;">The Automated Framework</h3>
+                    <div class="icon icon-cyan" style="width: 32px; height: 32px; font-size: 14px; margin: 0; flex-shrink: 0;">&#x2699;</div>
+                    <h3 style="color: var(--text-bright); font-size: 1.05rem; margin: 0;">The Automated Framework</h3>
                 </div>
                 <p style="color: var(--text-dim); font-size: 0.88rem; margin-bottom: 1.25rem;">
                     Raw reads to interactive report in a single command. Nextflow + Docker for reproducibility.
