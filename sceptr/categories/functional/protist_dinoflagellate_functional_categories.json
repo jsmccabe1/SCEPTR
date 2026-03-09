@@ -1,0 +1,555 @@
+{
+  "Photosynthesis & Light Harvesting": {
+    "keywords": [
+      "photosynthesis",
+      "photosynthetic process",
+      "photosystem I",
+      "photosystem II",
+      "light harvesting complex",
+      "light reaction",
+      "chlorophyll biosynthesis",
+      "peridinin-chlorophyll",
+      "fucoxanthin pigment",
+      "carotenoid biosynthesis",
+      "photosynthetic electron transport",
+      "carbon fixation",
+      "RuBisCO",
+      "calvin cycle",
+      "C4 photosynthesis",
+      "photorespiration",
+      "light-harvesting complex",
+      "photophosphorylation",
+      "photosynthetic apparatus",
+      "antenna complex",
+      "reaction center protein"
+    ],
+    "anchor_go_ids": [
+      "GO:0015979",
+      "GO:0009536"
+    ],
+    "core_keywords": [
+      "photosystem I",
+      "photosystem II",
+      "light harvesting complex",
+      "chlorophyll biosynthesis",
+      "peridinin-chlorophyll",
+      "RuBisCO",
+      "calvin cycle",
+      "photosynthetic electron transport",
+      "light-harvesting complex",
+      "reaction center protein"
+    ]
+  },
+  "Toxin Production & Secondary Metabolites": {
+    "keywords": [
+      "toxin biosynthesis",
+      "neurotoxin production",
+      "saxitoxin biosynthesis",
+      "brevetoxin biosynthesis",
+      "okadaic acid production",
+      "dinophysistoxin",
+      "yessotoxin",
+      "azaspiracid",
+      "ciguatoxin",
+      "polyketide synthase",
+      "alkaloid biosynthesis",
+      "bioactive compound",
+      "secondary metabolic process",
+      "specialized metabolism",
+      "natural product biosynthesis",
+      "paralytic shellfish toxin",
+      "diarrhetic shellfish toxin",
+      "PSP toxin",
+      "DSP toxin",
+      "NSP toxin",
+      "ciguatera toxin",
+      "harmful algal bloom",
+      "phycotoxin production"
+    ],
+    "anchor_go_ids": [
+      "GO:0019748",
+      "GO:0019748"
+    ],
+    "core_keywords": [
+      "saxitoxin biosynthesis",
+      "brevetoxin biosynthesis",
+      "okadaic acid production",
+      "ciguatoxin",
+      "polyketide synthase",
+      "paralytic shellfish toxin",
+      "phycotoxin production"
+    ]
+  },
+  "Bioluminescence & Light Production": {
+    "keywords": [
+      "bioluminescence",
+      "luciferase activity",
+      "luciferin binding",
+      "scintillon complex",
+      "light emission",
+      "bioluminescent flash",
+      "circadian bioluminescence",
+      "dinoflagellate luciferase",
+      "calcium-activated photoprotein",
+      "coelenterazine metabolism",
+      "flash kinetics"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": [
+      "bioluminescence",
+      "luciferase activity",
+      "luciferin binding",
+      "scintillon complex",
+      "dinoflagellate luciferase"
+    ]
+  },
+  "Flagellar System & Motility": {
+    "keywords": [
+      "flagellum assembly",
+      "flagellar motility",
+      "longitudinal flagellum",
+      "transverse flagellum",
+      "cingulum structure",
+      "sulcus structure",
+      "flagellar beating",
+      "swimming behavior",
+      "cell motility",
+      "dynein motor",
+      "axoneme structure",
+      "basal body",
+      "flagellar apparatus",
+      "kinetosome",
+      "striated rootlet",
+      "flagellar pocket",
+      "mastigoneme",
+      "helical swimming",
+      "cell rotation",
+      "diel vertical migration"
+    ],
+    "anchor_go_ids": [
+      "GO:0048870",
+      "GO:0030048"
+    ],
+    "core_keywords": [
+      "flagellum assembly",
+      "flagellar motility",
+      "longitudinal flagellum",
+      "transverse flagellum",
+      "dynein motor",
+      "axoneme structure"
+    ]
+  },
+  "Cell Cycle & Nuclear Organisation": {
+    "keywords": [
+      "cell cycle regulation",
+      "mitotic cell cycle",
+      "meiotic cell cycle",
+      "dinokaryon organization",
+      "condensed chromosome structure",
+      "chromosome organization",
+      "nuclear division",
+      "DNA replication",
+      "histone-like protein",
+      "chromatin structure",
+      "nuclear envelope",
+      "nucleolus organization",
+      "karyokinesis",
+      "chromosome condensation",
+      "mitotic spindle",
+      "cell division",
+      "G1 phase regulation",
+      "S phase regulation",
+      "G2 phase regulation",
+      "M phase regulation"
+    ],
+    "anchor_go_ids": [
+      "GO:0007049",
+      "GO:0051301",
+      "GO:0006260"
+    ],
+    "core_keywords": [
+      "dinokaryon organization",
+      "condensed chromosome structure",
+      "mitotic cell cycle"
+    ]
+  },
+  "Cyst Formation & Life Cycle": {
+    "keywords": [
+      "cyst formation",
+      "encystment process",
+      "excystment process",
+      "resting stage formation",
+      "dormancy induction",
+      "life cycle transition",
+      "sexual reproduction",
+      "gamete formation",
+      "zygote development",
+      "pellicle structure",
+      "cellulose thecal plate",
+      "cell wall biosynthesis",
+      "resting cyst",
+      "temporary cyst",
+      "hypnozygote",
+      "planozygote",
+      "cyst germination",
+      "cyst wall formation",
+      "dinosporin biosynthesis",
+      "resistant stage"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": [
+      "cyst formation",
+      "encystment process",
+      "excystment process",
+      "resting cyst",
+      "dinosporin biosynthesis",
+      "hypnozygote"
+    ]
+  },
+  "Chloroplast": {
+    "keywords": [
+      "chloroplast maintenance",
+      "plastid biogenesis",
+      "endosymbiosis",
+      "kleptoplastidy",
+      "secondary endosymbiosis",
+      "tertiary endosymbiosis",
+      "plastid acquisition",
+      "plastid genome expression",
+      "plastid division",
+      "endosymbiont-derived",
+      "kleptoplast retention",
+      "temporary plastid",
+      "plastid protein import",
+      "mixotrophic plastid"
+    ],
+    "anchor_go_ids": [
+      "GO:0009536"
+    ],
+    "core_keywords": [
+      "plastid biogenesis",
+      "secondary endosymbiosis",
+      "tertiary endosymbiosis",
+      "plastid protein import"
+    ]
+  },
+  "Specialised Organelles & Structures": {
+    "keywords": [
+      "pusule complex",
+      "trichocyst discharge",
+      "nematocyst structure",
+      "mucocyst secretion",
+      "eyespot apparatus",
+      "stigma photoreceptor",
+      "ocelloid structure",
+      "specialized organelle",
+      "secretory vesicle",
+      "accumulation body",
+      "inclusion body",
+      "pyrenoid structure",
+      "starch sheath",
+      "crystalline body",
+      "lipid body storage",
+      "osmiophilic body"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": [
+      "pusule complex",
+      "trichocyst discharge",
+      "eyespot apparatus",
+      "ocelloid structure",
+      "pyrenoid structure"
+    ]
+  },
+  "Nutrient Acquisition & Feeding": {
+    "keywords": [
+      "nutrient acquisition",
+      "phagotrophic feeding",
+      "osmotrophic uptake",
+      "mixotrophic nutrition",
+      "nitrogen assimilation",
+      "nitrate transporter",
+      "ammonium transporter",
+      "phosphate transporter",
+      "iron acquisition",
+      "vitamin B12 uptake",
+      "dissolved organic matter uptake",
+      "prey capture mechanism",
+      "food vacuole formation",
+      "feeding apparatus",
+      "pallium feeding",
+      "pseudopodial feeding",
+      "prey engulfment",
+      "heterotrophic nutrition",
+      "autotrophic nutrition"
+    ],
+    "anchor_go_ids": [
+      "GO:0055085",
+      "GO:0006810"
+    ],
+    "core_keywords": [
+      "nitrate transporter",
+      "ammonium transporter",
+      "phosphate transporter",
+      "phagotrophic feeding"
+    ]
+  },
+  "Stress Response & Environmental Adaptation": {
+    "keywords": [
+      "cellular stress response",
+      "oxidative stress defense",
+      "osmotic stress response",
+      "temperature stress response",
+      "pH stress response",
+      "heavy metal tolerance",
+      "UV radiation response",
+      "antioxidant enzyme",
+      "heat shock protein family",
+      "compatible solute synthesis",
+      "osmoprotectant accumulation",
+      "environmental stress adaptation",
+      "salinity stress response",
+      "nutrient stress response",
+      "light stress response",
+      "pressure stress response"
+    ],
+    "anchor_go_ids": [
+      "GO:0006950",
+      "GO:0009628"
+    ],
+    "core_keywords": [
+      "oxidative stress defense",
+      "heat shock protein family",
+      "antioxidant enzyme"
+    ]
+  },
+  "Ion Transport & Osmoregulation": {
+    "keywords": [
+      "ion transport activity",
+      "sodium transport",
+      "potassium transport",
+      "calcium transport",
+      "proton pump activity",
+      "sodium-potassium ATPase",
+      "ion channel activity",
+      "osmoregulation",
+      "water balance regulation",
+      "aquaporin channel",
+      "contractile vacuole",
+      "ionic regulation",
+      "membrane potential regulation",
+      "electrochemical gradient",
+      "pH regulation",
+      "calcium signaling pathway",
+      "calcium homeostasis"
+    ],
+    "anchor_go_ids": [
+      "GO:0055085",
+      "GO:0006811"
+    ],
+    "core_keywords": [
+      "sodium-potassium ATPase",
+      "ion channel activity",
+      "aquaporin channel",
+      "proton pump activity"
+    ]
+  },
+  "Central Metabolism & Energetics": {
+    "keywords": [
+      "glycolysis",
+      "citric acid cycle",
+      "electron transport chain",
+      "ATP synthesis",
+      "fatty acid metabolism",
+      "amino acid metabolism",
+      "lipid metabolism",
+      "carbohydrate metabolism",
+      "pentose phosphate pathway",
+      "glyoxylate cycle",
+      "gluconeogenesis",
+      "lipid biosynthesis",
+      "sterol metabolism",
+      "isoprenoid biosynthesis",
+      "energy metabolism",
+      "respiratory metabolism"
+    ],
+    "anchor_go_ids": [
+      "GO:0006096",
+      "GO:0006099",
+      "GO:0006629",
+      "GO:0006091"
+    ],
+    "core_keywords": [
+      "glycolysis",
+      "citric acid cycle",
+      "ATP synthesis",
+      "pentose phosphate pathway"
+    ]
+  },
+  "Protein Synthesis & Processing": {
+    "keywords": [
+      "ribosomal protein",
+      "translation initiation",
+      "translation elongation",
+      "protein synthesis",
+      "ribosome biogenesis",
+      "protein folding",
+      "molecular chaperone",
+      "heat shock protein",
+      "endoplasmic reticulum stress",
+      "Golgi apparatus",
+      "protein secretion",
+      "signal peptide processing",
+      "post-translational modification",
+      "protein degradation",
+      "ubiquitin-proteasome pathway",
+      "autophagy pathway",
+      "tRNA synthetase",
+      "ribosome recycling",
+      "translation termination",
+      "peptidyl transferase",
+      "release factor",
+      "ribosome assembly",
+      "cytoplasmic translation",
+      "structural constituent of ribosome"
+    ],
+    "anchor_go_ids": [
+      "GO:0006412",
+      "GO:0042254",
+      "GO:0003735",
+      "GO:0006457"
+    ],
+    "core_keywords": [
+      "ribosomal protein",
+      "translation initiation",
+      "translation elongation",
+      "tRNA synthetase",
+      "structural constituent of ribosome"
+    ]
+  },
+  "Circadian Rhythm & Biological Timing": {
+    "keywords": [
+      "circadian rhythm regulation",
+      "circadian clock gene",
+      "photoperiodism",
+      "light signaling pathway",
+      "diel vertical migration",
+      "biological clock mechanism",
+      "circadian gene expression",
+      "clock gene regulation",
+      "zeitgeber response",
+      "circadian entrainment",
+      "free-running rhythm",
+      "circadian oscillator",
+      "temporal regulation"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": [
+      "circadian rhythm regulation",
+      "circadian clock gene"
+    ]
+  },
+  "Cell Signaling & Communication": {
+    "keywords": [
+      "signal transduction pathway",
+      "calcium signaling cascade",
+      "cAMP signaling pathway",
+      "protein kinase activity",
+      "protein phosphorylation",
+      "receptor signaling",
+      "second messenger system",
+      "cell-cell communication",
+      "quorum sensing",
+      "chemical signaling",
+      "growth factor signaling",
+      "signaling pathway regulation",
+      "intercellular signaling"
+    ],
+    "anchor_go_ids": [
+      "GO:0007165",
+      "GO:0006468"
+    ],
+    "core_keywords": [
+      "calcium signaling cascade",
+      "cAMP signaling pathway"
+    ]
+  },
+  "DNA & RNA Processing": {
+    "keywords": [
+      "DNA replication",
+      "DNA repair mechanism",
+      "transcriptional regulation",
+      "RNA processing",
+      "mRNA splicing",
+      "gene expression regulation",
+      "transcription factor binding",
+      "chromatin remodeling",
+      "DNA methylation",
+      "histone modification",
+      "epigenetic regulation",
+      "RNA editing",
+      "spliced leader trans-splicing",
+      "polycistronic mRNA processing",
+      "trans-splicing"
+    ],
+    "anchor_go_ids": [
+      "GO:0006260",
+      "GO:0006281",
+      "GO:0006355",
+      "GO:0006396"
+    ],
+    "core_keywords": [
+      "DNA replication",
+      "DNA repair mechanism",
+      "spliced leader trans-splicing",
+      "trans-splicing"
+    ]
+  },
+  "Membrane & Transport Systems": {
+    "keywords": [
+      "membrane transport",
+      "vesicle-mediated transport",
+      "endocytosis",
+      "exocytosis",
+      "membrane fusion",
+      "transport protein",
+      "ABC transporter activity",
+      "symporter activity",
+      "antiporter activity",
+      "uniporter activity",
+      "membrane trafficking",
+      "intracellular transport",
+      "secretory pathway",
+      "membrane permeability"
+    ],
+    "anchor_go_ids": [
+      "GO:0055085",
+      "GO:0006810"
+    ],
+    "core_keywords": [
+      "ABC transporter activity",
+      "vesicle-mediated transport"
+    ]
+  },
+  "Uncharacterised & Novel Functions": {
+    "keywords": [
+      "uncharacterized protein",
+      "hypothetical protein",
+      "unknown function",
+      "putative uncharacterized protein",
+      "dinoflagellate-specific protein",
+      "conserved protein",
+      "domain unknown function",
+      "novel protein",
+      "species-specific protein",
+      "lineage-specific protein",
+      "unassigned function"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": [
+      "hypothetical protein",
+      "uncharacterized protein",
+      "unknown function"
+    ]
+  }
+}

@@ -36,22 +36,27 @@ Because SCEPTR compares each tier against the sample's own transcriptome-wide ba
 
 <br>
 
-## Prerequisites
-
-- [Nextflow](https://www.nextflow.io/) >= 21.10.0
-- [Docker](https://www.docker.com/) (recommended) or [Singularity](https://sylabs.io/singularity/)
-- ~4 GB disk space for databases
-- ~8 GB RAM recommended
-
 ## Quick Start
 
+### Method only (pip install)
+
+Run the SCEPTR statistical method on any annotated expression table. No Nextflow, no Docker.
+
 ```bash
-# Clone and set up (one-time, ~10 min)
+pip install sceptr
+sceptr profile --expression my_data.tsv --category-set bacteria -o results/
+```
+
+See [sceptr/README.md](sceptr/README.md) for input format options and the Python API.
+
+### Full automated framework
+
+Process raw reads to interactive report. Requires [Nextflow](https://www.nextflow.io/) >= 21.10.0 and [Docker](https://www.docker.com/) (or Singularity). ~4 GB disk for databases, ~8 GB RAM recommended.
+
+```bash
 git clone https://github.com/jsmccabe1/SCEPTR.git && cd SCEPTR
 bash setup_databases.sh          # Downloads UniProt + GO (~3.5 GB)
 docker build -t sceptr:1.0.0 .
-
-# Run (interactive mode: auto-detects reads, validates inputs)
 ./run_sceptr.sh
 ```
 

@@ -1,0 +1,57 @@
+{
+  "Cytoplasm": {
+    "keywords": ["cytoplasm", "cytosol", "cytoplasmic", "intracellular"],
+    "anchor_go_ids": ["GO:0005737", "GO:0005829"],
+    "core_keywords": []
+  },
+  "Nucleus": {
+    "keywords": ["nucleus", "nucleoplasm", "nucleolus", "nuclear", "chromatin", "chromosome"],
+    "anchor_go_ids": ["GO:0005634", "GO:0005654", "GO:0005730"],
+    "core_keywords": []
+  },
+  "Mitochondria": {
+    "keywords": ["mitochondrion", "mitochondrial", "mitochondria"],
+    "anchor_go_ids": ["GO:0005739"],
+    "core_keywords": []
+  },
+  "Cell Wall": {
+    "keywords": ["cell wall", "fungal cell wall", "cell surface", "cell wall protein"],
+    "anchor_go_ids": ["GO:0005618", "GO:0009272"],
+    "core_keywords": []
+  },
+  "Ribosome": {
+    "keywords": ["ribosome", "ribosomal", "large ribosomal subunit", "small ribosomal subunit", "polysome"],
+    "anchor_go_ids": ["GO:0005840"],
+    "core_keywords": []
+  },
+  "Membrane": {
+    "keywords": ["membrane", "plasma membrane", "cell membrane", "transmembrane", "integral membrane", "membrane protein"],
+    "anchor_go_ids": ["GO:0016020", "GO:0005886"],
+    "core_keywords": []
+  },
+  "Endoplasmic Reticulum": {
+    "keywords": ["endoplasmic reticulum", "ER", "rough ER", "smooth ER", "ER membrane"],
+    "anchor_go_ids": ["GO:0005783"],
+    "core_keywords": []
+  },
+  "Golgi Apparatus": {
+    "keywords": ["Golgi", "Golgi apparatus", "cis-Golgi", "trans-Golgi"],
+    "anchor_go_ids": ["GO:0005794"],
+    "core_keywords": []
+  },
+  "Vacuole": {
+    "keywords": ["vacuole", "vacuolar", "vacuolar membrane", "tonoplast", "lytic vacuole"],
+    "anchor_go_ids": ["GO:0005773"],
+    "core_keywords": []
+  },
+  "Extracellular": {
+    "keywords": ["extracellular", "secreted", "extracellular space", "extracellular region"],
+    "anchor_go_ids": ["GO:0005576", "GO:0005615"],
+    "core_keywords": []
+  },
+  "Peroxisome": {
+    "keywords": ["peroxisome", "peroxisomal", "glyoxysome"],
+    "anchor_go_ids": ["GO:0005777"],
+    "core_keywords": []
+  }
+}

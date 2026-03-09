@@ -476,10 +476,13 @@
             </a>
         </div>
         <div class="install-block">
-            <span class="comment"># Clone, build, run</span><br>
+            <span class="comment"># Method only (pip install)</span><br>
+            <span class="cmd">pip install</span> sceptr<br>
+            <span class="cmd">sceptr profile</span> --expression data.tsv --category-set bacteria -o results/<br>
+            <br>
+            <span class="comment"># Full framework (raw reads to report)</span><br>
             <span class="cmd">git clone</span> https://github.com/jsmccabe1/SCEPTR.git && <span class="cmd">cd</span> SCEPTR<br>
-            <span class="cmd">bash</span> setup_databases.sh<br>
-            <span class="cmd">docker build</span> -t sceptr:1.0.0 .<br>
+            <span class="cmd">bash</span> setup_databases.sh && <span class="cmd">docker build</span> -t sceptr:1.0.0 .<br>
             <span class="cmd">./run_sceptr.sh</span>
         </div>
     </div>

@@ -36,10 +36,13 @@ test_data/
 benchmarking/
 manuscript/
 
-# Python cache
+# Python cache / build
 __pycache__/
 *.pyc
 *.pyo
+*.egg-info/
+dist/
+build/
 
 # UniProt cache
 bin/annotation/uniprot_cache/

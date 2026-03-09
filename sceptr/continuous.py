@@ -1,0 +1,543 @@
+#!/usr/bin/env python3
+"""
+Continuous enrichment function computation for SCEPTR.
+
+Computes E_C(t) as a smooth, continuous enrichment function over the
+normalised expression gradient t in (0, 1]. The discrete enrichment
+E_C(k) = (|T_k n C| / k) / (|C| / N) is evaluated at every integer k
+using cumulative sums for O(N*C) efficiency, then smoothed via Gaussian
+kernel CDF estimation to produce a differentiable function that can be
+evaluated at arbitrary resolution.
+
+Includes permutation-based global profile tests and continuous D_KL.
+
+Author: James McCabe
+Module: SCEPTR ExPlot
+"""
+
+import logging
+import numpy as np
+from scipy.ndimage import gaussian_filter1d
+from typing import Dict, List, Tuple, Optional
+
+logger = logging.getLogger('sceptr.explot.continuous')
+
+
+# ---------------------------------------------------------------------------
+# Membership matrix construction
+# ---------------------------------------------------------------------------
+
+def build_membership_matrix(df_sorted, categories, categorise_fn,
+                            expanded_go_sets=None, core_keyword_sets=None):
+    """Build per-gene boolean category membership matrix.
+
+    Args:
+        df_sorted: DataFrame sorted by TPM descending, index reset
+        categories: Category definitions dict
+        categorise_fn: categorisation.categorise_genes function
+        expanded_go_sets: Expanded GO ID sets (optional)
+        core_keyword_sets: Core keyword sets (optional)
+
+    Returns:
+        membership: (N, C) boolean array
+        cat_names: list of category names (excluding Uncharacterised)
+        bg_counts: dict {category: count in full dataset}
+    """
+    N = len(df_sorted)
+
+    all_results = categorise_fn(
+        df_sorted, categories, allow_multiple=True,
+        expanded_go_sets=expanded_go_sets,
+        core_keyword_sets=core_keyword_sets,
+        verbose=False)
+
+    bg_counts = all_results['category_counts']
+    gene_categories = all_results.get('gene_categories', {})
+
+    cat_names = sorted([c for c in categories.keys() if c != 'Uncharacterised'])
+    cat_to_idx = {c: i for i, c in enumerate(cat_names)}
+    n_cats = len(cat_names)
+
+    membership = np.zeros((N, n_cats), dtype=bool)
+    for gid, cats in gene_categories.items():
+        try:
+            row = int(gid)
+        except (ValueError, TypeError):
+            continue
+        if 0 <= row < N:
+            for cat in cats:
+                idx = cat_to_idx.get(cat)
+                if idx is not None:
+                    membership[row, idx] = True
+
+    return membership, cat_names, bg_counts, all_results
+
+
+# ---------------------------------------------------------------------------
+# Kernel smoothing
+# ---------------------------------------------------------------------------
+
+def _adaptive_bandwidth(N, n_category_genes):
+    """Choose Gaussian kernel bandwidth (in gene-rank units).
+
+    Bandwidth is proportional to the square root of the expected spacing
+    between consecutive category members in the ranked gene list. This
+    ensures smoothing scales with the natural length scale of the data:
+    sparse categories (wide spacing) get broader smoothing while dense
+    categories (narrow spacing) get minimal smoothing that preserves
+    sharp features like apex-concentrated peaks.
+
+    sigma = max(3, 0.5 * sqrt(N / |C|))
+
+    Returns sigma in units of gene ranks (applied to the step-1 grid).
+    """
+    spacing = N / max(n_category_genes, 1)
+    return max(3.0, 0.5 * np.sqrt(spacing))
+
+
+def _smooth_enrichment(enrichment_raw, bg_counts, cat_names, N):
+    """Apply Gaussian kernel smoothing to raw enrichment curves.
+
+    Smooths each category's enrichment curve using an adaptive bandwidth
+    that accounts for category size. This transforms the discrete step
+    function E_C(k) into a smooth, differentiable approximation.
+
+    Args:
+        enrichment_raw: (K, C) raw enrichment values at step=1
+        bg_counts: dict {category: gene count}
+        cat_names: list of category names
+        N: total genes
+
+    Returns:
+        enrichment_smooth: (K, C) smoothed enrichment values
+    """
+    n_cats = len(cat_names)
+    enrichment_smooth = np.empty_like(enrichment_raw)
+
+    for i, cat in enumerate(cat_names):
+        n_genes = bg_counts.get(cat, 0)
+        sigma = _adaptive_bandwidth(N, n_genes)
+        enrichment_smooth[:, i] = gaussian_filter1d(
+            enrichment_raw[:, i], sigma=sigma, mode='nearest')
+
+    return enrichment_smooth
+
+
+# ---------------------------------------------------------------------------
+# Continuous enrichment computation
+# ---------------------------------------------------------------------------
+
+def _compute_raw_enrichment(membership, cat_names, bg_counts, N,
+                            k_min=10, k_max=None):
+    """Compute raw E_C(k) at every integer k (step=1).
+
+    This is the discrete enrichment function before smoothing.
+
+    Returns:
+        k_all: 1D array of every integer k from k_min to k_max
+        enrichment_raw: (K, C) array of raw fold changes
+        bg_rates: 1D array of background rates per category
+    """
+    if k_max is None:
+        k_max = N // 2
+    k_max = min(k_max, N)
+
+    k_all = np.arange(k_min, k_max + 1)
+
+    bg_rates = np.array([bg_counts.get(cat, 0) / N for cat in cat_names])
+
+    cumsum = np.cumsum(membership, axis=0)  # (N, C)
+    counts = cumsum[k_all - 1]  # (K, C)
+    observed_rates = counts / k_all[:, None]
+
+    with np.errstate(divide='ignore', invalid='ignore'):
+        enrichment_raw = np.where(
+            bg_rates[None, :] > 0,
+            observed_rates / bg_rates[None, :],
+            0.0)
+
+    return k_all, enrichment_raw, bg_rates
+
+
+def compute_continuous_enrichment(membership, cat_names, bg_counts, N,
+                                   k_min=10, k_max=None, step=5):
+    """Compute smoothed continuous enrichment function E_C(t).
+
+    Evaluates the discrete enrichment E_C(k) at every integer k, applies
+    Gaussian kernel CDF smoothing to produce a differentiable function,
+    then resamples at the requested step size for output.
+
+    The smoothing bandwidth adapts to category size: sparse categories
+    receive wider smoothing to suppress sampling noise while dense
+    categories retain fine-grained signal.
+
+    Args:
+        membership: (N, C) boolean array (genes sorted by TPM descending)
+        cat_names: list of category names
+        bg_counts: dict {category: count in full dataset}
+        N: total number of genes
+        k_min: minimum gene rank (default: 10)
+        k_max: maximum gene rank (default: N//2)
+        step: step between output evaluation points (default: 5)
+
+    Returns:
+        k_values: 1D array of output gene ranks
+        enrichment_matrix: (K, C) array of smoothed fold changes
+    """
+    # Compute at every integer k
+    k_all, enrichment_raw, _ = _compute_raw_enrichment(
+        membership, cat_names, bg_counts, N, k_min=k_min, k_max=k_max)
+
+    # Smooth
+    enrichment_smooth = _smooth_enrichment(
+        enrichment_raw, bg_counts, cat_names, N)
+
+    # Resample at requested step size
+    indices = np.arange(0, len(k_all), step)
+    k_values = k_all[indices]
+    enrichment_matrix = enrichment_smooth[indices]
+
+    return k_values, enrichment_matrix
+
+
+# ---------------------------------------------------------------------------
+# Continuous D_KL computation
+# ---------------------------------------------------------------------------
+
+def compute_continuous_dkl(membership, cat_names, bg_counts, N,
+                            k_min=10, k_max=None, step=5,
+                            laplace_alpha=1e-6):
+    """Compute smoothed D_KL(t) at fine resolution.
+
+    D_KL measures how much the category distribution at tier k diverges
+    from the background distribution. Computed at every integer k, then
+    Gaussian-smoothed and resampled at the requested step size.
+
+    Args:
+        membership: (N, C) boolean array
+        cat_names: list of category names
+        bg_counts: dict {category: count}
+        N: total genes
+        k_min, k_max, step: resolution parameters
+        laplace_alpha: smoothing constant
+
+    Returns:
+        k_values: 1D array of gene ranks
+        dkl_values: 1D array of smoothed D_KL at each k
+    """
+    if k_max is None:
+        k_max = N // 2
+    k_max = min(k_max, N)
+
+    # Compute at every integer k
+    k_all = np.arange(k_min, k_max + 1)
+    n_cats = len(cat_names)
+
+    # Background distribution (Q)
+    q = np.array([bg_counts.get(cat, 0) for cat in cat_names], dtype=float)
+    q = q + laplace_alpha
+    q = q / q.sum()
+
+    # Cumulative counts
+    cumsum = np.cumsum(membership, axis=0)
+    counts = cumsum[k_all - 1].astype(float)  # (K, C)
+
+    # Tier distributions (P) with smoothing
+    counts_smooth = counts + laplace_alpha
+    p = counts_smooth / counts_smooth.sum(axis=1, keepdims=True)  # (K, C)
+
+    # D_KL = sum(p * log(p/q))
+    dkl_raw = np.sum(p * np.log(p / q[None, :]), axis=1)
+
+    # Smooth D_KL curve using median category bandwidth
+    cat_sizes = np.array([bg_counts.get(cat, 1) for cat in cat_names])
+    median_spacing = N / np.median(cat_sizes[cat_sizes > 0])
+    sigma = max(3.0, 0.5 * np.sqrt(median_spacing))
+    dkl_smooth = gaussian_filter1d(dkl_raw, sigma=sigma, mode='nearest')
+
+    # Resample at requested step
+    indices = np.arange(0, len(k_all), step)
+    k_values = k_all[indices]
+    dkl_values = dkl_smooth[indices]
+
+    return k_values, dkl_values
+
+
+# ---------------------------------------------------------------------------
+# Profile shape classification
+# ---------------------------------------------------------------------------
+
+def classify_profile_shapes(k_values, enrichment_matrix, cat_names):
+    """Classify enrichment profile shapes using linear trend.
+
+    Returns:
+        shape_stats: {category: {slope, r_value, shape_class}}
+            shape_class: 'apex-concentrated' (negative slope),
+                         'distributed' (positive slope),
+                         'flat' (near-zero slope)
+    """
+    from scipy.stats import linregress
+
+    shape_stats = {}
+    # Normalise k to [0, 1] for comparable slopes
+    k_norm = (k_values - k_values[0]) / (k_values[-1] - k_values[0])
+
+    for i, cat in enumerate(cat_names):
+        curve = enrichment_matrix[:, i]
+        if np.all(curve == 0):
+            shape_stats[cat] = {
+                'slope': 0.0, 'r_value': 0.0,
+                'max_enrichment': 0.0, 'shape_class': 'absent'}
+            continue
+
+        result = linregress(k_norm, curve)
+        slope = result.slope
+        max_fc = float(np.max(curve))
+
+        if abs(slope) < 0.1:
+            shape_class = 'flat'
+        elif slope < 0:
+            shape_class = 'apex-concentrated'
+        else:
+            shape_class = 'distributed'
+
+        shape_stats[cat] = {
+            'slope': round(float(slope), 4),
+            'r_value': round(float(result.rvalue), 4),
+            'max_enrichment': round(max_fc, 4),
+            'shape_class': shape_class,
+        }
+
+    return shape_stats
+
+
+# ---------------------------------------------------------------------------
+# Permutation-based global profile test
+# ---------------------------------------------------------------------------
+
+def permutation_global_test(membership, cat_names, bg_counts, N,
+                             k_min=10, k_max=None, step=5,
+                             n_permutations=1000, seed=42):
+    """Permutation-based global profile test with kernel smoothing.
+
+    Tests whether each category's smoothed enrichment profile differs
+    significantly from flat (E_C(t) = 1 for all t). Gene-category
+    assignments are shuffled while preserving category sizes. Both
+    observed and null curves are smoothed with the same adaptive
+    Gaussian kernel to ensure a fair comparison.
+
+    Two test statistics per category:
+        - supremum: max|E_C(t) - 1| across all t
+        - integral: mean|E_C(t) - 1| across all t
+
+    Args:
+        membership: (N, C) boolean array
+        cat_names: list of category names
+        bg_counts: dict {category: count}
+        N: total genes
+        k_min, k_max, step: resolution parameters
+        n_permutations: number of permutations (default: 1000)
+        seed: random seed
+
+    Returns:
+        profile_stats: {category: {
+            supremum_obs, integral_obs,
+            supremum_p, integral_p,
+            null_envelope_lower, null_envelope_upper,
+            observed_curve
+        }}
+    """
+    if k_max is None:
+        k_max = N // 2
+    k_max = min(k_max, N)
+
+    # Compute at every integer k, then resample
+    k_all = np.arange(k_min, k_max + 1)
+    output_indices = np.arange(0, len(k_all), step)
+    k_values = k_all[output_indices]
+    n_k = len(k_values)
+    n_cats = len(cat_names)
+
+    bg_rates = np.array([bg_counts.get(cat, 0) / N for cat in cat_names])
+
+    rng = np.random.default_rng(seed)
+
+    # --- Observed enrichment curves (smoothed) ---
+    cumsum_obs = np.cumsum(membership, axis=0)
+    counts_obs = cumsum_obs[k_all - 1]  # (K_all, C)
+    obs_rates = counts_obs / k_all[:, None]
+
+    with np.errstate(divide='ignore', invalid='ignore'):
+        obs_raw = np.where(bg_rates[None, :] > 0,
+                           obs_rates / bg_rates[None, :], 0.0)
+
+    obs_smooth = _smooth_enrichment(obs_raw, bg_counts, cat_names, N)
+    obs_curves = obs_smooth[output_indices]  # (K, C)
+
+    # Mask: only evaluate at k values where expected count >= 1
+    expected_counts = k_values[:, None] * bg_rates[None, :]  # (K, C)
+    valid_mask = expected_counts >= 1.0  # (K, C)
+
+    # Observed statistics (per category)
+    obs_deviation = np.abs(obs_curves - 1.0)  # (K, C)
+    obs_supremum = np.zeros(n_cats)
+    for i in range(n_cats):
+        if np.any(valid_mask[:, i]):
+            obs_supremum[i] = np.max(obs_deviation[valid_mask[:, i], i])
+    obs_integral = np.zeros(n_cats)
+    for i in range(n_cats):
+        if np.any(valid_mask[:, i]):
+            obs_integral[i] = np.mean(obs_deviation[valid_mask[:, i], i])
+
+    # --- Permutation null (smoothed with same kernels) ---
+    null_supremum = np.zeros((n_permutations, n_cats))
+    null_integral = np.zeros((n_permutations, n_cats))
+    null_curves = np.zeros((n_permutations, n_k, n_cats))
+
+    for p in range(n_permutations):
+        perm_idx = rng.permutation(N)
+        perm_membership = membership[perm_idx]
+        perm_cumsum = np.cumsum(perm_membership, axis=0)
+        perm_counts = perm_cumsum[k_all - 1]
+        perm_rates = perm_counts / k_all[:, None]
+
+        with np.errstate(divide='ignore', invalid='ignore'):
+            perm_raw = np.where(
+                bg_rates[None, :] > 0,
+                perm_rates / bg_rates[None, :], 0.0)
+
+        # Smooth with same kernel as observed
+        perm_smooth = _smooth_enrichment(perm_raw, bg_counts, cat_names, N)
+        perm_enrichment = perm_smooth[output_indices]
+
+        null_curves[p] = perm_enrichment
+        perm_deviation = np.abs(perm_enrichment - 1.0)
+        for i in range(n_cats):
+            if np.any(valid_mask[:, i]):
+                null_supremum[p, i] = np.max(perm_deviation[valid_mask[:, i], i])
+                null_integral[p, i] = np.mean(perm_deviation[valid_mask[:, i], i])
+
+        if (p + 1) % 200 == 0:
+            logger.info(f"  Global profile test: {p + 1}/{n_permutations} permutations")
+
+    # --- P-values and envelopes ---
+    profile_stats = {}
+    for i, cat in enumerate(cat_names):
+        sup_p = (np.sum(null_supremum[:, i] >= obs_supremum[i]) + 1) / (n_permutations + 1)
+        int_p = (np.sum(null_integral[:, i] >= obs_integral[i]) + 1) / (n_permutations + 1)
+
+        # Pointwise 95% null envelope
+        env_lower = np.percentile(null_curves[:, :, i], 2.5, axis=0)
+        env_upper = np.percentile(null_curves[:, :, i], 97.5, axis=0)
+
+        profile_stats[cat] = {
+            'supremum_obs': round(float(obs_supremum[i]), 4),
+            'integral_obs': round(float(obs_integral[i]), 4),
+            'supremum_p': float(sup_p),
+            'integral_p': float(int_p),
+            'null_envelope_lower': env_lower,
+            'null_envelope_upper': env_upper,
+            'observed_curve': obs_curves[:, i],
+        }
+
+    return k_values, profile_stats
+
+
+# ---------------------------------------------------------------------------
+# Output
+# ---------------------------------------------------------------------------
+
+def save_continuous_enrichment_tsv(k_values, enrichment_matrix, cat_names,
+                                    prefix, analysis_type='BP_MF'):
+    """Save continuous enrichment matrix as wide-format TSV.
+
+    Columns: k, Category1, Category2, ...
+    Each row is one k value with fold changes for all categories.
+    """
+    out_path = f"{prefix}_{analysis_type}_continuous_enrichment.tsv"
+
+    header = ['k'] + list(cat_names)
+    try:
+        with open(out_path, 'w') as f:
+            f.write('\t'.join(header) + '\n')
+            for j, k in enumerate(k_values):
+                row = [str(int(k))]
+                for i in range(len(cat_names)):
+                    row.append(f"{enrichment_matrix[j, i]:.4f}")
+                f.write('\t'.join(row) + '\n')
+        logger.info(f"Saved continuous enrichment: {out_path}")
+    except Exception as e:
+        logger.error(f"Could not save continuous enrichment TSV: {e}")
+
+    return out_path
+
+
+def save_profile_test_tsv(profile_stats, cat_names, prefix,
+                           analysis_type='BP_MF'):
+    """Save global profile test results as TSV."""
+    out_path = f"{prefix}_{analysis_type}_profile_test.tsv"
+
+    header = ['Category', 'Supremum_Obs', 'Integral_Obs',
+              'Supremum_P', 'Integral_P']
+
+    try:
+        with open(out_path, 'w') as f:
+            f.write('\t'.join(header) + '\n')
+            for cat in cat_names:
+                s = profile_stats[cat]
+                row = [
+                    cat,
+                    f"{s['supremum_obs']:.4f}",
+                    f"{s['integral_obs']:.4f}",
+                    f"{s['supremum_p']:.6f}",
+                    f"{s['integral_p']:.6f}",
+                ]
+                f.write('\t'.join(row) + '\n')
+        logger.info(f"Saved profile test results: {out_path}")
+    except Exception as e:
+        logger.error(f"Could not save profile test TSV: {e}")
+
+    return out_path
+
+
+def save_continuous_dkl_tsv(k_values, dkl_values, prefix,
+                             analysis_type='BP_MF'):
+    """Save continuous D_KL values as TSV."""
+    out_path = f"{prefix}_{analysis_type}_continuous_dkl.tsv"
+
+    try:
+        with open(out_path, 'w') as f:
+            f.write('k\tD_KL\n')
+            for k, dkl in zip(k_values, dkl_values):
+                f.write(f"{int(k)}\t{dkl:.6f}\n")
+        logger.info(f"Saved continuous D_KL: {out_path}")
+    except Exception as e:
+        logger.error(f"Could not save continuous D_KL TSV: {e}")
+
+    return out_path
+
+
+def save_shape_classification_tsv(shape_stats, prefix,
+                                   analysis_type='BP_MF'):
+    """Save profile shape classification results."""
+    out_path = f"{prefix}_{analysis_type}_profile_shapes.tsv"
+
+    header = ['Category', 'Slope', 'R_Value', 'Max_Enrichment', 'Shape_Class']
+
+    try:
+        with open(out_path, 'w') as f:
+            f.write('\t'.join(header) + '\n')
+            for cat, s in shape_stats.items():
+                row = [
+                    cat,
+                    f"{s['slope']:.4f}",
+                    f"{s['r_value']:.4f}",
+                    f"{s['max_enrichment']:.4f}",
+                    s['shape_class'],
+                ]
+                f.write('\t'.join(row) + '\n')
+        logger.info(f"Saved shape classification: {out_path}")
+    except Exception as e:
+        logger.error(f"Could not save shape classification TSV: {e}")
+
+    return out_path

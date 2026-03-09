@@ -1,0 +1,519 @@
+{
+  "Cuticle & Molting": {
+    "keywords": [
+      "cuticle protein",
+      "cuticular collagen",
+      "collagen domain",
+      "cuticle formation",
+      "cuticle development",
+      "molting cycle",
+      "ecdysis",
+      "cuticulin",
+      "cuticle collagen",
+      "col-1",
+      "col-2",
+      "dpy-7",
+      "dpy-13",
+      "sqt-1",
+      "sqt-3",
+      "rol-6",
+      "bli-1",
+      "bli-2",
+      "structural constituent of cuticle",
+      "body morphogenesis",
+      "nematode cuticle"
+    ],
+    "anchor_go_ids": [
+      "GO:0018996",
+      "GO:0042338"
+    ],
+    "core_keywords": [
+      "cuticle protein",
+      "cuticular collagen",
+      "molting cycle",
+      "ecdysis",
+      "cuticulin",
+      "structural constituent of cuticle"
+    ]
+  },
+  "Dauer & Larval Development": {
+    "keywords": [
+      "dauer larva",
+      "dauer formation",
+      "dauer entry",
+      "dauer exit",
+      "dauer recovery",
+      "dauer constitutive",
+      "infective larva",
+      "L3 larva",
+      "L3i",
+      "larval development",
+      "larval stage",
+      "nematode larval development",
+      "arrested development",
+      "developmental arrest",
+      "hypobiosis",
+      "daf-2",
+      "daf-7",
+      "daf-12",
+      "daf-16",
+      "daf-9",
+      "insulin-like signaling",
+      "TGF-beta dauer",
+      "developmental diapause"
+    ],
+    "anchor_go_ids": [
+      "GO:0040024",
+      "GO:0002119"
+    ],
+    "core_keywords": [
+      "dauer larva",
+      "dauer formation",
+      "infective larva",
+      "L3 larva",
+      "nematode larval development",
+      "developmental arrest",
+      "hypobiosis"
+    ]
+  },
+  "Host Immune Evasion & Immunomodulation": {
+    "keywords": [
+      "immune evasion",
+      "immune suppression",
+      "immunomodulation",
+      "complement evasion",
+      "complement inhibitor",
+      "antibody evasion",
+      "T cell suppression",
+      "cytokine manipulation",
+      "TGF-beta mimicry",
+      "IL-10 homolog",
+      "immunosuppressive molecule",
+      "excretory-secretory product",
+      "ES product",
+      "galectin",
+      "cystatin",
+      "serpin",
+      "serine protease inhibitor",
+      "host immune modulation",
+      "Th2 immune response",
+      "regulatory T cell induction"
+    ],
+    "anchor_go_ids": [
+      "GO:0030682",
+      "GO:0009405"
+    ],
+    "core_keywords": [
+      "immune evasion",
+      "immune suppression",
+      "immunomodulation",
+      "excretory-secretory product",
+      "complement evasion",
+      "host immune modulation"
+    ]
+  },
+  "Neuromuscular Function": {
+    "keywords": [
+      "neuromuscular junction",
+      "acetylcholine receptor",
+      "nicotinic acetylcholine receptor",
+      "GABA receptor",
+      "glutamate-gated chloride channel",
+      "GluCl",
+      "levamisole receptor",
+      "ivermectin target",
+      "avermectin sensitivity",
+      "neuropeptide",
+      "FLP neuropeptide",
+      "NLP neuropeptide",
+      "INS neuropeptide",
+      "neuropeptide signaling",
+      "neurotransmitter transport",
+      "muscle contraction",
+      "body wall muscle",
+      "pharyngeal muscle",
+      "pharyngeal pumping",
+      "locomotion",
+      "cholinergic synapse",
+      "GABAergic synapse",
+      "serotonin receptor"
+    ],
+    "anchor_go_ids": [
+      "GO:0007218",
+      "GO:0006836",
+      "GO:0006939"
+    ],
+    "core_keywords": [
+      "neuromuscular junction",
+      "acetylcholine receptor",
+      "glutamate-gated chloride channel",
+      "neuropeptide",
+      "FLP neuropeptide",
+      "pharyngeal pumping",
+      "levamisole receptor"
+    ]
+  },
+  "Reproduction & Embryogenesis": {
+    "keywords": [
+      "gamete generation",
+      "oogenesis",
+      "spermatogenesis",
+      "fertilization",
+      "embryogenesis",
+      "embryonic development",
+      "egg production",
+      "eggshell formation",
+      "sperm motility",
+      "sex determination",
+      "germline development",
+      "gonad development",
+      "vulval development",
+      "meiosis",
+      "vitellogenin",
+      "vit-1",
+      "vit-2",
+      "major sperm protein",
+      "MSP domain",
+      "chitin synthase"
+    ],
+    "anchor_go_ids": [
+      "GO:0007276",
+      "GO:0009566",
+      "GO:0007275"
+    ],
+    "core_keywords": [
+      "gamete generation",
+      "oogenesis",
+      "spermatogenesis",
+      "fertilization",
+      "embryogenesis",
+      "vitellogenin",
+      "major sperm protein",
+      "germline development"
+    ]
+  },
+  "Tissue Migration & Invasion": {
+    "keywords": [
+      "tissue migration",
+      "tissue invasion",
+      "host tissue penetration",
+      "basement membrane degradation",
+      "extracellular matrix degradation",
+      "metalloproteinase",
+      "metalloendopeptidase",
+      "astacin protease",
+      "serine protease",
+      "cysteine protease",
+      "cathepsin",
+      "tissue remodeling",
+      "collagenase",
+      "elastase",
+      "hyaluronidase",
+      "parasite migration",
+      "skin penetration",
+      "gut penetration",
+      "larval migration"
+    ],
+    "anchor_go_ids": [
+      "GO:0006508",
+      "GO:0004222",
+      "GO:0004252",
+      "GO:0048870"
+    ],
+    "core_keywords": [
+      "tissue migration",
+      "tissue invasion",
+      "metalloproteinase",
+      "astacin protease",
+      "cathepsin",
+      "larval migration"
+    ]
+  },
+  "Digestive & Nutrient Acquisition": {
+    "keywords": [
+      "digestive enzyme",
+      "intestinal protease",
+      "gut protease",
+      "hemoglobin degradation",
+      "hemoglobinase",
+      "blood feeding",
+      "hematophagy",
+      "nutrient absorption",
+      "pharyngeal gland",
+      "esophageal gland",
+      "intestinal enzyme",
+      "digestive peptidase",
+      "aspartic protease",
+      "pepsin-like protease",
+      "aminopeptidase",
+      "dipeptidase",
+      "nutrient transporter",
+      "glucose transporter",
+      "amino acid transporter",
+      "fatty acid binding protein",
+      "lipid binding"
+    ],
+    "anchor_go_ids": [
+      "GO:0006508",
+      "GO:0015850"
+    ],
+    "core_keywords": [
+      "digestive enzyme",
+      "hemoglobin degradation",
+      "blood feeding",
+      "hematophagy",
+      "intestinal protease",
+      "nutrient transporter"
+    ]
+  },
+  "Excretory-Secretory Apparatus": {
+    "keywords": [
+      "excretory-secretory",
+      "ES protein",
+      "secreted protein",
+      "signal peptide",
+      "secretory pathway",
+      "exosome",
+      "extracellular vesicle",
+      "protein secretion",
+      "excretory cell",
+      "excretory pore",
+      "amphid secretion",
+      "phasmid secretion",
+      "venom allergen-like protein",
+      "VAL protein",
+      "SCP/TAPS domain",
+      "ASP protein",
+      "activation-associated secreted protein"
+    ],
+    "anchor_go_ids": [
+      "GO:0009306",
+      "GO:0005576"
+    ],
+    "core_keywords": [
+      "excretory-secretory",
+      "ES protein",
+      "venom allergen-like protein",
+      "VAL protein",
+      "SCP/TAPS domain",
+      "activation-associated secreted protein"
+    ]
+  },
+  "Antioxidant & Detoxification": {
+    "keywords": [
+      "antioxidant defense",
+      "oxidative stress response",
+      "glutathione peroxidase",
+      "glutathione S-transferase",
+      "superoxide dismutase",
+      "thioredoxin",
+      "thioredoxin peroxidase",
+      "peroxiredoxin",
+      "catalase",
+      "cytochrome P450",
+      "xenobiotic metabolism",
+      "detoxification",
+      "UDP-glucuronosyltransferase",
+      "ABC transporter",
+      "multidrug resistance",
+      "P-glycoprotein",
+      "pgp-1",
+      "drug resistance",
+      "drug efflux"
+    ],
+    "anchor_go_ids": [
+      "GO:0006979",
+      "GO:0046677",
+      "GO:0006749"
+    ],
+    "core_keywords": [
+      "glutathione S-transferase",
+      "glutathione peroxidase",
+      "superoxide dismutase",
+      "thioredoxin",
+      "cytochrome P450",
+      "P-glycoprotein",
+      "drug resistance"
+    ]
+  },
+  "Anaerobic & Energy Metabolism": {
+    "keywords": [
+      "glycolysis",
+      "anaerobic metabolism",
+      "malate dismutation",
+      "fumarate reductase",
+      "succinate production",
+      "lactate fermentation",
+      "phosphoenolpyruvate carboxykinase",
+      "PEPCK",
+      "malic enzyme",
+      "rhodoquinone",
+      "complex II reversal",
+      "electron transport chain",
+      "ATP synthesis",
+      "citric acid cycle",
+      "TCA cycle",
+      "mitochondrial metabolism",
+      "fatty acid oxidation",
+      "trehalose metabolism",
+      "glycogen metabolism"
+    ],
+    "anchor_go_ids": [
+      "GO:0006096",
+      "GO:0006099",
+      "GO:0006091"
+    ],
+    "core_keywords": [
+      "anaerobic metabolism",
+      "malate dismutation",
+      "fumarate reductase",
+      "glycolysis",
+      "rhodoquinone",
+      "PEPCK",
+      "trehalose metabolism"
+    ]
+  },
+  "Osmoregulation & Ion Transport": {
+    "keywords": [
+      "osmoregulation",
+      "water balance",
+      "ion transport",
+      "aquaporin",
+      "sodium-potassium ATPase",
+      "potassium channel",
+      "chloride channel",
+      "calcium channel",
+      "ion homeostasis",
+      "osmotic stress",
+      "volume regulation",
+      "excretory canal",
+      "water channel"
+    ],
+    "anchor_go_ids": [
+      "GO:0055085",
+      "GO:0006811",
+      "GO:0006874"
+    ],
+    "core_keywords": [
+      "osmoregulation",
+      "aquaporin",
+      "ion transport",
+      "sodium-potassium ATPase",
+      "excretory canal"
+    ]
+  },
+  "Sensory & Chemoreception": {
+    "keywords": [
+      "chemosensory",
+      "chemoreceptor",
+      "chemotaxis",
+      "amphid neuron",
+      "phasmid neuron",
+      "olfactory receptor",
+      "G protein-coupled receptor",
+      "GPCR",
+      "serpentine receptor",
+      "sensory transduction",
+      "thermosensation",
+      "mechanosensation",
+      "touch receptor",
+      "host-finding behavior",
+      "CO2 sensing",
+      "host cue detection",
+      "tax-2",
+      "tax-4"
+    ],
+    "anchor_go_ids": [
+      "GO:0007186",
+      "GO:0050911",
+      "GO:0009593"
+    ],
+    "core_keywords": [
+      "chemosensory",
+      "chemoreceptor",
+      "amphid neuron",
+      "serpentine receptor",
+      "host-finding behavior",
+      "chemotaxis"
+    ]
+  },
+  "Protein Homeostasis & Chaperones": {
+    "keywords": [
+      "protein folding",
+      "molecular chaperone",
+      "heat shock protein",
+      "HSP70",
+      "HSP90",
+      "HSP60",
+      "small heat shock protein",
+      "sHSP",
+      "ubiquitin",
+      "ubiquitin-proteasome",
+      "proteasome",
+      "autophagy",
+      "ER stress",
+      "unfolded protein response",
+      "protein degradation"
+    ],
+    "anchor_go_ids": [
+      "GO:0006457",
+      "GO:0051082",
+      "GO:0006950"
+    ],
+    "core_keywords": [
+      "molecular chaperone",
+      "heat shock protein",
+      "HSP70",
+      "HSP90",
+      "ubiquitin-proteasome",
+      "unfolded protein response"
+    ]
+  },
+  "Cell Signaling & Transcriptional Regulation": {
+    "keywords": [
+      "signal transduction",
+      "receptor tyrosine kinase",
+      "protein kinase",
+      "protein phosphatase",
+      "MAP kinase",
+      "Wnt signaling",
+      "Notch signaling",
+      "Hedgehog signaling",
+      "TGF-beta signaling",
+      "insulin signaling",
+      "transcription factor",
+      "nuclear receptor",
+      "nuclear hormone receptor",
+      "gene regulation",
+      "chromatin remodeling",
+      "histone modification"
+    ],
+    "anchor_go_ids": [
+      "GO:0007165",
+      "GO:0006468",
+      "GO:0006355"
+    ],
+    "core_keywords": [
+      "signal transduction",
+      "receptor tyrosine kinase",
+      "MAP kinase",
+      "TGF-beta signaling",
+      "insulin signaling",
+      "transcription factor"
+    ]
+  },
+  "Uncharacterized": {
+    "keywords": [
+      "uncharacterized protein",
+      "hypothetical protein",
+      "unknown function",
+      "putative uncharacterized protein",
+      "conserved protein",
+      "species-specific protein",
+      "protein of unknown function",
+      "DUF domain"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": []
+  }
+}

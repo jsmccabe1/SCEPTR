@@ -1,0 +1,481 @@
+{
+  "Cell Wall Biosynthesis & Remodelling": {
+    "keywords": [
+      "chitin synthase",
+      "chitin biosynthesis",
+      "chitinase",
+      "beta-glucan synthase",
+      "beta-1,3-glucan",
+      "beta-1,6-glucan",
+      "mannoprotein",
+      "mannosyltransferase",
+      "cell wall integrity",
+      "cell wall biogenesis",
+      "cell wall protein",
+      "GPI-anchored",
+      "glucan biosynthesis",
+      "fungal cell wall",
+      "cell wall remodelling",
+      "cell wall organization"
+    ],
+    "anchor_go_ids": [
+      "GO:0009272",
+      "GO:0006075"
+    ],
+    "core_keywords": [
+      "chitin synthase",
+      "chitin biosynthesis",
+      "beta-glucan synthase",
+      "beta-1,3-glucan",
+      "mannoprotein",
+      "cell wall integrity"
+    ]
+  },
+  "Hyphal Growth & Morphogenesis": {
+    "keywords": [
+      "filamentous growth",
+      "hyphal growth",
+      "pseudohyphal growth",
+      "polar growth",
+      "polarisome",
+      "Spitzenkorper",
+      "yeast-to-hypha",
+      "morphogenesis",
+      "dimorphic switching",
+      "budding",
+      "cell polarity",
+      "septin",
+      "septation",
+      "conidiophore",
+      "germ tube",
+      "tip growth",
+      "branching morphogenesis",
+      "appressorium formation"
+    ],
+    "anchor_go_ids": [
+      "GO:0030447",
+      "GO:0000902"
+    ],
+    "core_keywords": [
+      "filamentous growth",
+      "hyphal growth",
+      "yeast-to-hypha",
+      "dimorphic switching",
+      "conidiophore",
+      "germ tube",
+      "appressorium formation"
+    ]
+  },
+  "Secondary Metabolism & Mycotoxin Biosynthesis": {
+    "keywords": [
+      "polyketide synthase",
+      "nonribosomal peptide synthetase",
+      "NRPS",
+      "terpene synthase",
+      "mycotoxin",
+      "aflatoxin",
+      "ochratoxin",
+      "trichothecene",
+      "fumonisin",
+      "patulin",
+      "gliotoxin",
+      "secondary metabolite",
+      "secondary metabolism",
+      "specialized metabolite",
+      "biosynthetic gene cluster",
+      "prenylation",
+      "dimethylallyl transferase",
+      "melanin biosynthesis",
+      "pigment biosynthesis",
+      "siderophore biosynthesis"
+    ],
+    "anchor_go_ids": [
+      "GO:0019748"
+    ],
+    "core_keywords": [
+      "polyketide synthase",
+      "nonribosomal peptide synthetase",
+      "NRPS",
+      "mycotoxin",
+      "aflatoxin",
+      "trichothecene",
+      "fumonisin",
+      "biosynthetic gene cluster"
+    ]
+  },
+  "Sporulation & Reproduction": {
+    "keywords": [
+      "sporulation",
+      "conidiation",
+      "conidiogenesis",
+      "conidium",
+      "ascospore",
+      "basidiospore",
+      "sexual reproduction",
+      "mating type",
+      "pheromone",
+      "pheromone receptor",
+      "meiosis",
+      "fruiting body",
+      "cleistothecium",
+      "perithecium",
+      "asexual reproduction",
+      "spore germination",
+      "spore formation",
+      "mating projection"
+    ],
+    "anchor_go_ids": [
+      "GO:0034293",
+      "GO:0030435"
+    ],
+    "core_keywords": [
+      "conidiation",
+      "conidiogenesis",
+      "ascospore",
+      "basidiospore",
+      "mating type",
+      "fruiting body",
+      "spore germination"
+    ]
+  },
+  "Antifungal Resistance": {
+    "keywords": [
+      "azole resistance",
+      "echinocandin resistance",
+      "amphotericin resistance",
+      "drug resistance",
+      "multidrug resistance",
+      "multidrug efflux",
+      "efflux pump",
+      "drug efflux",
+      "CDR1",
+      "CDR2",
+      "MDR1",
+      "ERG11",
+      "FKS1",
+      "sterol biosynthesis alteration",
+      "target modification",
+      "antifungal",
+      "fluconazole resistance",
+      "ABC transporter"
+    ],
+    "anchor_go_ids": [
+      "GO:0046677"
+    ],
+    "core_keywords": [
+      "azole resistance",
+      "echinocandin resistance",
+      "efflux pump",
+      "multidrug resistance",
+      "CDR1",
+      "ERG11",
+      "FKS1"
+    ]
+  },
+  "Virulence & Host Interaction": {
+    "keywords": [
+      "virulence factor",
+      "adhesin",
+      "invasin",
+      "capsule biosynthesis",
+      "immune evasion",
+      "host interaction",
+      "tissue invasion",
+      "host cell damage",
+      "phenotypic switching",
+      "biofilm formation",
+      "secreted protease",
+      "secreted lipase",
+      "phospholipase",
+      "urease",
+      "superoxide dismutase",
+      "catalase",
+      "laccase",
+      "host colonization"
+    ],
+    "anchor_go_ids": [
+      "GO:0051701",
+      "GO:0042710"
+    ],
+    "core_keywords": [
+      "virulence factor",
+      "adhesin",
+      "capsule biosynthesis",
+      "biofilm formation",
+      "host colonization"
+    ]
+  },
+  "Ergosterol & Lipid Metabolism": {
+    "keywords": [
+      "ergosterol biosynthesis",
+      "ergosterol",
+      "sterol biosynthesis",
+      "lanosterol",
+      "sterol C-14 demethylase",
+      "CYP51",
+      "squalene epoxidase",
+      "sterol methyltransferase",
+      "fatty acid biosynthesis",
+      "fatty acid degradation",
+      "beta-oxidation",
+      "lipid metabolism",
+      "sphingolipid",
+      "phospholipid biosynthesis",
+      "lipid droplet",
+      "sterol regulatory",
+      "membrane lipid biosynthesis"
+    ],
+    "anchor_go_ids": [
+      "GO:0006696",
+      "GO:0006629"
+    ],
+    "core_keywords": [
+      "ergosterol biosynthesis",
+      "ergosterol",
+      "lanosterol",
+      "sterol C-14 demethylase",
+      "CYP51",
+      "squalene epoxidase"
+    ]
+  },
+  "Secreted Enzymes & Extracellular Degradation": {
+    "keywords": [
+      "cellulase",
+      "xylanase",
+      "pectinase",
+      "cutinase",
+      "protease",
+      "lipase",
+      "amylase",
+      "laccase",
+      "peroxidase",
+      "lignin degradation",
+      "plant cell wall degradation",
+      "secreted enzyme",
+      "glycoside hydrolase",
+      "carbohydrate-active enzyme",
+      "polysaccharide lyase",
+      "manganese peroxidase",
+      "lignin peroxidase",
+      "lytic polysaccharide monooxygenase"
+    ],
+    "anchor_go_ids": [
+      "GO:0005576",
+      "GO:0006508"
+    ],
+    "core_keywords": [
+      "cellulase",
+      "xylanase",
+      "pectinase",
+      "cutinase",
+      "glycoside hydrolase",
+      "lytic polysaccharide monooxygenase",
+      "lignin peroxidase"
+    ]
+  },
+  "Stress Response & Adaptation": {
+    "keywords": [
+      "heat shock protein",
+      "oxidative stress",
+      "osmotic stress",
+      "response to stress",
+      "superoxide dismutase",
+      "catalase",
+      "thioredoxin",
+      "glutathione",
+      "trehalose biosynthesis",
+      "glycerol accumulation",
+      "HOG pathway",
+      "unfolded protein response",
+      "endoplasmic reticulum stress",
+      "DNA damage response",
+      "reactive oxygen species",
+      "antioxidant"
+    ],
+    "anchor_go_ids": [
+      "GO:0006950",
+      "GO:0006979"
+    ],
+    "core_keywords": [
+      "heat shock protein",
+      "superoxide dismutase",
+      "trehalose biosynthesis",
+      "HOG pathway"
+    ]
+  },
+  "Signal Transduction & Regulation": {
+    "keywords": [
+      "MAP kinase",
+      "MAPK cascade",
+      "cAMP-dependent protein kinase",
+      "protein kinase A",
+      "calcineurin",
+      "TOR signaling",
+      "Ras signaling",
+      "signal transduction",
+      "protein kinase C",
+      "cyclin-dependent kinase",
+      "histidine kinase",
+      "phosphatase",
+      "GTPase",
+      "calcium signaling",
+      "calmodulin",
+      "two-component system"
+    ],
+    "anchor_go_ids": [
+      "GO:0007165",
+      "GO:0000165"
+    ],
+    "core_keywords": [
+      "MAP kinase",
+      "MAPK cascade",
+      "calcineurin",
+      "TOR signaling",
+      "cAMP-dependent protein kinase"
+    ]
+  },
+  "Nutrient Acquisition & Transport": {
+    "keywords": [
+      "iron acquisition",
+      "siderophore",
+      "iron permease",
+      "reductive iron assimilation",
+      "sugar transporter",
+      "amino acid permease",
+      "nitrogen catabolite repression",
+      "carbon catabolite repression",
+      "nutrient sensing",
+      "phosphate transporter",
+      "sulfate transporter",
+      "zinc transporter",
+      "copper transporter",
+      "hexose transporter",
+      "ABC transporter",
+      "permease"
+    ],
+    "anchor_go_ids": [
+      "GO:0055085",
+      "GO:0006810"
+    ],
+    "core_keywords": [
+      "siderophore",
+      "iron permease",
+      "reductive iron assimilation",
+      "amino acid permease",
+      "hexose transporter"
+    ]
+  },
+  "Translation & Ribosome": {
+    "keywords": [
+      "ribosomal protein",
+      "40S ribosomal",
+      "60S ribosomal",
+      "80S ribosome",
+      "elongation factor",
+      "eEF1",
+      "eEF2",
+      "translation initiation",
+      "eIF",
+      "aminoacyl-tRNA synthetase",
+      "tRNA synthetase",
+      "ribosome biogenesis",
+      "ribosome assembly",
+      "translation termination",
+      "release factor",
+      "structural constituent of ribosome"
+    ],
+    "anchor_go_ids": [
+      "GO:0006412",
+      "GO:0042254",
+      "GO:0003735"
+    ],
+    "core_keywords": [
+      "ribosomal protein",
+      "40S ribosomal",
+      "60S ribosomal",
+      "eEF1",
+      "eEF2",
+      "aminoacyl-tRNA synthetase",
+      "structural constituent of ribosome"
+    ]
+  },
+  "Central Metabolism & Energetics": {
+    "keywords": [
+      "glycolysis",
+      "gluconeogenesis",
+      "TCA cycle",
+      "citric acid cycle",
+      "pentose phosphate pathway",
+      "electron transport chain",
+      "oxidative phosphorylation",
+      "ATP synthase",
+      "NADH dehydrogenase",
+      "cytochrome c oxidase",
+      "mitochondrial respiration",
+      "fermentation",
+      "ethanol fermentation",
+      "pyruvate decarboxylase",
+      "alcohol dehydrogenase",
+      "carbohydrate metabolism",
+      "amino acid metabolism"
+    ],
+    "anchor_go_ids": [
+      "GO:0006096",
+      "GO:0006099",
+      "GO:0006091"
+    ],
+    "core_keywords": [
+      "glycolysis",
+      "TCA cycle",
+      "ATP synthase",
+      "pentose phosphate pathway",
+      "pyruvate decarboxylase"
+    ]
+  },
+  "Transcription & Chromatin": {
+    "keywords": [
+      "RNA polymerase",
+      "transcription factor",
+      "zinc finger",
+      "transcriptional regulator",
+      "chromatin remodelling",
+      "histone modification",
+      "histone acetyltransferase",
+      "histone deacetylase",
+      "DNA methylation",
+      "epigenetic regulation",
+      "mRNA processing",
+      "RNA splicing",
+      "polyadenylation",
+      "transcriptional activator",
+      "transcriptional repressor"
+    ],
+    "anchor_go_ids": [
+      "GO:0006355",
+      "GO:0006351"
+    ],
+    "core_keywords": [
+      "RNA polymerase",
+      "transcription factor",
+      "histone acetyltransferase",
+      "histone deacetylase"
+    ]
+  },
+  "Uncharacterised": {
+    "keywords": [
+      "uncharacterized protein",
+      "hypothetical protein",
+      "unknown function",
+      "putative uncharacterized",
+      "domain of unknown function",
+      "conserved hypothetical",
+      "predicted protein"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": [
+      "hypothetical protein",
+      "uncharacterized protein",
+      "unknown function"
+    ]
+  }
+}

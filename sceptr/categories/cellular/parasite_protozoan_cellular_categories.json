@@ -1,0 +1,266 @@
+{
+  "Cytoplasm": {
+    "keywords": [
+      "cytoplasm",
+      "cytosol",
+      "cytoplasmic",
+      "intracellular"
+    ],
+    "anchor_go_ids": [
+      "GO:0005737",
+      "GO:0005829"
+    ],
+    "core_keywords": [
+      "cytoplasm",
+      "cytosol"
+    ]
+  },
+  "Nucleus": {
+    "keywords": [
+      "nucleus",
+      "nucleoplasm",
+      "nucleolus",
+      "nuclear",
+      "chromatin",
+      "chromosome"
+    ],
+    "anchor_go_ids": [
+      "GO:0005634",
+      "GO:0005654"
+    ],
+    "core_keywords": [
+      "nucleus",
+      "nuclear"
+    ]
+  },
+  "Mitochondria": {
+    "keywords": [
+      "mitochondrion",
+      "mitochondrial",
+      "mitochondria"
+    ],
+    "anchor_go_ids": [
+      "GO:0005739"
+    ],
+    "core_keywords": [
+      "mitochondria",
+      "mitochondrial"
+    ]
+  },
+  "Apicoplast": {
+    "keywords": [
+      "apicoplast",
+      "plastid",
+      "apicoplast membrane"
+    ],
+    "anchor_go_ids": [
+      "GO:0009536"
+    ],
+    "core_keywords": [
+      "apicoplast"
+    ]
+  },
+  "Specialized Secretory Organelles": {
+    "keywords": [
+      "rhoptry",
+      "rhoptries",
+      "microneme",
+      "micronemes",
+      "dense granule",
+      "dense granules"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": [
+      "rhoptry",
+      "rhoptries"
+    ]
+  },
+  "Apical Complex": {
+    "keywords": [
+      "apical complex",
+      "conoid",
+      "polar ring",
+      "apical end"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": [
+      "apical complex",
+      "conoid"
+    ]
+  },
+  "Parasitophorous Vacuole": {
+    "keywords": [
+      "parasitophorous vacuole",
+      "PV",
+      "vacuolar membrane",
+      "PV membrane"
+    ],
+    "anchor_go_ids": [
+      "GO:0020003"
+    ],
+    "core_keywords": [
+      "parasitophorous vacuole"
+    ]
+  },
+  "Flagellum": {
+    "keywords": [
+      "flagellum",
+      "flagellar",
+      "axoneme",
+      "basal body",
+      "flagellar pocket"
+    ],
+    "anchor_go_ids": [
+      "GO:0005929"
+    ],
+    "core_keywords": [
+      "flagellum",
+      "flagellar"
+    ]
+  },
+  "Kinetoplast": {
+    "keywords": [
+      "kinetoplast",
+      "kinetoplast DNA",
+      "kDNA"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": [
+      "kinetoplast",
+      "kinetoplast DNA"
+    ]
+  },
+  "Glycosome": {
+    "keywords": [
+      "glycosome",
+      "glycosomal",
+      "peroxisome-like"
+    ],
+    "anchor_go_ids": [
+      "GO:0005777"
+    ],
+    "core_keywords": [
+      "glycosome",
+      "glycosomal"
+    ]
+  },
+  "Ribosome": {
+    "keywords": [
+      "ribosome",
+      "ribosomal",
+      "large ribosomal subunit",
+      "small ribosomal subunit",
+      "ribonucleoprotein",
+      "polysome"
+    ],
+    "anchor_go_ids": [
+      "GO:0005840"
+    ],
+    "core_keywords": [
+      "ribosome",
+      "ribosomal"
+    ]
+  },
+  "Membrane Systems": {
+    "keywords": [
+      "membrane",
+      "plasma membrane",
+      "cell membrane",
+      "transmembrane",
+      "integral membrane",
+      "peripheral membrane",
+      "membrane protein"
+    ],
+    "anchor_go_ids": [
+      "GO:0016020",
+      "GO:0005886"
+    ],
+    "core_keywords": [
+      "membrane",
+      "plasma membrane"
+    ]
+  },
+  "Endoplasmic Reticulum": {
+    "keywords": [
+      "endoplasmic reticulum",
+      "ER",
+      "rough ER",
+      "smooth ER",
+      "ER membrane"
+    ],
+    "anchor_go_ids": [
+      "GO:0005783"
+    ],
+    "core_keywords": [
+      "endoplasmic reticulum"
+    ]
+  },
+  "Golgi Apparatus": {
+    "keywords": [
+      "Golgi",
+      "Golgi apparatus",
+      "cis-Golgi",
+      "trans-Golgi"
+    ],
+    "anchor_go_ids": [
+      "GO:0005794"
+    ],
+    "core_keywords": [
+      "Golgi apparatus",
+      "Golgi membrane"
+    ]
+  },
+  "Vesicles": {
+    "keywords": [
+      "vesicle",
+      "transport vesicle",
+      "secretory vesicle",
+      "endosome"
+    ],
+    "anchor_go_ids": [
+      "GO:0031982",
+      "GO:0030133"
+    ],
+    "core_keywords": [
+      "vesicle",
+      "transport vesicle"
+    ]
+  },
+  "Cytoskeleton": {
+    "keywords": [
+      "cytoskeleton",
+      "actin",
+      "tubulin",
+      "microtubule",
+      "microfilament",
+      "cytoskeletal",
+      "glideosome",
+      "inner membrane complex"
+    ],
+    "anchor_go_ids": [
+      "GO:0005856",
+      "GO:0005874"
+    ],
+    "core_keywords": [
+      "cytoskeleton",
+      "actin"
+    ]
+  },
+  "Extracellular": {
+    "keywords": [
+      "extracellular",
+      "secreted",
+      "extracellular space",
+      "host cell",
+      "host membrane"
+    ],
+    "anchor_go_ids": [
+      "GO:0005576",
+      "GO:0005615"
+    ],
+    "core_keywords": [
+      "extracellular",
+      "secreted"
+    ]
+  }
+}

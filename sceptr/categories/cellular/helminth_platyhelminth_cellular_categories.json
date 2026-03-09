@@ -1,0 +1,143 @@
+{
+  "Cytoplasm": {
+    "keywords": [
+      "cytoplasm",
+      "cytosol",
+      "cytoplasmic",
+      "intracellular"
+    ],
+    "anchor_go_ids": [
+      "GO:0005737",
+      "GO:0005829"
+    ],
+    "core_keywords": []
+  },
+  "Nucleus": {
+    "keywords": [
+      "nucleus",
+      "nucleoplasm",
+      "nucleolus",
+      "nuclear",
+      "chromatin",
+      "chromosome"
+    ],
+    "anchor_go_ids": [
+      "GO:0005634",
+      "GO:0005654",
+      "GO:0005730"
+    ],
+    "core_keywords": []
+  },
+  "Mitochondria": {
+    "keywords": [
+      "mitochondrion",
+      "mitochondrial",
+      "mitochondria"
+    ],
+    "anchor_go_ids": [
+      "GO:0005739"
+    ],
+    "core_keywords": []
+  },
+  "Ribosome": {
+    "keywords": [
+      "ribosome",
+      "ribosomal",
+      "large ribosomal subunit",
+      "small ribosomal subunit",
+      "ribonucleoprotein",
+      "polysome"
+    ],
+    "anchor_go_ids": [
+      "GO:0005840"
+    ],
+    "core_keywords": []
+  },
+  "Membrane": {
+    "keywords": [
+      "membrane",
+      "plasma membrane",
+      "cell membrane",
+      "transmembrane",
+      "integral membrane",
+      "peripheral membrane",
+      "membrane protein",
+      "membrane-bound"
+    ],
+    "anchor_go_ids": [
+      "GO:0016020",
+      "GO:0005886"
+    ],
+    "core_keywords": []
+  },
+  "Endoplasmic Reticulum": {
+    "keywords": [
+      "endoplasmic reticulum",
+      "ER",
+      "rough ER",
+      "smooth ER",
+      "ER membrane"
+    ],
+    "anchor_go_ids": [
+      "GO:0005783"
+    ],
+    "core_keywords": []
+  },
+  "Golgi Apparatus": {
+    "keywords": [
+      "Golgi",
+      "Golgi apparatus",
+      "cis-Golgi",
+      "trans-Golgi",
+      "Golgi membrane"
+    ],
+    "anchor_go_ids": [
+      "GO:0005794"
+    ],
+    "core_keywords": []
+  },
+  "Vesicles": {
+    "keywords": [
+      "vesicle",
+      "transport vesicle",
+      "secretory vesicle",
+      "endosome",
+      "lysosome"
+    ],
+    "anchor_go_ids": [
+      "GO:0031982",
+      "GO:0005764"
+    ],
+    "core_keywords": []
+  },
+  "Cytoskeleton": {
+    "keywords": [
+      "cytoskeleton",
+      "actin",
+      "tubulin",
+      "microtubule",
+      "microfilament",
+      "intermediate filament",
+      "cytoskeletal"
+    ],
+    "anchor_go_ids": [
+      "GO:0005856"
+    ],
+    "core_keywords": []
+  },
+  "Extracellular": {
+    "keywords": [
+      "extracellular",
+      "secreted",
+      "extracellular space",
+      "extracellular matrix",
+      "cell surface",
+      "cell wall"
+    ],
+    "anchor_go_ids": [
+      "GO:0005576",
+      "GO:0005615"
+    ],
+    "core_keywords": []
+  }
+}

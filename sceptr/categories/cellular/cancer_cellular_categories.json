@@ -1,0 +1,57 @@
+{
+  "Cytoplasm": {
+    "keywords": ["cytoplasm", "cytosol", "cytoplasmic", "intracellular"],
+    "anchor_go_ids": ["GO:0005737", "GO:0005829"],
+    "core_keywords": []
+  },
+  "Nucleus": {
+    "keywords": ["nucleus", "nucleoplasm", "nucleolus", "nuclear", "chromatin", "chromosome"],
+    "anchor_go_ids": ["GO:0005634", "GO:0005654", "GO:0005730"],
+    "core_keywords": []
+  },
+  "Mitochondria": {
+    "keywords": ["mitochondrion", "mitochondrial", "mitochondria"],
+    "anchor_go_ids": ["GO:0005739"],
+    "core_keywords": []
+  },
+  "Ribosome": {
+    "keywords": ["ribosome", "ribosomal", "large ribosomal subunit", "small ribosomal subunit", "polysome"],
+    "anchor_go_ids": ["GO:0005840"],
+    "core_keywords": []
+  },
+  "Membrane": {
+    "keywords": ["membrane", "plasma membrane", "cell membrane", "transmembrane", "integral membrane", "membrane protein"],
+    "anchor_go_ids": ["GO:0016020", "GO:0005886"],
+    "core_keywords": []
+  },
+  "Endoplasmic Reticulum": {
+    "keywords": ["endoplasmic reticulum", "ER", "rough ER", "smooth ER", "ER membrane"],
+    "anchor_go_ids": ["GO:0005783"],
+    "core_keywords": []
+  },
+  "Golgi Apparatus": {
+    "keywords": ["Golgi", "Golgi apparatus", "cis-Golgi", "trans-Golgi"],
+    "anchor_go_ids": ["GO:0005794"],
+    "core_keywords": []
+  },
+  "Extracellular Matrix": {
+    "keywords": ["extracellular matrix", "ECM", "basement membrane", "collagen fibril", "stroma"],
+    "anchor_go_ids": ["GO:0031012", "GO:0062023"],
+    "core_keywords": []
+  },
+  "Vesicles & Endosomes": {
+    "keywords": ["vesicle", "endosome", "lysosome", "exosome", "multivesicular body", "autophagosome"],
+    "anchor_go_ids": ["GO:0031982", "GO:0005764", "GO:0005768"],
+    "core_keywords": []
+  },
+  "Cytoskeleton": {
+    "keywords": ["cytoskeleton", "actin", "tubulin", "microtubule", "intermediate filament", "cytoskeletal"],
+    "anchor_go_ids": ["GO:0005856"],
+    "core_keywords": []
+  },
+  "Extracellular": {
+    "keywords": ["extracellular", "secreted", "extracellular space", "cell surface"],
+    "anchor_go_ids": ["GO:0005576", "GO:0005615"],
+    "core_keywords": []
+  }
+}

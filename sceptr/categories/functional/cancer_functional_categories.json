@@ -1,0 +1,580 @@
+{
+  "Proliferative Signalling": {
+    "keywords": [
+      "epidermal growth factor receptor",
+      "EGFR",
+      "HER2",
+      "ERBB2",
+      "RAS signaling",
+      "KRAS",
+      "BRAF",
+      "RAF kinase",
+      "MEK kinase",
+      "ERK signaling",
+      "growth factor receptor",
+      "receptor tyrosine kinase",
+      "mitogenic signaling",
+      "platelet-derived growth factor",
+      "PDGF",
+      "fibroblast growth factor",
+      "FGF receptor",
+      "insulin-like growth factor",
+      "IGF1R",
+      "oncogene",
+      "proto-oncogene"
+    ],
+    "anchor_go_ids": [
+      "GO:0008283",
+      "GO:0007165"
+    ],
+    "core_keywords": [
+      "EGFR",
+      "HER2",
+      "ERBB2",
+      "KRAS",
+      "BRAF",
+      "receptor tyrosine kinase",
+      "oncogene"
+    ]
+  },
+  "Cell Cycle & Proliferation": {
+    "keywords": [
+      "cell cycle",
+      "cyclin-dependent kinase",
+      "CDK",
+      "cyclin",
+      "cell division",
+      "mitosis",
+      "mitotic spindle",
+      "chromosome segregation",
+      "DNA replication",
+      "S phase",
+      "G1/S transition",
+      "G2/M checkpoint",
+      "retinoblastoma protein",
+      "E2F transcription factor",
+      "polo-like kinase",
+      "aurora kinase",
+      "centromere",
+      "kinetochore",
+      "anaphase-promoting complex",
+      "spindle assembly checkpoint"
+    ],
+    "anchor_go_ids": [
+      "GO:0007049",
+      "GO:0051726",
+      "GO:0006260"
+    ],
+    "core_keywords": [
+      "cyclin-dependent kinase",
+      "CDK",
+      "cyclin",
+      "E2F transcription factor",
+      "polo-like kinase",
+      "aurora kinase",
+      "spindle assembly checkpoint"
+    ]
+  },
+  "Apoptosis & Cell Death": {
+    "keywords": [
+      "apoptosis",
+      "apoptotic process",
+      "programmed cell death",
+      "caspase",
+      "BCL2",
+      "BCL-XL",
+      "BAX",
+      "BAK",
+      "cytochrome c release",
+      "death receptor",
+      "TRAIL",
+      "FAS",
+      "FASL",
+      "tumor necrosis factor",
+      "survivin",
+      "XIAP",
+      "anti-apoptotic",
+      "pro-apoptotic",
+      "necroptosis",
+      "RIPK1",
+      "RIPK3",
+      "MLKL"
+    ],
+    "anchor_go_ids": [
+      "GO:0006915"
+    ],
+    "core_keywords": [
+      "caspase",
+      "BCL2",
+      "BAX",
+      "BAK",
+      "death receptor",
+      "apoptosis",
+      "necroptosis"
+    ]
+  },
+  "Angiogenesis": {
+    "keywords": [
+      "angiogenesis",
+      "vascular endothelial growth factor",
+      "VEGF",
+      "VEGFR",
+      "angiopoietin",
+      "endothelial cell proliferation",
+      "blood vessel formation",
+      "vascular development",
+      "sprouting angiogenesis",
+      "endothelial migration",
+      "neuropilin",
+      "semaphorin",
+      "hypoxia-inducible factor",
+      "HIF1A",
+      "HIF2A",
+      "thrombospondin",
+      "endostatin"
+    ],
+    "anchor_go_ids": [
+      "GO:0001525"
+    ],
+    "core_keywords": [
+      "VEGF",
+      "VEGFR",
+      "angiopoietin",
+      "angiogenesis",
+      "HIF1A"
+    ]
+  },
+  "Invasion & Metastasis": {
+    "keywords": [
+      "cell migration",
+      "cell invasion",
+      "metastasis",
+      "matrix metalloproteinase",
+      "MMP",
+      "ADAM metalloprotease",
+      "cell motility",
+      "chemotaxis",
+      "focal adhesion",
+      "integrin",
+      "laminin",
+      "fibronectin",
+      "extracellular matrix degradation",
+      "basement membrane",
+      "invadopodia",
+      "podosome",
+      "Rho GTPase",
+      "RAC1",
+      "CDC42",
+      "actin cytoskeleton remodelling"
+    ],
+    "anchor_go_ids": [
+      "GO:0016477",
+      "GO:0007155"
+    ],
+    "core_keywords": [
+      "matrix metalloproteinase",
+      "MMP",
+      "metastasis",
+      "cell invasion",
+      "invadopodia",
+      "focal adhesion"
+    ]
+  },
+  "Epithelial-Mesenchymal Transition": {
+    "keywords": [
+      "epithelial to mesenchymal transition",
+      "EMT",
+      "mesenchymal to epithelial transition",
+      "E-cadherin",
+      "N-cadherin",
+      "vimentin",
+      "SNAI1",
+      "SNAI2",
+      "SLUG",
+      "TWIST1",
+      "ZEB1",
+      "ZEB2",
+      "cadherin switching",
+      "tight junction",
+      "claudin",
+      "epithelial marker loss",
+      "mesenchymal marker",
+      "cell plasticity"
+    ],
+    "anchor_go_ids": [
+      "GO:0001837"
+    ],
+    "core_keywords": [
+      "epithelial to mesenchymal transition",
+      "EMT",
+      "SNAI1",
+      "TWIST1",
+      "ZEB1",
+      "E-cadherin",
+      "vimentin"
+    ]
+  },
+  "Genome Instability & DNA Damage": {
+    "keywords": [
+      "DNA repair",
+      "DNA damage response",
+      "homologous recombination",
+      "non-homologous end joining",
+      "BRCA1",
+      "BRCA2",
+      "ATM kinase",
+      "ATR kinase",
+      "CHK1",
+      "CHK2",
+      "p53",
+      "TP53",
+      "mismatch repair",
+      "nucleotide excision repair",
+      "base excision repair",
+      "RAD51",
+      "Fanconi anemia",
+      "PARP",
+      "DNA damage checkpoint",
+      "replication stress",
+      "telomere maintenance",
+      "telomerase"
+    ],
+    "anchor_go_ids": [
+      "GO:0006281",
+      "GO:0006974"
+    ],
+    "core_keywords": [
+      "BRCA1",
+      "BRCA2",
+      "ATM kinase",
+      "ATR kinase",
+      "p53",
+      "TP53",
+      "RAD51",
+      "PARP",
+      "telomerase"
+    ]
+  },
+  "Immune Evasion & Tumour Microenvironment": {
+    "keywords": [
+      "immune evasion",
+      "immune checkpoint",
+      "PD-L1",
+      "PD-1",
+      "CTLA-4",
+      "MHC class I",
+      "MHC class II",
+      "antigen presentation",
+      "T cell exhaustion",
+      "regulatory T cell",
+      "myeloid-derived suppressor cell",
+      "tumour-associated macrophage",
+      "immunosuppression",
+      "TGF-beta",
+      "interleukin-10",
+      "IDO1",
+      "LAG3",
+      "TIM3",
+      "immune escape"
+    ],
+    "anchor_go_ids": [
+      "GO:0006955",
+      "GO:0045087"
+    ],
+    "core_keywords": [
+      "PD-L1",
+      "PD-1",
+      "CTLA-4",
+      "immune checkpoint",
+      "antigen presentation",
+      "IDO1",
+      "immune evasion"
+    ]
+  },
+  "Metabolic Reprogramming": {
+    "keywords": [
+      "Warburg effect",
+      "aerobic glycolysis",
+      "glycolysis",
+      "lactate dehydrogenase",
+      "glucose transporter",
+      "GLUT1",
+      "hexokinase",
+      "pyruvate kinase",
+      "PKM2",
+      "glutaminolysis",
+      "glutaminase",
+      "fatty acid synthesis",
+      "FASN",
+      "lipogenesis",
+      "one-carbon metabolism",
+      "serine biosynthesis",
+      "pentose phosphate pathway",
+      "oxidative phosphorylation",
+      "mitochondrial metabolism",
+      "isocitrate dehydrogenase",
+      "IDH mutation"
+    ],
+    "anchor_go_ids": [
+      "GO:0006096",
+      "GO:0006119",
+      "GO:0006629"
+    ],
+    "core_keywords": [
+      "Warburg effect",
+      "aerobic glycolysis",
+      "GLUT1",
+      "PKM2",
+      "glutaminolysis",
+      "FASN",
+      "lactate dehydrogenase"
+    ]
+  },
+  "Hypoxia Response": {
+    "keywords": [
+      "response to hypoxia",
+      "hypoxia-inducible factor",
+      "HIF1A",
+      "HIF2A",
+      "VHL",
+      "von Hippel-Lindau",
+      "prolyl hydroxylase",
+      "ARNT",
+      "carbonic anhydrase IX",
+      "erythropoietin",
+      "hypoxia response element",
+      "oxygen sensing",
+      "anaerobic metabolism",
+      "BNIP3",
+      "GLUT1"
+    ],
+    "anchor_go_ids": [
+      "GO:0001666"
+    ],
+    "core_keywords": [
+      "HIF1A",
+      "HIF2A",
+      "VHL",
+      "prolyl hydroxylase",
+      "hypoxia-inducible factor"
+    ]
+  },
+  "PI3K-AKT-mTOR Signalling": {
+    "keywords": [
+      "PI3K",
+      "phosphoinositide 3-kinase",
+      "AKT",
+      "protein kinase B",
+      "mTOR",
+      "mTORC1",
+      "mTORC2",
+      "PTEN",
+      "S6 kinase",
+      "4E-BP1",
+      "TSC1",
+      "TSC2",
+      "tuberous sclerosis",
+      "RAPTOR",
+      "RICTOR",
+      "autophagy",
+      "nutrient sensing",
+      "insulin signaling"
+    ],
+    "anchor_go_ids": [
+      "GO:0007165"
+    ],
+    "core_keywords": [
+      "PI3K",
+      "AKT",
+      "mTOR",
+      "mTORC1",
+      "PTEN",
+      "S6 kinase",
+      "4E-BP1"
+    ]
+  },
+  "WNT & Developmental Signalling": {
+    "keywords": [
+      "WNT signaling",
+      "WNT ligand",
+      "beta-catenin",
+      "frizzled receptor",
+      "APC",
+      "adenomatous polyposis coli",
+      "GSK3",
+      "axin",
+      "Hedgehog signaling",
+      "Notch signaling",
+      "Notch receptor",
+      "Notch ligand",
+      "developmental signaling",
+      "stem cell maintenance",
+      "self-renewal",
+      "Hippo pathway",
+      "YAP",
+      "TAZ"
+    ],
+    "anchor_go_ids": [
+      "GO:0016055",
+      "GO:0007219"
+    ],
+    "core_keywords": [
+      "WNT signaling",
+      "beta-catenin",
+      "APC",
+      "Hedgehog signaling",
+      "Notch signaling",
+      "YAP"
+    ]
+  },
+  "Epigenetic Regulation": {
+    "keywords": [
+      "DNA methylation",
+      "histone modification",
+      "histone methyltransferase",
+      "histone demethylase",
+      "histone acetyltransferase",
+      "histone deacetylase",
+      "HDAC",
+      "DNMT",
+      "DNA methyltransferase",
+      "chromatin remodelling",
+      "polycomb",
+      "EZH2",
+      "bromodomain",
+      "BET protein",
+      "BRD4",
+      "chromatin modifier",
+      "H3K27me3",
+      "H3K4me3",
+      "H3K9me3",
+      "5-methylcytosine"
+    ],
+    "anchor_go_ids": [
+      "GO:0006325",
+      "GO:0006338",
+      "GO:0040029"
+    ],
+    "core_keywords": [
+      "DNMT",
+      "HDAC",
+      "EZH2",
+      "BRD4",
+      "DNA methyltransferase",
+      "polycomb"
+    ]
+  },
+  "Extracellular Matrix & Remodelling": {
+    "keywords": [
+      "extracellular matrix",
+      "collagen",
+      "fibronectin",
+      "laminin",
+      "proteoglycan",
+      "hyaluronan",
+      "matrix metalloproteinase",
+      "tissue inhibitor of metalloproteinase",
+      "TIMP",
+      "ECM organization",
+      "ECM remodelling",
+      "stroma",
+      "desmoplasia",
+      "fibrosis",
+      "matricellular protein",
+      "elastin",
+      "tenascin"
+    ],
+    "anchor_go_ids": [
+      "GO:0030198"
+    ],
+    "core_keywords": [
+      "collagen",
+      "fibronectin",
+      "laminin",
+      "extracellular matrix",
+      "TIMP"
+    ]
+  },
+  "Inflammation & NF-kB": {
+    "keywords": [
+      "inflammatory response",
+      "NF-kB",
+      "NFKB",
+      "RELA",
+      "TNF signaling",
+      "interleukin",
+      "chemokine",
+      "COX-2",
+      "PTGS2",
+      "prostaglandin",
+      "STAT3",
+      "JAK-STAT",
+      "cytokine",
+      "tumour necrosis factor",
+      "inflammasome",
+      "NLRP3",
+      "IL-6",
+      "IL-1"
+    ],
+    "anchor_go_ids": [
+      "GO:0006954"
+    ],
+    "core_keywords": [
+      "NF-kB",
+      "NFKB",
+      "COX-2",
+      "PTGS2",
+      "STAT3",
+      "NLRP3"
+    ]
+  },
+  "Translation & Ribosome": {
+    "keywords": [
+      "ribosomal protein",
+      "40S ribosomal",
+      "60S ribosomal",
+      "elongation factor",
+      "eEF1",
+      "eEF2",
+      "translation initiation",
+      "eIF4E",
+      "eIF4G",
+      "aminoacyl-tRNA synthetase",
+      "tRNA synthetase",
+      "ribosome biogenesis",
+      "ribosome assembly",
+      "translation termination",
+      "structural constituent of ribosome"
+    ],
+    "anchor_go_ids": [
+      "GO:0006412",
+      "GO:0042254",
+      "GO:0003735"
+    ],
+    "core_keywords": [
+      "ribosomal protein",
+      "40S ribosomal",
+      "60S ribosomal",
+      "eIF4E",
+      "aminoacyl-tRNA synthetase",
+      "structural constituent of ribosome"
+    ]
+  },
+  "Uncharacterised": {
+    "keywords": [
+      "uncharacterized protein",
+      "hypothetical protein",
+      "unknown function",
+      "putative uncharacterized",
+      "domain of unknown function",
+      "conserved hypothetical",
+      "predicted protein"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": [
+      "hypothetical protein",
+      "uncharacterized protein",
+      "unknown function"
+    ]
+  }
+}
