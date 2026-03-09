@@ -286,31 +286,33 @@
             flex-direction: column;
             gap: 0;
             position: relative;
-            padding-left: 2rem;
+            margin-left: 7px;
+            padding-left: 1.5rem;
         }
         .pipeline-steps::before {
             content: '';
             position: absolute;
-            left: 0.45rem;
-            top: 1.5rem;
-            bottom: 1.5rem;
+            left: 0;
+            top: 1.25rem;
+            bottom: 1.25rem;
             width: 2px;
             background: var(--border);
         }
         .step {
             position: relative;
-            padding: 0.75rem 0 0.75rem 1.5rem;
+            padding: 0.6rem 0;
         }
         .step::before {
             content: '';
             position: absolute;
-            left: -1.55rem;
+            left: calc(-1.5rem - 5px);
             top: 50%;
             transform: translateY(-50%);
-            width: 10px; height: 10px;
+            width: 12px; height: 12px;
             border-radius: 50%;
             background: var(--accent);
             border: 2px solid var(--bg-card);
+            box-sizing: border-box;
         }
         .step .step-title {
             font-weight: 600; font-size: 0.95rem; color: var(--text-bright);
@@ -713,13 +715,13 @@
             <!-- Method track -->
             <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem;">
                 <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
-                    <div class="icon icon-green" style="width: 32px; height: 32px; font-size: 14px; margin: 0; flex-shrink: 0;">&#x25B2;</div>
+                    <div class="icon icon-green" style="width: 32px; height: 32px; font-size: 14px; margin: 0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 8px;">&#x25B2;</div>
                     <h3 style="color: var(--text-bright); font-size: 1.05rem; margin: 0;">The Statistical Method</h3>
                 </div>
                 <p style="color: var(--text-dim); font-size: 0.88rem; margin-bottom: 1.25rem;">
                     Bring any annotated expression table. Skip all preprocessing and go straight to enrichment profiling.
                 </p>
-                <div class="pipeline-steps" style="padding-left: 1.5rem;">
+                <div class="pipeline-steps">
                     <div class="step">
                         <div class="step-title">Your ranked gene list</div>
                         <div class="step-desc">Any expression-ranked genes with functional annotation</div>
@@ -741,13 +743,13 @@
             <!-- Framework track -->
             <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem;">
                 <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
-                    <div class="icon icon-cyan" style="width: 32px; height: 32px; font-size: 14px; margin: 0; flex-shrink: 0;">&#x2699;</div>
+                    <div class="icon icon-cyan" style="width: 32px; height: 32px; font-size: 14px; margin: 0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 8px;">&#x2699;</div>
                     <h3 style="color: var(--text-bright); font-size: 1.05rem; margin: 0;">The Automated Framework</h3>
                 </div>
                 <p style="color: var(--text-dim); font-size: 0.88rem; margin-bottom: 1.25rem;">
                     Raw reads to interactive report in a single command. Nextflow + Docker for reproducibility.
                 </p>
-                <div class="pipeline-steps" style="padding-left: 1.5rem;">
+                <div class="pipeline-steps">
                     <div class="step">
                         <div class="step-title">QC & expression quantification</div>
                         <div class="step-desc">FastQC, MultiQC, Salmon pseudo-alignment</div>
