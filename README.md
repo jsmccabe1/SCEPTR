@@ -54,6 +54,11 @@ See [sceptr/README.md](sceptr/README.md) for input format options and the Python
 Process raw reads to interactive report. Requires [Nextflow](https://www.nextflow.io/) >= 21.10.0 and [Docker](https://www.docker.com/) (or Singularity). ~4 GB disk for databases, ~8 GB RAM recommended.
 
 ```bash
+# Install Nextflow and Docker if not already available
+curl -s https://get.nextflow.io | bash && sudo mv nextflow /usr/local/bin/
+sudo apt-get install -y docker.io && sudo usermod -aG docker $USER  # Ubuntu/Debian
+
+# Clone and set up SCEPTR
 git clone https://github.com/jsmccabe1/SCEPTR.git && cd SCEPTR
 bash setup_databases.sh          # Downloads UniProt + GO (~3.5 GB)
 docker build -t sceptr:1.0.0 .

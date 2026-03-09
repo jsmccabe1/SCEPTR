@@ -483,6 +483,10 @@
             <span class="cmd">sceptr profile</span> --expression data.tsv --category-set bacteria -o results/<br>
             <br>
             <span class="comment"># Full framework (raw reads to report)</span><br>
+            <span class="comment"># Requires Nextflow and Docker:</span><br>
+            <span class="cmd">curl</span> -s https://get.nextflow.io | <span class="cmd">bash</span> && <span class="cmd">sudo mv</span> nextflow /usr/local/bin/<br>
+            <span class="cmd">sudo apt-get install</span> -y docker.io && <span class="cmd">sudo usermod</span> -aG docker $USER<br>
+            <br>
             <span class="cmd">git clone</span> https://github.com/jsmccabe1/SCEPTR.git && <span class="cmd">cd</span> SCEPTR<br>
             <span class="cmd">bash</span> setup_databases.sh && <span class="cmd">docker build</span> -t sceptr:1.0.0 .<br>
             <span class="cmd">./run_sceptr.sh</span>
