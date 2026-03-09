@@ -96,29 +96,29 @@ Functional categories are assigned to genes through two complementary methods: k
 graph TB
     subgraph entry ["Start from either entry point"]
         direction LR
-        A["Raw reads + reference\n(full automated framework)"]
-        B["Ranked gene list\n(method only)"]
+        A["Raw reads + reference<br/>(full automated framework)"]
+        B["Ranked gene list<br/>(method only)"]
     end
 
     subgraph auto ["Automated preprocessing"]
         direction LR
-        C["QC &\nQuantification"]
-        D["Protein Prediction\n& Annotation"]
-        E["Contamination\nFiltering"]
+        C["QC &<br/>Quantification"]
+        D["Protein Prediction<br/>& Annotation"]
+        E["Contamination<br/>Filtering"]
     end
 
     subgraph method ["SCEPTR statistical method"]
         direction LR
-        F["Continuous enrichment\nprofiling"]
-        G["Permutation\nsignificance testing"]
-        H["DKL specialisation\ngradient"]
+        F["Continuous enrichment<br/>profiling"]
+        G["Permutation<br/>significance testing"]
+        H["DKL specialisation<br/>gradient"]
     end
 
     subgraph insight ["What you discover"]
         direction LR
-        I["Which programmes\ndominate and where"]
-        J["Whether enrichment\nis significant"]
-        K["How resources are\nallocated"]
+        I["Which programmes<br/>dominate and where"]
+        J["Whether enrichment<br/>is significant"]
+        K["How resources are<br/>allocated"]
     end
 
     A --> C --> D --> E --> F
@@ -455,11 +455,12 @@ docker build -t sceptr:1.0.0 .
 ./run_sceptr.sh
 ```
 
-Auto-detects read files, validates inputs, and builds the framework command interactively. Supports three modes:
+Auto-detects read files, validates inputs, and builds the command interactively. Supports four modes:
 
-1. **Full framework** - Run SCEPTR from reads to reports
-2. **Compare conditions** - Compare two existing SCEPTR outputs
-3. **Re-run enrichment profiling** - Re-analyse with different categories or parameters
+1. **Full framework** - Process raw reads to enrichment report
+2. **Method only** - Run enrichment profiling on your own annotated expression table (no preprocessing required)
+3. **Compare conditions** - Compare two existing SCEPTR outputs
+4. **Re-run enrichment** - Re-analyse existing results with different categories or parameters
 
 ### Command-line launcher
 

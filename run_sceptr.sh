@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # SCEPTR: Statistical Characterisation of Expression Profiles in Transcriptomes
-# Interactive pipeline launcher
+# Interactive launcher
 #
 
 set -euo pipefail
@@ -204,10 +204,10 @@ usage() {
     banner
     echo -e "${BOLD}Usage:${NC}"
     echo "  ./run_sceptr.sh                          # Interactive mode"
-    echo "  ./run_sceptr.sh [options]                 # Direct mode (full pipeline)"
+    echo "  ./run_sceptr.sh [options]                 # Direct mode (full framework)"
     echo "  ./run_sceptr.sh --compare [options]       # Compare two conditions"
     echo ""
-    echo -e "${BOLD}Full Pipeline Options:${NC}"
+    echo -e "${BOLD}Full Framework Options:${NC}"
     echo "  -r, --reads DIR|GLOB       Path to reads directory or glob pattern"
     echo "  -t, --transcripts FILE     Reference transcriptome FASTA"
     echo "  -c, --category SET         Category set (general, human_host, bacteria, etc.)"
@@ -279,11 +279,12 @@ if $INTERACTIVE; then
 
     # Mode selection
     mode_idx=$(select_option "What would you like to do?" \
-        "Full pipeline (process reads to enrichment)" \
-        "Compare conditions (compare two SCEPTR outputs)" \
-        "Re-run enrichment profiling (re-run on existing results)")
+        "Full framework    - process raw reads to enrichment report" \
+        "Method only       - run enrichment profiling on an annotated expression table" \
+        "Compare conditions - compare two SCEPTR outputs" \
+        "Re-run enrichment  - re-analyse existing SCEPTR results with different settings")
 
-    if (( mode_idx == 1 )); then
+    if (( mode_idx == 2 )); then
         # ── Comparison interactive mode ──
         COMPARE_MODE=true
         echo ""
@@ -352,10 +353,108 @@ if $INTERACTIVE; then
         OUTDIR=$(prompt_default "  Output directory" "results_comparison")
         PREFIX=$(prompt_default "  Output file prefix" "sceptr_comparison")
 
-    elif (( mode_idx == 2 )); then
-        # Re-run enrichment profiling - just pass through to -entry ExPlotEntry
+    elif (( mode_idx == 1 )); then
+        # ── Method only: enrichment profiling on user's own data ──
+        echo ""
+        echo -e "${BOLD}${CYAN}Enrichment Profiling Only${NC}\n"
+        echo "  Run the SCEPTR statistical method on your own annotated expression data."
+        echo -e "  ${DIM}No raw reads, no preprocessing, no Docker required.${NC}"
+        echo ""
+        echo "  Your input file should be a tab-separated table with at minimum:"
+        echo "    - sequence_id: gene/transcript identifiers"
+        echo "    - TPM: expression values (used for ranking)"
+        echo "    - protein_name: UniProt-style protein descriptions"
+        echo -e "  ${DIM}Optional columns: GO_Biological_Process, GO_Molecular_Function, GO_Cellular_Component${NC}"
+        echo -e "  ${DIM}See results/*/integrated_data/integrated_annotations_expression.tsv for format.${NC}"
+        echo ""
+
+        while true; do
+            INTEGRATED=$(prompt "  Path to annotated expression table (TSV):")
+            if [[ -f "$INTEGRATED" ]]; then
+                n_genes=$(tail -n +2 "$INTEGRATED" | wc -l)
+                # Check it has the minimum required columns
+                header=$(head -1 "$INTEGRATED")
+                has_seqid=false; has_tpm=false
+                [[ "$header" == *"sequence_id"* ]] && has_seqid=true
+                [[ "$header" == *"TPM"* ]] && has_tpm=true
+                if $has_seqid && $has_tpm; then
+                    success "Found ${n_genes} genes with required columns"
+                    break
+                else
+                    error "File must contain 'sequence_id' and 'TPM' columns."
+                    echo -e "  ${DIM}Found header: ${header:0:100}...${NC}"
+                fi
+            else
+                error "File not found: ${INTEGRATED}"
+            fi
+        done
+
+        # Category set
+        echo ""
+        echo -e "${BOLD}${CYAN}Category Set${NC}"
+        cat_options=()
+        for i in $(seq 1 15); do
+            cat_options+=("${CATEGORY_DESCRIPTIONS[$i]}")
+        done
+        cat_idx=$(select_option "What type of organism are you studying?" "${cat_options[@]}")
+        cat_num=$((cat_idx + 1))
+        CATEGORY_SET="${CATEGORY_NAMES[$cat_num]}"
+        success "Selected: ${CATEGORY_SET}"
+
+        # Handle custom categories
+        if [[ "$CATEGORY_SET" == "custom" ]]; then
+            echo ""
+            while true; do
+                CUSTOM_FUNC=$(prompt "  Path to functional categories JSON:")
+                if [[ -f "$CUSTOM_FUNC" ]]; then success "Found: ${CUSTOM_FUNC}"; break
+                else error "File not found: ${CUSTOM_FUNC}"; fi
+            done
+        fi
+
+        # Output settings
+        echo ""
+        echo -e "${BOLD}${CYAN}Output Settings${NC}\n"
+        OUTDIR=$(prompt_default "  Output directory" "results")
+        PREFIX=$(prompt_default "  Output file prefix" "sceptr")
+
+        NF_CMD="nextflow run ${SCRIPT_DIR}/main.nf -entry ExPlotEntry"
+        NF_CMD+=" --integrated_results \"${INTEGRATED}\""
+        NF_CMD+=" --category_set ${CATEGORY_SET}"
+        NF_CMD+=" --outdir \"${OUTDIR}\""
+        NF_CMD+=" --output_prefix \"${PREFIX}\""
+        NF_CMD+=" -profile ${PROFILE}"
+        if [[ "$CATEGORY_SET" == "custom" && -n "${CUSTOM_FUNC:-}" ]]; then
+            NF_CMD+=" --custom_functional_categories \"${CUSTOM_FUNC}\""
+        fi
+
+        echo ""
+        echo -e "${CYAN}${BOLD}┌─────────────────────────────────────────────────────────────┐${NC}"
+        echo -e "${CYAN}${BOLD}│  Method Only - Summary                                      │${NC}"
+        echo -e "${CYAN}${BOLD}└─────────────────────────────────────────────────────────────┘${NC}"
+        echo ""
+        echo -e "  ${BOLD}Input:${NC}           ${INTEGRATED}"
+        echo -e "  ${BOLD}Genes:${NC}           ${n_genes}"
+        echo -e "  ${BOLD}Category set:${NC}    ${CATEGORY_SET}"
+        echo -e "  ${BOLD}Output:${NC}          ${OUTDIR}/"
+        echo ""
+        echo -e "  ${DIM}Command: ${NF_CMD}${NC}"
+        echo ""
+        if confirm "  Launch enrichment profiling?"; then
+            echo ""
+            info "Launching SCEPTR enrichment profiling..."
+            echo ""
+            eval $NF_CMD
+            exit $?
+        else
+            info "Cancelled."
+            exit 0
+        fi
+
+    elif (( mode_idx == 3 )); then
+        # ── Re-run enrichment profiling on existing SCEPTR results ──
         echo ""
         echo -e "${BOLD}${CYAN}Re-run Enrichment Profiling${NC}\n"
+        echo -e "  ${DIM}Re-analyse existing SCEPTR results with different categories or settings.${NC}\n"
         while true; do
             INTEGRATED=$(prompt "  Path to integrated_annotations_expression.tsv:")
             if [[ -f "$INTEGRATED" ]]; then
@@ -396,7 +495,7 @@ if $INTERACTIVE; then
         fi
     fi
 
-    # If we got here in compare mode, skip the full pipeline interactive flow
+    # If we got here in compare mode, skip the full framework interactive flow
     if $COMPARE_MODE; then
         # Skip to validation/run (handled below)
         :
@@ -708,7 +807,7 @@ if $COMPARE_MODE; then
         echo -e "  ${DIM}Sláinte a chara!${NC}"
         echo ""
     else
-        echo -e "${RED}${BOLD}Pipeline failed (exit code: ${exit_code})${NC}"
+        echo -e "${RED}${BOLD}SCEPTR failed (exit code: ${exit_code})${NC}"
         echo "  Check .nextflow.log for details."
         exit $exit_code
     fi
@@ -851,7 +950,7 @@ echo -e "  ${DIM}${NF_CMD}${NC}"
 echo ""
 
 if $INTERACTIVE; then
-    if ! confirm "  Launch pipeline?"; then
+    if ! confirm "  Launch SCEPTR?"; then
         info "Cancelled. You can re-run with the command above."
         exit 0
     fi
@@ -860,7 +959,7 @@ fi
 # ── Run ──────────────────────────────────────────────────────────────────────
 
 echo ""
-info "Launching SCEPTR pipeline..."
+info "Launching SCEPTR..."
 echo ""
 
 eval $NF_CMD
@@ -869,7 +968,7 @@ exit_code=$?
 echo ""
 if (( exit_code == 0 )); then
     echo -e "${GREEN}${BOLD}┌─────────────────────────────────────────────────────────────┐${NC}"
-    echo -e "${GREEN}${BOLD}│  SCEPTR pipeline completed successfully!                    │${NC}"
+    echo -e "${GREEN}${BOLD}│  SCEPTR completed successfully!                    │${NC}"
     echo -e "${GREEN}${BOLD}└─────────────────────────────────────────────────────────────┘${NC}"
     echo ""
     echo -e "  ${BOLD}Results:${NC} ${OUTDIR}/"
@@ -885,7 +984,7 @@ if (( exit_code == 0 )); then
     echo ""
 else
     echo -e "${RED}${BOLD}┌─────────────────────────────────────────────────────────────┐${NC}"
-    echo -e "${RED}${BOLD}│  Pipeline failed (exit code: ${exit_code})                          │${NC}"
+    echo -e "${RED}${BOLD}│  SCEPTR failed (exit code: ${exit_code})                          │${NC}"
     echo -e "${RED}${BOLD}└─────────────────────────────────────────────────────────────┘${NC}"
     echo ""
     echo "  Check .nextflow.log for details, or re-run with:"
