@@ -190,6 +190,131 @@ def _generate_hero_summary(analysis_blocks):
 
 
 # ---------------------------------------------------------------------------
+# Transcriptome Identity Card
+# ---------------------------------------------------------------------------
+def _build_identity_card(analysis_blocks, landscape_data, df_sorted):
+    """Build a visual identity card summarising the transcriptome at a glance.
+
+    Shows: apex composition (top 3 programmes with allocation %), expression
+    concentration (Gini gauge), and notable findings (unusual enrichments
+    or depletions).
+    """
+    primary = analysis_blocks[0]
+    cont_results = primary.get('cont_results')
+    cat_names = primary['cat_names']
+    all_results = primary['all_results']
+
+    if not cont_results or 'enrichment_matrix' not in cont_results:
+        return ''
+
+    # Compute apex allocation
+    enrichment_matrix = cont_results['enrichment_matrix']
+    cat_gene_counts = {}
+    gene_cats = all_results.get('gene_categories', {})
+    for gid, cats in gene_cats.items():
+        for c in cats:
+            cat_gene_counts[c] = cat_gene_counts.get(c, 0) + 1
+
+    bg_rates = []
+    for cat in cat_names:
+        n = cat_gene_counts.get(cat, 0)
+        total = sum(cat_gene_counts.values())
+        bg_rates.append(n / max(total, 1))
+    bg_rates = np.array(bg_rates)
+
+    # Apex composition (first row of enrichment matrix)
+    obs_props = enrichment_matrix[0] * bg_rates
+    total_prop = obs_props.sum()
+    if total_prop > 0:
+        apex_comp = obs_props / total_prop
+    else:
+        return ''
+
+    sorted_idx = np.argsort(apex_comp)[::-1]
+
+    # Top 3 programmes
+    top3_html = ''
+    colours = [PALETTE[i % len(PALETTE)] for i in range(len(cat_names))]
+    for rank, ci in enumerate(sorted_idx[:3]):
+        cat = cat_names[ci]
+        pct = apex_comp[ci] * 100
+        bg_pct = bg_rates[ci] / max(bg_rates.sum(), 1e-10) * 100
+        ratio = pct / bg_pct if bg_pct > 0 else 0
+        colour = colours[ci]
+        bar_width = min(pct * 2.5, 100)  # scale for visual bar
+        top3_html += f'''
+        <div style="margin-bottom:10px;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px;">
+                <span style="font-weight:600;color:{colour};font-size:0.9rem;">{cat}</span>
+                <span style="font-size:0.85rem;color:var(--text-dim);">{pct:.0f}% of apex ({ratio:.1f}x background)</span>
+            </div>
+            <div style="background:#e8e8e8;border-radius:4px;height:8px;overflow:hidden;">
+                <div style="background:{colour};width:{bar_width}%;height:100%;border-radius:4px;"></div>
+            </div>
+        </div>'''
+
+    # "What's unusual" flags
+    flags_html = ''
+    notable = []
+    if cont_results and 'shape_stats' in cont_results and 'profile_stats' in cont_results:
+        for cat in cat_names:
+            ss = cont_results['shape_stats'].get(cat, {})
+            ps = cont_results['profile_stats'].get(cat, {})
+            max_fc = ss.get('max_enrichment', 0)
+            sup_p = ps.get('supremum_p', 1.0)
+            shape = ss.get('shape_class', 'unknown')
+
+            if max_fc > 3.0 and sup_p < 0.01:
+                notable.append(('high', cat, f'{max_fc:.1f}x peak enrichment', sup_p))
+            elif max_fc < 0.5 and sup_p < 0.05:
+                notable.append(('low', cat, f'{max_fc:.2f}x (depleted)', sup_p))
+
+    notable.sort(key=lambda x: x[3])
+    for flag_type, cat, desc, p in notable[:4]:
+        icon = '&#9650;' if flag_type == 'high' else '&#9660;'
+        badge_colour = '#059669' if flag_type == 'high' else '#d97706'
+        flags_html += (
+            f'<span style="display:inline-block;background:{badge_colour}15;'
+            f'color:{badge_colour};border:1px solid {badge_colour}40;'
+            f'border-radius:6px;padding:3px 10px;font-size:0.8rem;margin:3px 4px;">'
+            f'{icon} <strong>{cat}</strong>: {desc} (p={_format_pval(p)})</span>')
+
+    # Gini gauge
+    gini_html = ''
+    if landscape_data:
+        gini = landscape_data['gini']
+        gini_pct = gini * 100
+        gini_html = f'''
+        <div style="text-align:center;">
+            <div style="font-size:0.8rem;color:var(--text-dim);margin-bottom:4px;">Expression concentration</div>
+            <div style="font-size:2rem;font-weight:700;color:var(--primary-dark);">{gini:.3f}</div>
+            <div style="background:#e8e8e8;border-radius:4px;height:8px;margin:6px auto;max-width:120px;overflow:hidden;">
+                <div style="background:var(--primary-dark);width:{gini_pct}%;height:100%;border-radius:4px;"></div>
+            </div>
+            <div style="font-size:0.75rem;color:var(--text-dim);">Gini coefficient</div>
+        </div>'''
+
+    return f'''
+    <div class="section" style="background:linear-gradient(135deg,#f0f7ff,#f8f9fa);border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:1rem;">
+            <span style="font-size:1.3rem;">&#x1F9EC;</span>
+            <h2 style="margin:0;font-size:1.1rem;">Transcriptome Identity Card</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr auto;gap:1.5rem;align-items:start;">
+            <div>
+                <div style="font-size:0.85rem;color:var(--text-dim);margin-bottom:8px;font-weight:500;">
+                    Apex allocation (most expressed genes)</div>
+                {top3_html}
+                <div style="font-size:0.75rem;color:var(--text-dim);margin-top:4px;">
+                    Top 3 programmes account for {sum(apex_comp[sorted_idx[i]] for i in range(min(3, len(sorted_idx)))):.0%} of apex budget</div>
+            </div>
+            {gini_html}
+        </div>
+        {f'<div style="margin-top:12px;">{flags_html}</div>' if flags_html else ''}
+    </div>'''
+
+
+# ---------------------------------------------------------------------------
 # Transcriptome Overview (landscape data)
 # ---------------------------------------------------------------------------
 def _compute_landscape_data(df_sorted):
@@ -728,25 +853,54 @@ def _generate_category_card(cat, cat_idx, cat_names, cont_results,
                            if cat in cats]
         if cat_gene_indices:
             cat_gene_indices.sort()
-            top_n = min(8, len(cat_gene_indices))
-            top_indices = cat_gene_indices[:top_n]
-            gene_rows = []
-            for idx in top_indices:
+            total_genes = len(cat_gene_indices)
+            show_initial = min(8, total_genes)
+            show_expanded = min(30, total_genes)
+
+            gene_rows_initial = []
+            gene_rows_extra = []
+            for rank, idx in enumerate(cat_gene_indices[:show_expanded]):
                 if idx < len(df_sorted):
                     row = df_sorted.iloc[idx]
                     name = str(row.get('gene_names', row.get('protein_name', 'unknown')))
                     if len(name) > 50:
                         name = name[:47] + '...'
                     tpm = row.get('TPM', 0)
-                    gene_rows.append(
-                        f'<tr><td>#{idx+1}</td><td>{name}</td>'
-                        f'<td>{tpm:,.0f}</td></tr>')
-            if gene_rows:
+                    row_html = (f'<tr><td>#{idx+1}</td><td>{name}</td>'
+                                f'<td>{tpm:,.0f}</td></tr>')
+                    if rank < show_initial:
+                        gene_rows_initial.append(row_html)
+                    else:
+                        gene_rows_extra.append(row_html)
+
+            if gene_rows_initial:
+                card_id = cat.replace(' ', '_').replace('&', '').replace("'", '')
+                expand_btn = ''
+                extra_rows = ''
+                if gene_rows_extra:
+                    extra_rows = (
+                        f'<tbody class="gene-extra" id="extra-{card_id}" '
+                        f'style="display:none;">{"".join(gene_rows_extra)}</tbody>')
+                    expand_btn = (
+                        f'<div style="text-align:center;margin-top:4px;">'
+                        f'<button onclick="var el=document.getElementById(\'extra-{card_id}\');'
+                        f'var btn=this;if(el.style.display===\'none\')'
+                        f'{{el.style.display=\'\';btn.textContent=\'Show fewer\'}}'
+                        f'else{{el.style.display=\'none\';btn.textContent='
+                        f'\'Show {len(gene_rows_extra)} more genes\'}}" '
+                        f'style="background:none;border:1px solid #ccc;border-radius:4px;'
+                        f'padding:3px 12px;font-size:0.75rem;cursor:pointer;color:#666;">'
+                        f'Show {len(gene_rows_extra)} more genes</button></div>')
+
                 top_genes_html = f"""
                 <table class="gene-table">
                     <thead><tr><th>Rank</th><th>Gene</th><th>TPM</th></tr></thead>
-                    <tbody>{''.join(gene_rows)}</tbody>
-                </table>"""
+                    <tbody>{''.join(gene_rows_initial)}</tbody>
+                    {extra_rows}
+                </table>
+                {expand_btn}
+                <div style="font-size:0.7rem;color:#999;margin-top:2px;">
+                    {total_genes} genes in this category</div>"""
 
     interp = _build_category_interpretation(
         cat, cont_results, method_summary, tier_fcs, tier_names)
@@ -1831,6 +1985,10 @@ def _generate_report(analysis_blocks, output_prefix, total_genes,
     # Hero summary
     hero_text = _generate_hero_summary(analysis_blocks)
 
+    # Identity card data
+    identity_card_html = _build_identity_card(
+        analysis_blocks, landscape_data, df_sorted)
+
     # Compute landscape data from expression dataframe if not provided
     df_sorted = primary.get('df_sorted')
     if landscape_data is None and df_sorted is not None and len(df_sorted) > 0:
@@ -1980,6 +2138,8 @@ def _generate_report(analysis_blocks, output_prefix, total_genes,
 </div>
 
 <div class="hero-summary">{hero_text}</div>
+
+{identity_card_html}
 
 <div class="section">
     <div class="stats-grid">
