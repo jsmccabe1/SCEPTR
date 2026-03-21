@@ -1985,14 +1985,14 @@ def _generate_report(analysis_blocks, output_prefix, total_genes,
     # Hero summary
     hero_text = _generate_hero_summary(analysis_blocks)
 
-    # Identity card data
-    identity_card_html = _build_identity_card(
-        analysis_blocks, landscape_data, df_sorted)
-
     # Compute landscape data from expression dataframe if not provided
     df_sorted = primary.get('df_sorted')
     if landscape_data is None and df_sorted is not None and len(df_sorted) > 0:
         landscape_data = _compute_landscape_data(df_sorted)
+
+    # Identity card (needs landscape_data and df_sorted resolved first)
+    identity_card_html = _build_identity_card(
+        analysis_blocks, landscape_data, df_sorted)
 
     # Determine which tabs to show
     # tab_id -> (icon, label, hint)
