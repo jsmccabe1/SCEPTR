@@ -16,7 +16,7 @@ process ExPlotFunctional {
     output:
         path "functional/figures/*.png", emit: bp_mf_plots, optional: true
         path "functional/figures/*.svg", emit: bp_mf_plots_svg, optional: true
-        path "functional/${params.output_prefix ?: 'sceptr'}_BP_MF_report.html", emit: bp_mf_report
+        path "functional/${params.output_prefix ?: 'sceptr'}_BP_MF_report.html", emit: bp_mf_report, optional: true
         path "functional/${params.output_prefix ?: 'sceptr'}_BP_MF_enrichment_results.tsv", emit: bp_mf_enrichment_tsv, optional: true
         path "functional/${params.output_prefix ?: 'sceptr'}_expanded_categories.json", emit: expanded_categories, optional: true
         path "functional/${params.output_prefix ?: 'sceptr'}_BP_MF_assignment_methods.json", emit: bp_mf_methods, optional: true

@@ -974,8 +974,19 @@ if (( exit_code == 0 )); then
     echo -e "  ${BOLD}Results:${NC} ${OUTDIR}/"
     echo ""
     echo -e "  ${BOLD}Reports:${NC}"
-    for report in "${OUTDIR}"/*/sceptr*report*.html "${OUTDIR}"/*/*.html; do
+    # Show only the primary reports (not redundant standalone functional/cellular)
+    for report in \
+        "${OUTDIR}"/enrichment_profiles/sceptr_report.html \
+        "${OUTDIR}"/enrichment_profiles/*_report.html \
+        "${OUTDIR}"/go_enrichment/reports/*.html \
+        "${OUTDIR}"/pipeline_info/execution_report_*.html \
+        "${OUTDIR}"/pipeline_info/execution_timeline_*.html; do
         if [[ -f "$report" ]]; then
+            # Skip standalone functional/cellular reports (redundant with combined)
+            [[ "$report" == *"_BP_MF_report.html" ]] && continue
+            [[ "$report" == *"_CC_report.html" ]] && continue
+            # Skip landscape report (integrated into combined report)
+            [[ "$report" == *"_landscape_report.html" ]] && continue
             echo -e "    ${GREEN}→${NC} ${report}"
         fi
     done
