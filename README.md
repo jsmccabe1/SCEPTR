@@ -99,6 +99,16 @@ Statistical significance is assessed at both discrete tiers (Fisher's exact test
 
 To capture the overall picture, SCEPTR computes a **Kullback-Leibler divergence** D<sub>KL</sub> at each point along the expression gradient, measuring how different the functional composition of the top-k genes is from the transcriptome as a whole. The shape of this gradient is a quantitative phenotype of transcriptome organisation. A blood-stage malaria parasite with its extreme translational dominance shows a steep D<sub>KL</sub> gradient; a bacterium with more distributed functional investment shows a shallow one.
 
+### Functional allocation
+
+The enrichment curves above answer "which programmes are disproportionately represented?" SCEPTR also answers a complementary question: "what is this cell actually spending its resources on?"
+
+At each tier, the proportion of annotated genes in each category defines a **Functional Allocation Profile** (FAP) - a compositional view of how the transcriptome distributes resources across competing programmes. A category can show high fold enrichment (many times its background proportion) while occupying a small share of the budget if it is a small category. Conversely, a large category may dominate the budget with only modest fold enrichment. Both views are informative.
+
+The **Compositional Apex Distance** (CAD) quantifies overall apex specialisation using the Aitchison distance on the compositional simplex - the natural metric for proportional data that respects the constraint that budget shares must sum to 1. CAD significance is assessed by the same gene-category permutation framework used for enrichment profiles.
+
+The interactive report includes both views: enrichment curves (fold enrichment per category) and the allocation chart (budget share per category), with an explanation of why both matter.
+
 ### Dual-method category assignment
 
 Functional categories are assigned to genes through two complementary methods: keyword matching via word-boundary regex against UniProt annotations, and GO hierarchy traversal from curated anchor GO terms. Each assignment is tagged with its source (keyword, GO, or both) for full transparency. A GO-only ablation recovers 100% of significantly enriched categories across all validated organisms (mean Pearson r = 0.90 with the dual method), confirming that keywords are supplementary rather than load-bearing. External validation against 17 MSigDB Hallmark gene sets shows 100% concordance with independently curated pathway definitions.
@@ -168,6 +178,7 @@ SCEPTR generates a self-contained **interactive HTML report** combining both fun
 
 - **Hero summary** - Auto-generated plain-English description of the most prominent functional programmes
 - **Continuous enrichment curves** - Interactive Plotly charts showing E<sub>C</sub>(k) for every category with 95% null envelope
+- **Functional allocation** - Stacked area chart showing how the transcriptome distributes resources across functional programmes, with apex composition summary
 - **D<sub>KL</sub> functional specialisation gradient** - How rapidly functional specialisation decays across the expression hierarchy
 - **Enrichment tables** - Per-tier fold enrichment, p-values, FDR, profile trend, and significance flags
 - **Category report cards** - Per-category detail with profile shape badge, assignment method breakdown, core specificity, and top genes

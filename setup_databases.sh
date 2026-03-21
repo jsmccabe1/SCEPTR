@@ -89,7 +89,7 @@ fi
 
 if ! command -v diamond &> /dev/null; then
     if command -v docker &> /dev/null; then
-        info "diamond not found locally — will use Docker (buchfink/diamond)"
+        info "diamond not found locally - will use Docker (buchfink/diamond)"
         USE_DOCKER_DIAMOND=true
     else
         error "diamond is required but not installed. Install DIAMOND or Docker."
@@ -116,7 +116,7 @@ fi
 
 # ── 2. UniProt Swiss-Prot ───────────────────────────────────────────────────
 if [[ -f "${DATA_DIR}/uniprot/uniprot.dmnd" ]]; then
-    info "UniProt DIAMOND database already exists — skipping (delete to rebuild)"
+    info "UniProt DIAMOND database already exists - skipping (delete to rebuild)"
 else
     info "Downloading UniProt Swiss-Prot (reviewed proteins)..."
     wget -q --show-progress -O "${DATA_DIR}/uniprot/uniprot_sprot.fasta.gz" \
@@ -145,7 +145,7 @@ fi
 # plants. These species represent the most common sources of contamination
 # in transcriptome sequencing experiments.
 if [[ -f "${DATA_DIR}/contaminants/contaminants_uniprot.dmnd" ]]; then
-    info "Contaminant database already exists — skipping (delete to rebuild)"
+    info "Contaminant database already exists - skipping (delete to rebuild)"
 else
     info "Building contaminant database from curated species proteomes..."
     info "This downloads ~2 GB and may take 15-30 minutes depending on connection speed."

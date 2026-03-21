@@ -882,6 +882,137 @@ def _build_enrichment_plotly_data(cont_results, colour_map, id_prefix='',
     return traces, layout
 
 
+def _build_fap_section(cont_results, colour_map, cat_names, cat_gene_counts,
+                       prefix):
+    """Build the Functional Allocation Profile section with Plotly stacked area.
+
+    Shows how the cell distributes its transcriptional resources across
+    functional programmes as the expression window broadens.
+    """
+    k_values = cont_results.get('k_values')
+    enrichment_matrix = cont_results.get('enrichment_matrix')
+    if k_values is None or enrichment_matrix is None:
+        return '', []
+
+    n_cats = enrichment_matrix.shape[1]
+    if n_cats == 0:
+        return '', []
+
+    # Compute compositions (proportions at each tier)
+    # Use cumulative membership counts from enrichment data
+    # EC(k) = (obs/k) / (bg/N), so obs/k = EC(k) * bg/N
+    # proportion = obs/k * (bg/N is constant) -> proportional to EC(k) * bg_rate
+    # Actually simpler: just compute proportions from the enrichment values
+    bg_rates = []
+    for cat in cat_names:
+        n_genes = cat_gene_counts.get(cat, 0)
+        total = sum(cat_gene_counts.values())
+        bg_rates.append(n_genes / max(total, 1))
+    bg_rates = np.array(bg_rates)
+
+    # EC(k) * bg_rate gives the observed proportion at tier k
+    obs_proportions = enrichment_matrix * bg_rates[None, :]
+    # Normalise rows to sum to 1 (closure)
+    row_sums = obs_proportions.sum(axis=1, keepdims=True)
+    row_sums = np.maximum(row_sums, 1e-10)
+    compositions = obs_proportions / row_sums
+
+    # Sort by apex proportion (first row)
+    apex_props = compositions[0]
+    sorted_idx = np.argsort(apex_props)[::-1]
+
+    # Top 6 + Other
+    n_show = min(6, n_cats)
+    top_idx = sorted_idx[:n_show]
+    other_idx = sorted_idx[n_show:]
+
+    traces = []
+    for j, ci in enumerate(top_idx):
+        cat = cat_names[ci]
+        colour = colour_map.get(cat, PALETTE[j % len(PALETTE)])
+        traces.append({
+            'x': _np_to_list(k_values),
+            'y': _np_to_list(compositions[:, ci] * 100),
+            'type': 'scatter', 'mode': 'lines',
+            'name': cat,
+            'stackgroup': 'fap',
+            'line': {'width': 0.5, 'color': colour},
+            'fillcolor': colour,
+            'hovertemplate': f'{cat}<br>k = %{{x:,.0f}}<br>%{{y:.1f}}%<extra></extra>',
+        })
+
+    if len(other_idx) > 0:
+        other_sum = compositions[:, other_idx].sum(axis=1) * 100
+        traces.append({
+            'x': _np_to_list(k_values),
+            'y': _np_to_list(other_sum),
+            'type': 'scatter', 'mode': 'lines',
+            'name': f'Other ({len(other_idx)} categories)',
+            'stackgroup': 'fap',
+            'line': {'width': 0.5, 'color': '#e0e0e0'},
+            'fillcolor': '#e0e0e0',
+            'hovertemplate': 'Other<br>k = %{x:,.0f}<br>%{y:.1f}%<extra></extra>',
+        })
+
+    layout = {
+        'xaxis': {'title': 'Gene rank k', 'gridcolor': '#f0f0f0'},
+        'yaxis': {'title': 'Allocation (%)', 'range': [0, 100],
+                  'gridcolor': '#f0f0f0'},
+        'hovermode': 'closest',
+        'plot_bgcolor': 'white', 'paper_bgcolor': 'white',
+        'legend': {'font': {'size': 9}, 'traceorder': 'normal'},
+        'margin': {'l': 60, 'r': 40, 't': 20, 'b': 50},
+    }
+
+    # Build apex summary text
+    apex_summary_parts = []
+    for j in range(min(3, n_show)):
+        ci = top_idx[j]
+        cat = cat_names[ci]
+        pct = apex_props[ci] / apex_props.sum() * 100
+        bg_pct = bg_rates[ci] / bg_rates.sum() * 100
+        ratio = pct / bg_pct if bg_pct > 0 else 0
+        apex_summary_parts.append(
+            f"<strong>{cat}</strong>: {pct:.0f}% ({ratio:.1f}x background)")
+
+    apex_text = ', '.join(apex_summary_parts)
+
+    chart_id = f'{prefix}-fap'
+    html = f"""
+    <div class="section">
+        <h2>Functional Allocation</h2>
+        <p>How this transcriptome distributes its resources across functional
+        programmes. The chart shows what proportion of annotated genes at each
+        expression tier belongs to each category.</p>
+        <div class="dkl-interp" style="margin-bottom:12px;">
+            <strong>Reading this chart:</strong> The enrichment curves above show
+            <em>fold enrichment</em> - how much more a category appears than expected.
+            This allocation chart shows <em>absolute budget share</em> - what fraction
+            of the apex the cell is actually spending on each programme. A category can
+            be highly enriched (many fold above background) but still occupy a small share
+            of the budget if it is a small category. Conversely, a large category may
+            dominate the budget with only modest fold enrichment. Both views matter:
+            fold enrichment identifies disproportionate investment; allocation shows
+            where the resources actually go.
+        </div>
+        <div class="dkl-interp">
+            Apex allocation (most expressed genes): {apex_text}
+        </div>
+        <div id="{chart_id}" class="plot-container"></div>
+        <div>
+            <button class="export-btn" onclick="exportPlot('{chart_id}','{prefix}_allocation','svg')">Export SVG</button>
+            <button class="export-btn" onclick="exportPlot('{chart_id}','{prefix}_allocation','png')">Export PNG</button>
+        </div>
+    </div>"""
+
+    render_calls = [
+        f"Plotly.newPlot('{chart_id}', {json.dumps(traces, default=str)}, "
+        f"{json.dumps(layout)}, plotlyConfig);"
+    ]
+
+    return html, render_calls
+
+
 def _build_dkl_plotly_data(cont_results):
     k_values = cont_results['k_values']
     dkl_values = cont_results['dkl_values']
@@ -1110,6 +1241,14 @@ def _build_analysis_sections(block, chart_render_calls, chart_counter):
         chart_render_calls.append(
             f"Plotly.newPlot('{chart_id}', {json.dumps(traces, default=str)}, "
             f"{json.dumps(layout)}, plotlyConfig);")
+
+    # Functional Allocation Profile (FAP) - stacked composition
+    if cont_results and 'k_values' in cont_results:
+        fap_html, fap_render = _build_fap_section(
+            cont_results, colour_map, cat_names, cat_gene_counts, prefix)
+        if fap_html:
+            html += fap_html
+            chart_render_calls.extend(fap_render)
 
     # Bar chart
     default_tier = 'top_250' if 'top_250' in tier_names else tier_names[-1]

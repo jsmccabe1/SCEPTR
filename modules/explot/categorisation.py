@@ -246,7 +246,7 @@ def categorise_genes(
         cols = go_columns or _DEFAULT_GO_COLUMNS
         available_go_cols = [c for c in cols if c in df.columns]
         if not available_go_cols:
-            logger.warning("No GO ID columns found in data — GO-based assignment disabled")
+            logger.warning("No GO ID columns found in data - GO-based assignment disabled")
             use_go = False
 
     for idx, row in df.iterrows():

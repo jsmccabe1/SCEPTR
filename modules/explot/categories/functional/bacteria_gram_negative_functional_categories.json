@@ -25,8 +25,7 @@
       "phospholipase",
       "pathogenicity island",
       "intimin",
-      "Tir receptor",
-      "pedestal formation"
+      "Tir"
     ],
     "anchor_go_ids": [
       "GO:0051701",
@@ -353,7 +352,6 @@
       "carbapenemase",
       "ESBL",
       "metallo-beta-lactamase",
-      "porin loss",
       "target modification"
     ],
     "anchor_go_ids": [

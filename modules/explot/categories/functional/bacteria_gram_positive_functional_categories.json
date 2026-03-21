@@ -62,14 +62,12 @@
       "MurG",
       "Ddl ligase",
       "undecaprenyl phosphate",
-      "thick peptidoglycan",
       "peptidoglycan cross-linking",
       "cell wall hydrolase",
       "autolysin",
       "N-acetylmuramidase",
       "cell wall modification",
       "O-acetylation",
-      "cell wall anchor",
       "cell envelope"
     ],
     "anchor_go_ids": [
@@ -81,8 +79,7 @@
       "penicillin-binding protein",
       "transpeptidase",
       "transglycosylase",
-      "autolysin",
-      "thick peptidoglycan"
+      "autolysin"
     ]
   },
   "Teichoic Acids & Surface Polymers": {
@@ -103,8 +100,6 @@
       "DltB",
       "DltC",
       "DltD",
-      "poly-glycerol phosphate",
-      "poly-ribitol phosphate",
       "capsule biosynthesis",
       "capsular polysaccharide",
       "exopolysaccharide"
@@ -134,10 +129,7 @@
       "collagen-binding",
       "fibrinogen-binding",
       "pilin",
-      "pilus assembly",
-      "pilus polymerase",
-      "sortase-mediated anchoring",
-      "cell wall-associated protein"
+      "pilus assembly"
     ],
     "anchor_go_ids": [],
     "core_keywords": [
@@ -206,9 +198,7 @@
       "competence pilus",
       "competence-stimulating peptide",
       "CSP",
-      "late competence genes",
-      "DNA binding protein",
-      "RecA loading"
+      "DNA binding protein"
     ],
     "anchor_go_ids": [
       "GO:0030420"

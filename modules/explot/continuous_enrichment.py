@@ -264,6 +264,249 @@ def compute_continuous_dkl(membership, cat_names, bg_counts, N,
 
 
 # ---------------------------------------------------------------------------
+# Compositional analysis: Functional Allocation Profile and Apex Distance
+# ---------------------------------------------------------------------------
+
+def compute_functional_allocation(membership, cat_names, bg_counts, N,
+                                   k_min=10, k_max=None, step=5,
+                                   replace_zeros='multiplicative'):
+    """Compute the Functional Allocation Profile (FAP).
+
+    At each tier k, computes the proportion of annotated genes belonging
+    to each functional category. This compositional vector traces how
+    the cell distributes transcriptional resources across competing
+    functional programmes as the expression window broadens.
+
+    Unlike independent EC(k) curves, the FAP respects the compositional
+    constraint: if 40% of the apex goes to Translation, that is 40% not
+    available to other programmes.
+
+    Args:
+        membership: (N, C) boolean array (genes sorted by TPM descending)
+        cat_names: list of category names
+        bg_counts: dict {category: count in full dataset}
+        N: total number of genes
+        k_min, k_max, step: resolution parameters
+        replace_zeros: strategy for zero proportions in log-ratio transforms
+            'multiplicative' (default): multiplicative replacement (Martin-Fernandez et al. 2003)
+
+    Returns:
+        k_values: 1D array of gene ranks
+        compositions: (K, C) array of proportions (rows sum to 1)
+        background: 1D array of background proportions
+    """
+    if k_max is None:
+        k_max = N // 2
+    k_max = min(k_max, N)
+
+    k_all = np.arange(k_min, k_max + 1)
+    n_cats = len(cat_names)
+
+    # Cumulative counts
+    cumsum = np.cumsum(membership, axis=0)
+    counts = cumsum[k_all - 1].astype(float)  # (K, C)
+
+    # Compositional closure: proportions among annotated genes
+    row_sums = counts.sum(axis=1, keepdims=True)
+    row_sums = np.maximum(row_sums, 1.0)  # avoid division by zero
+    compositions_raw = counts / row_sums  # (K, C)
+
+    # Background composition
+    bg = np.array([bg_counts.get(cat, 0) for cat in cat_names], dtype=float)
+    bg_sum = bg.sum()
+    if bg_sum > 0:
+        background = bg / bg_sum
+    else:
+        background = np.ones(n_cats) / n_cats
+
+    # Zero replacement for log-ratio transforms
+    if replace_zeros == 'multiplicative':
+        compositions = _multiplicative_replacement(compositions_raw)
+        background = _multiplicative_replacement(background.reshape(1, -1))[0]
+    else:
+        compositions = compositions_raw
+        background = background
+
+    # Resample
+    indices = np.arange(0, len(k_all), step)
+    k_values = k_all[indices]
+    compositions = compositions[indices]
+
+    return k_values, compositions, background
+
+
+def _multiplicative_replacement(X, delta=None):
+    """Replace zeros in compositional data (Martin-Fernandez et al. 2003).
+
+    For each row, zeros are replaced with a small value delta and non-zero
+    entries are adjusted to maintain the unit-sum constraint.
+
+    Args:
+        X: (K, C) array of compositions (rows should sum to 1)
+        delta: replacement value (default: 0.65/C^2, following Palarea-Albaladejo and Martin-Fernandez 2015)
+
+    Returns:
+        X_replaced: (K, C) array with zeros replaced
+    """
+    X = np.array(X, dtype=float)
+    if X.ndim == 1:
+        X = X.reshape(1, -1)
+
+    n_components = X.shape[1]
+    if delta is None:
+        delta = 0.65 / (n_components ** 2)
+
+    X_out = X.copy()
+    for i in range(X.shape[0]):
+        row = X_out[i]
+        zeros = row == 0
+        n_zeros = zeros.sum()
+        if n_zeros == 0:
+            continue
+        if n_zeros == n_components:
+            X_out[i] = np.ones(n_components) / n_components
+            continue
+        # Replace zeros with delta
+        row[zeros] = delta
+        # Scale non-zeros to preserve sum
+        non_zero_sum = row[~zeros].sum()
+        correction = 1.0 - n_zeros * delta
+        row[~zeros] = row[~zeros] * correction / non_zero_sum
+        X_out[i] = row
+
+    return X_out
+
+
+def clr_transform(compositions):
+    """Centered log-ratio transform for compositional data.
+
+    Maps compositions from the simplex to real space, enabling standard
+    statistical operations (distances, PCA) that respect compositional
+    geometry.
+
+    Args:
+        compositions: (K, C) array of strictly positive compositions
+
+    Returns:
+        clr: (K, C) array of CLR-transformed values
+    """
+    log_comp = np.log(compositions)
+    geometric_mean = log_comp.mean(axis=1, keepdims=True)
+    return log_comp - geometric_mean
+
+
+def aitchison_distance(comp_a, comp_b):
+    """Aitchison distance between two compositions.
+
+    The natural distance metric on the simplex. Equivalent to Euclidean
+    distance in CLR-transformed space.
+
+    Args:
+        comp_a, comp_b: 1D arrays of strictly positive compositions (same length)
+
+    Returns:
+        float: Aitchison distance
+    """
+    log_ratio = np.log(comp_a / comp_b)
+    n = len(comp_a)
+    return np.sqrt(np.sum((log_ratio - log_ratio.mean()) ** 2))
+
+
+def compute_compositional_apex_distance(membership, cat_names, bg_counts, N,
+                                         apex_k=50, n_permutations=1000,
+                                         seed=42):
+    """Compute the Compositional Apex Distance (CAD).
+
+    Measures how functionally specialised the expression apex is relative
+    to the whole-transcriptome background, using the Aitchison distance
+    on the compositional simplex.
+
+    The Aitchison distance properly accounts for the compositional constraint
+    (proportions sum to 1), unlike DKL which can be dominated by a single
+    category with extreme enrichment.
+
+    A permutation test assesses significance by shuffling gene-category
+    assignments and recomputing CAD under the null.
+
+    Args:
+        membership: (N, C) boolean array
+        cat_names: list of category names
+        bg_counts: dict {category: count}
+        N: total genes
+        apex_k: tier size for the apex (default: 50)
+        n_permutations: number of permutations
+        seed: random seed
+
+    Returns:
+        dict with: cad (float), p_value (float),
+                   apex_composition (1D array), background (1D array),
+                   null_distribution (1D array of permuted CAD values)
+    """
+    n_cats = len(cat_names)
+
+    # Observed compositions
+    apex_counts = np.sum(membership[:apex_k], axis=0).astype(float)
+    bg = np.array([bg_counts.get(cat, 0) for cat in cat_names], dtype=float)
+
+    # Close to compositions (with zero replacement)
+    apex_comp = _multiplicative_replacement(
+        (apex_counts / max(apex_counts.sum(), 1)).reshape(1, -1))[0]
+    bg_comp = _multiplicative_replacement(
+        (bg / max(bg.sum(), 1)).reshape(1, -1))[0]
+
+    # Observed CAD
+    cad_obs = aitchison_distance(apex_comp, bg_comp)
+
+    # Permutation null
+    rng = np.random.default_rng(seed)
+    null_cads = np.zeros(n_permutations)
+
+    for p in range(n_permutations):
+        perm_idx = rng.permutation(N)
+        perm_membership = membership[perm_idx]
+        perm_apex = np.sum(perm_membership[:apex_k], axis=0).astype(float)
+        perm_comp = _multiplicative_replacement(
+            (perm_apex / max(perm_apex.sum(), 1)).reshape(1, -1))[0]
+        null_cads[p] = aitchison_distance(perm_comp, bg_comp)
+
+    # P-value (Phipson-Smyth)
+    p_value = (np.sum(null_cads >= cad_obs) + 1) / (n_permutations + 1)
+
+    return {
+        'cad': float(cad_obs),
+        'p_value': float(p_value),
+        'z_score': float((cad_obs - null_cads.mean()) / max(null_cads.std(), 1e-10)),
+        'apex_composition': apex_comp,
+        'background': bg_comp,
+        'null_distribution': null_cads,
+        'null_mean': float(null_cads.mean()),
+        'null_sd': float(null_cads.std()),
+    }
+
+
+def compute_trajectory_distance(compositions_a, compositions_b):
+    """Integrated Aitchison distance between two compositional trajectories.
+
+    Measures how different two transcriptomes' functional allocation
+    strategies are across the full expression gradient.
+
+    Args:
+        compositions_a, compositions_b: (K, C) arrays of compositions
+            (must have the same K and C dimensions)
+
+    Returns:
+        float: mean Aitchison distance across all tiers
+    """
+    assert compositions_a.shape == compositions_b.shape
+    n_tiers = compositions_a.shape[0]
+    distances = np.array([
+        aitchison_distance(compositions_a[i], compositions_b[i])
+        for i in range(n_tiers)
+    ])
+    return float(distances.mean())
+
+
+# ---------------------------------------------------------------------------
 # Profile shape classification
 # ---------------------------------------------------------------------------
 

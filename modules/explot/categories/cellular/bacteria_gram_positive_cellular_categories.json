@@ -33,7 +33,6 @@
       "peptidoglycan",
       "murein",
       "cell wall",
-      "thick cell wall",
       "penicillin-binding protein",
       "transpeptidase",
       "transglycosylase",
@@ -155,7 +154,6 @@
       "spore cortex",
       "forespore",
       "spore membrane",
-      "spore core",
       "exosporium"
     ],
     "anchor_go_ids": [],

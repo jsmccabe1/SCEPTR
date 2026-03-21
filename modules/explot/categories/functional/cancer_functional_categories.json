@@ -164,8 +164,7 @@
       "podosome",
       "Rho GTPase",
       "RAC1",
-      "CDC42",
-      "actin cytoskeleton remodelling"
+      "CDC42"
     ],
     "anchor_go_ids": [
       "GO:0016477",
@@ -194,11 +193,8 @@
       "TWIST1",
       "ZEB1",
       "ZEB2",
-      "cadherin switching",
       "tight junction",
       "claudin",
-      "epithelial marker loss",
-      "mesenchymal marker",
       "cell plasticity"
     ],
     "anchor_go_ids": [
@@ -312,8 +308,7 @@
       "pentose phosphate pathway",
       "oxidative phosphorylation",
       "mitochondrial metabolism",
-      "isocitrate dehydrogenase",
-      "IDH mutation"
+      "isocitrate dehydrogenase"
     ],
     "anchor_go_ids": [
       "GO:0006096",

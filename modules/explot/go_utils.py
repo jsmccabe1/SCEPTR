@@ -230,7 +230,7 @@ def expand_anchor_go_ids(
         valid_anchors = 0
         for go_id in anchor_ids:
             if go_id not in go_dag:
-                logger.warning(f"  {category}: anchor {go_id} not found in GO DAG — skipping")
+                logger.warning(f"  {category}: anchor {go_id} not found in GO DAG - skipping")
                 continue
             valid_anchors += 1
             cat_ids.add(go_id)

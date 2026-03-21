@@ -259,11 +259,11 @@ def _build_enrichment_table(results: Dict, tier_names: list) -> str:
                 any_sig = True
 
             if fc == 0:
-                cells += "<td style='color:var(--text-light)'>—</td>"
+                cells += "<td style='color:var(--text-light)'>-</td>"
             else:
                 cls = 'enriched' if fc > 1.5 and sig else ('depleted' if fc < 0.67 and sig else '')
                 sig_marker = ' *' if sig else ''
-                ci_str = f" ({ci_lo:.1f}–{ci_hi:.1f})" if 0 < ci_hi < 100 else ""
+                ci_str = f" ({ci_lo:.1f}-{ci_hi:.1f})" if 0 < ci_hi < 100 else ""
                 # Core specificity badge (neutral, no colour judgment)
                 core_badge = ''
                 if has_core_data:
@@ -481,10 +481,10 @@ def _generate_report(
             label = tn.replace('top_', 'Top ').title()
             tier_figs_html += f'<h3>{label}</h3><div class="two-col">'
             if bar_b64:
-                tier_figs_html += _build_figure_html(bar_b64, f"Category distribution — {label}", fig_num)
+                tier_figs_html += _build_figure_html(bar_b64, f"Category distribution - {label}", fig_num)
                 fig_num += 1
             if enrich_b64:
-                tier_figs_html += _build_figure_html(enrich_b64, f"Fold enrichment — {label}", fig_num)
+                tier_figs_html += _build_figure_html(enrich_b64, f"Fold enrichment - {label}", fig_num)
                 fig_num += 1
             tier_figs_html += '</div>'
 

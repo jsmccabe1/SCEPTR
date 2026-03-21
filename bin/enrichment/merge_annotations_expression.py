@@ -102,7 +102,7 @@ def merge_annotations_expression(annotations_file, quant_dir, output_file):
         merged_df = merged_df[cols]
     
     # ---- Deduplicate by UniProt_ID: keep highest TPM per protein ----
-    # This is critical for downstream enrichment — multiple TransDecoder
+    # This is critical for downstream enrichment - multiple TransDecoder
     # ORFs can map to the same UniProt entry, inflating gene counts
     if 'uniprot_id' in merged_df.columns:
         before_dedup = len(merged_df)

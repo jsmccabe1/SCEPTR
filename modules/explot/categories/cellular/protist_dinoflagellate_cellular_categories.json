@@ -144,8 +144,6 @@
       "ocelloid",
       "photoreceptor",
       "lens",
-      "retinal body",
-      "crystalline layer",
       "pigment granule",
       "photosensitive organelle",
       "light-sensing apparatus"
@@ -352,7 +350,6 @@
       "oil body",
       "storage organelle",
       "lipid vesicle",
-      "neutral lipid",
       "triacylglycerol",
       "sterol ester"
     ],
@@ -365,12 +362,7 @@
   "Crystalline Bodies & Inclusions": {
     "keywords": [
       "crystalline body",
-      "crystal",
-      "calcium carbonate",
-      "strontium sulfate",
-      "mineral inclusion",
-      "inorganic inclusion",
-      "crystalline inclusion"
+      "crystal"
     ],
     "anchor_go_ids": [],
     "core_keywords": [
