@@ -18,20 +18,28 @@
 
 ---
 
-Every transcriptome has a structure. A small fraction of genes dominates expression, and the functional programmes encoded in those genes shape cellular phenotype. But current methods throw this structure away. Differential expression reduces everything to binary up/down calls between conditions. ssGSEA and GSVA compress pathway activity into a single score. Standard GO enrichment applies one threshold and calls it quits!
+You have a transcriptome and you want to know what it is doing: which functional programmes dominate, how the cell allocates its transcriptional budget, and whether the pattern you see is statistically meaningful. You might have one sample with no replicates and you might not have a reference genome. You might be studying a tumour biopsy, a clinical parasite isolate, a drug-resistant bacterial pathogen, an environmental metatranscriptome, or a SARS-CoV-2-infected cell line. Current tools either require replicates and a control condition (DESeq2, edgeR), compress everything into a single score (ssGSEA, GSVA), or stop at one arbitrary threshold (standard GO enrichment).
 
-**SCEPTR** takes a different approach. It ranks genes by expression and computes a **continuous enrichment function** for every functional category, evaluating enrichment at every gene rank across the entire expression gradient and applying adaptive kernel smoothing to produce smooth, differentiable curves. The result is an *enrichment profile* for every category: a curve showing whether a programme dominates the expression apex, emerges gradually at broader tiers, or sits at background levels throughout. These profile shapes are biologically meaningful. Translation machinery concentrated at the very top of expression looks fundamentally different from an antiviral immune response distributed across hundreds of moderately expressed genes, and SCEPTR distinguishes the two.
-
-Because SCEPTR compares each tier against the sample's own transcriptome-wide background, it works from a single sample with no replicates, no control, and no comparative data. This makes it directly applicable to the datasets that fill real-world transcriptomics: single clinical isolates, irreplaceable field samples, experiments that happen before replicates are funded. Parasitology, environmental microbiology, emerging pathogen response, non-model organisms. If you have expression data, SCEPTR can tell you what your transcriptome is investing in.
-
-> SCEPTR also includes a [comparison module](#comparing-two-conditions) for testing whether enrichment profiles differ between two conditions (e.g. mock vs infected) using gene-label permutation testing, but the core framework is designed around single-sample analysis.
+**SCEPTR takes a different approach.** It computes a continuous enrichment profile for every functional category across the full expression gradient, revealing not just *what* is enriched but *where* in the expression hierarchy that enrichment occurs and *how much* of the cell's resources each programme commands. It works from a single sample against its own background - no replicates, no control condition required. The result is a complete picture of how your organism is investing its transcriptional machinery, from the most highly expressed genes to the transcriptome-wide baseline.
 
 <br>
 
+## What you learn
+
+SCEPTR produces an **interactive HTML report** that tells you:
+
+**Which programmes dominate and where.** Continuous enrichment curves show each functional category's fold enrichment across the full expression gradient. Translation at 9x enrichment in the top 50 genes looks fundamentally different from immune signalling distributed across hundreds of moderately expressed genes - SCEPTR distinguishes these patterns automatically and classifies them as apex-concentrated, distributed, or flat.
+
+**What the cell is spending its budget on.** The Functional Allocation Profile shows what proportion of the expression apex each programme commands. When 41% of a malaria parasite's apex goes to Translation, that is 41% not available for anything else. A category can be highly enriched yet occupy a small budget share if it is a small category - both perspectives matter, and SCEPTR provides both.
+
+**Whether the patterns are real.** Every enrichment profile is tested against a permutation-based null (1,000 shuffles of gene-category assignments, same smoothing applied to observed and null curves). The report shows 95% null envelopes so you can see exactly where each category departs from random expectation.
+
+**Which genes drive the enrichment.** Each category card in the report lists the specific genes contributing to the enrichment, ranked by expression. For a parasitologist, this means seeing GAPDH, HGXPRT, and KAHRP at the top of the *P. falciparum* Translation apex. For a virologist, this means seeing ISG15, MX1, and IFIT1 driving the Interferon response.
+
 <p align="center">
-  <img src="docs/assets/example_sceptr_output.png" alt="SCEPTR interactive enrichment profile showing continuous functional enrichment across the expression gradient" width="900">
+  <img src="docs/assets/example_sceptr_output.png" alt="SCEPTR interactive enrichment profile" width="900">
   <br>
-  <sub><em>Interactive enrichment profile from the SCEPTR report. Each curve traces a functional category's enrichment across the full expression gradient. Here, Immune Evasion & Host Manipulation dominates the apex of <em>Toxoplasma gondii</em> tachyzoite expression (8.33x at k=15, driven by dense granule effectors), while Host Cell Invasion & Attachment peaks around k=30-40. The grey band shows the 95% null envelope from permutation testing. Hover for per-gene-rank values; click legend entries to show/hide categories.</em></sub>
+  <sub><em>Interactive enrichment profile from the SCEPTR report. Each curve traces a functional category's enrichment across the full expression gradient. Here, Immune Evasion & Host Manipulation dominates the apex of <em>Toxoplasma gondii</em> tachyzoite expression (8.33x at k=15, driven by dense granule effectors). The grey band shows the 95% null envelope. Hover for per-gene-rank values; click legend entries to show/hide.</em></sub>
 </p>
 
 <br>
@@ -40,7 +48,7 @@ Because SCEPTR compares each tier against the sample's own transcriptome-wide ba
 
 ### Method only (pip install)
 
-Run the SCEPTR statistical method on any annotated expression table. No Nextflow, no Docker.
+Run SCEPTR on any annotated expression table. No Nextflow, no Docker.
 
 ```bash
 pip install sceptr-profiling
@@ -71,7 +79,7 @@ Or specify everything directly:
 # Parasite study with host filtering
 ./run_sceptr.sh -r data/reads -t parasite.fasta -c parasite_protozoan -H host.fasta
 
-# Bacterial reference CDS (broad categories)
+# Bacterial reference CDS
 ./run_sceptr.sh -r data/reads -t reference_cds.fasta -c bacteria
 
 # Gram-negative specific (LPS, T3SS/T6SS, porins)
@@ -83,187 +91,13 @@ Or specify everything directly:
 
 <br>
 
-## The Method
+## Who SCEPTR is for
 
-### Continuous enrichment profiling
+SCEPTR was built for researchers who have expression data and want to understand what their transcriptome is doing - especially when standard approaches fall short:
 
-The core idea is straightforward. Genes at the top of the expression hierarchy are not a random sample of the transcriptome. They are enriched for specific biological programmes, and which programmes dominate changes depending on how far down the hierarchy you look.
-
-SCEPTR formalises this by computing a **continuous enrichment function** E<sub>C</sub>(t) for every functional category C. Genes are ranked by TPM, and the enrichment ratio is evaluated at every integer gene rank k from k=10 up to N/2. The raw discrete values are then smoothed with an adaptive Gaussian kernel (bandwidth proportional to the square root of the expected inter-member spacing, sigma = 0.5 * sqrt(N/|C|)) to yield a smooth, differentiable function of position along the expression gradient. The result is a continuous fold-enrichment curve, not just a handful of arbitrary thresholds.
-
-A category enriched 9x at k=50 but falling to 1x by k=500 tells a different biological story than a category that only reaches significance at the broadest tier. The first is an **apex-concentrated** programme (e.g. translation in blood-stage malaria parasites). The second is a **distributed** programme (e.g. innate immunity during viral infection, spread across many moderately expressed genes). SCEPTR automatically classifies these profile shapes via linear trend analysis.
-
-Statistical significance is assessed at both discrete tiers (Fisher's exact test with Benjamini-Hochberg correction) and across the continuous profile (permutation-based global profile test using supremum and integral statistics with 1,000 permutations). Both observed and null curves are smoothed with the same adaptive kernel to ensure valid comparison. The continuous test detects categories with profiles that deviate from the null expectation at any point along the gradient, with a 95% null envelope for visual interpretation.
-
-### Measuring functional specialisation
-
-To capture the overall picture, SCEPTR computes a **Kullback-Leibler divergence** D<sub>KL</sub> at each point along the expression gradient, measuring how different the functional composition of the top-k genes is from the transcriptome as a whole. The shape of this gradient is a quantitative phenotype of transcriptome organisation. A blood-stage malaria parasite with its extreme translational dominance shows a steep D<sub>KL</sub> gradient; a bacterium with more distributed functional investment shows a shallow one.
-
-### Functional allocation
-
-The enrichment curves above answer "which programmes are disproportionately represented?" SCEPTR also answers a complementary question: "what is this cell actually spending its resources on?"
-
-At each tier, the proportion of annotated genes in each category defines a **Functional Allocation Profile** (FAP) - a compositional view of how the transcriptome distributes resources across competing programmes. A category can show high fold enrichment (many times its background proportion) while occupying a small share of the budget if it is a small category. Conversely, a large category may dominate the budget with only modest fold enrichment. Both views are informative.
-
-The **Compositional Apex Distance** (CAD) quantifies overall apex specialisation using the Aitchison distance on the compositional simplex - the natural metric for proportional data that respects the constraint that budget shares must sum to 1. CAD significance is assessed by the same gene-category permutation framework used for enrichment profiles.
-
-The interactive report includes both views: enrichment curves (fold enrichment per category) and the allocation chart (budget share per category), with an explanation of why both matter.
-
-### Dual-method category assignment
-
-Functional categories are assigned to genes through two complementary methods: keyword matching via word-boundary regex against UniProt annotations, and GO hierarchy traversal from curated anchor GO terms. Each assignment is tagged with its source (keyword, GO, or both) for full transparency. A GO-only ablation recovers 100% of significantly enriched categories across all validated organisms (mean Pearson r = 0.90 with the dual method), confirming that keywords are supplementary rather than load-bearing. External validation against 17 MSigDB Hallmark gene sets shows 100% concordance with independently curated pathway definitions.
-
-### Two ways to use SCEPTR
-
-**As a statistical method** - bring any annotated expression table and run enrichment profiling directly, skipping all preprocessing steps. SCEPTR computes continuous enrichment profiles, permutation-based significance, and D<sub>KL</sub> functional specialisation from your existing data.
-
-**As an automated framework** - provide raw reads and a reference, and SCEPTR handles everything from QC to a finished interactive report in a single command.
-
-```mermaid
-graph TB
-    subgraph entry ["Start from either entry point"]
-        direction LR
-        A["Raw reads + reference<br/>(full automated framework)"]
-        B["Ranked gene list<br/>(method only)"]
-    end
-
-    subgraph auto ["Automated preprocessing"]
-        direction LR
-        C["QC &<br/>Quantification"]
-        D["Protein Prediction<br/>& Annotation"]
-        E["Contamination<br/>Filtering"]
-    end
-
-    subgraph method ["SCEPTR statistical method"]
-        direction LR
-        F["Continuous enrichment<br/>profiling"]
-        G["Permutation<br/>significance testing"]
-        H["DKL specialisation<br/>gradient"]
-    end
-
-    subgraph insight ["What you discover"]
-        direction LR
-        I["Which programmes<br/>dominate and where"]
-        J["Whether enrichment<br/>is significant"]
-        K["How resources are<br/>allocated"]
-    end
-
-    A --> C --> D --> E --> F
-    B --> F
-    F --> G --> I
-    F --> H --> K
-    G --> J
-
-    style entry fill:none,stroke:#334155
-    style auto fill:none,stroke:#475569
-    style method fill:#0e7490,stroke:#0c4a6e,color:#fff
-    style insight fill:#0f2b46,stroke:#0c4a6e,color:#fff
-    style F fill:#0e7490,stroke:#0c4a6e,color:#fff
-    style G fill:#0e7490,stroke:#0c4a6e,color:#fff
-    style H fill:#0e7490,stroke:#0c4a6e,color:#fff
-    style I fill:#0f2b46,stroke:#164e63,color:#fff
-    style J fill:#0f2b46,stroke:#164e63,color:#fff
-    style K fill:#0f2b46,stroke:#164e63,color:#fff
-```
-
-<sub>*Protein prediction uses TransDecoder for de novo eukaryotic assemblies and direct CDS translation for bacterial and vertebrate host inputs. Contamination filtering is auto-enabled for eukaryotic assemblies.*</sub>
-
-<br>
-
-## What SCEPTR Produces
-
-SCEPTR generates a self-contained **interactive HTML report** combining both functional (biological process / molecular function) and cellular component profiling in a single dashboard. The report is portable, embeddable as supplementary material, and designed for two audiences: a plain-English hero summary for quick interpretation, and full statistical detail (enrichment tables, continuous curves, D<sub>KL</sub>, profile shapes, category report cards) for deeper analysis.
-
-### Interactive report contents
-
-- **Hero summary** - Auto-generated plain-English description of the most prominent functional programmes
-- **Continuous enrichment curves** - Interactive Plotly charts showing E<sub>C</sub>(k) for every category with 95% null envelope
-- **Functional allocation** - Stacked area chart showing how the transcriptome distributes resources across functional programmes, with apex composition summary
-- **D<sub>KL</sub> functional specialisation gradient** - How rapidly functional specialisation decays across the expression hierarchy
-- **Enrichment tables** - Per-tier fold enrichment, p-values, FDR, profile trend, and significance flags
-- **Category report cards** - Per-category detail with profile shape badge, assignment method breakdown, core specificity, and top genes
-- **Methods summary** - Reproducible description of all statistical methods used
-
-### Full output per analysis type
-
-| File | Description |
-|------|-------------|
-| `{prefix}_BP_MF_report.html` | Interactive functional profiling report |
-| `{prefix}_CC_report.html` | Interactive cellular component report |
-| `{prefix}_report.html` | Combined report (both analyses in one file) |
-| `{prefix}_BP_MF_enrichment_results.tsv` | Discrete tier enrichment statistics |
-| `{prefix}_BP_MF_continuous_enrichment.tsv` | Smoothed continuous E<sub>C</sub>(t) values across the expression gradient |
-| `{prefix}_BP_MF_assignment_methods.json` | Per-category breakdown of keyword vs GO assignment |
-| `figures/*.png`, `figures/*.svg` | Publication-ready static figures (continuous enrichment, D<sub>KL</sub>, multi-tier bar chart) |
-
-<sub>Cellular component outputs follow the same pattern with `_CC_` prefix.</sub>
-
-### Other framework reports
-
-| Report | What it shows |
-|--------|--------------|
-| **GO Enrichment** | Per-tier topGO enrichment with weight01 algorithm, interactive tables, and publication-ready figures |
-| **Transcriptome Landscape** | Expression concentration (Gini coefficient), annotation completeness by tier, taxonomic distribution, functional composition shifts |
-| **Contamination Report** | DIAMOND-based screening with optional host sequence removal for parasite/pathogen studies |
-| **Quality Control** | FastQC + MultiQC aggregation |
-
-<details>
-<summary><strong>Full output directory structure</strong></summary>
-
-```
-results/
-├── preprocessing/
-│   ├── qc/                         # FastQC + MultiQC reports
-│   │   ├── fastqc/
-│   │   └── multiqc/
-│   ├── quantification/             # Salmon index + quant.sf
-│   ├── proteome/                   # Predicted proteins (.pep, .gff3)
-│   ├── contamination/              # Filtering, host removal, visualisation
-│   │   ├── host_filter/
-│   │   └── visualisation/
-│   └── annotation/                 # UniProt hits, GO terms, annotation summary
-│
-├── enrichment_profiles/            # Continuous enrichment profiling
-│   ├── functional/
-│   │   ├── {prefix}_BP_MF_report.html
-│   │   ├── {prefix}_BP_MF_enrichment_results.tsv
-│   │   ├── {prefix}_BP_MF_continuous_enrichment.tsv
-│   │   ├── {prefix}_BP_MF_assignment_methods.json
-│   │   ├── {prefix}_BP_MF_report_data.json
-│   │   └── figures/
-│   │       ├── {prefix}_BP_MF_continuous_enrichment.{png,svg}
-│   │       ├── {prefix}_BP_MF_continuous_dkl.{png,svg}
-│   │       └── {prefix}_BP_MF_multi_tier_enrichment.{png,svg}
-│   └── cellular/
-│       ├── {prefix}_CC_report.html
-│       ├── {prefix}_CC_enrichment_results.tsv
-│       ├── {prefix}_CC_continuous_enrichment.tsv
-│       ├── {prefix}_CC_assignment_methods.json
-│       ├── {prefix}_CC_report_data.json
-│       └── figures/
-│           ├── {prefix}_CC_continuous_enrichment.{png,svg}
-│           ├── {prefix}_CC_continuous_dkl.{png,svg}
-│           └── {prefix}_CC_multi_tier_enrichment.{png,svg}
-│
-├── go_enrichment/                  # Per-tier topGO enrichment
-│   ├── reports/
-│   ├── data/
-│   └── figures/
-│
-├── landscape/                      # Transcriptome overview
-│   ├── {prefix}_landscape_report.html
-│   ├── {prefix}_landscape_stats.json
-│   └── figures/
-│
-├── integrated_data/                # Merged annotation + expression table
-│   └── integrated_annotations_expression.tsv
-│
-├── comparison/                     # Cross-sample comparison (when used)
-│
-└── pipeline_info/                  # Nextflow execution reports
-```
-
-</details>
+- **Single samples without replicates.** Clinical isolates, irreplaceable field samples, experiments before replicates are funded. SCEPTR analyses each sample against its own background, so it works without a control condition.
+- **Non-model organisms.** 14 organism-specific category sets cover bacteria, protozoan parasites, helminths, fungi, dinoflagellates, insects, plants, and vertebrate hosts. Custom category sets can be defined for any organism.
+- **When "which genes change" is the wrong question.** Differential expression identifies individual genes that differ between conditions. SCEPTR asks a different question: what is the functional architecture of this transcriptome, and how is it allocating resources?
 
 <br>
 
@@ -288,10 +122,13 @@ SCEPTR ships with organism-specific functional category sets optimised for diffe
 | `protist_dinoflagellate` | Dinoflagellate-specific processes        | *Symbiodinium*, HAB species              |
 | `insect`                 | Insect biology (16 categories)          | *Drosophila*, mosquitoes, bees, beetles  |
 
-Each category uses **dual-method assignment** (keyword + GO hierarchy) with optional **core keywords** that provide high-confidence diagnostic terms, reporting a specificity percentage alongside enrichment statistics.
+Each category uses **dual-method assignment** (keyword matching + GO hierarchy traversal) with optional **core keywords** that provide high-confidence diagnostic terms. You can also supply your own category definitions in JSON format for any organism or pathway set (including MSigDB, KEGG, Reactome, or custom gene sets).
 
 <details>
-<summary><strong>bacteria vs bacteria_gram_negative vs bacteria_gram_positive</strong></summary>
+<summary><strong>Category set details</strong></summary>
+
+<details>
+<summary>bacteria vs bacteria_gram_negative vs bacteria_gram_positive</summary>
 
 The `bacteria` set provides 14 broad functional categories suitable for any prokaryote. The gram-specific sets split and specialise these into 18 categories each, reflecting the distinct biology of gram-negative and gram-positive organisms:
 
@@ -304,12 +141,10 @@ The `bacteria` set provides 14 broad functional categories suitable for any prok
 | Antimicrobial Resistance | AMR (ESBL, carbapenemase, AcrAB-TolC) | AMR (vancomycin, methicillin/mecA, erm methylase) |
 | Iron Acquisition & Siderophores | Iron Acquisition (enterobactin, pyoverdine, TonB) | Iron Acquisition (Isd heme system, staphyloferrin) |
 
-Use `bacteria_gram_negative` for Proteobacteria and other diderm organisms with outer membranes (LPS, porins, T3SS/T6SS). Use `bacteria_gram_positive` for Firmicutes and other monoderm organisms (teichoic acids, sortase-anchored proteins, sporulation, competence).
-
 </details>
 
 <details>
-<summary><strong>human_host vs vertebrate_host</strong></summary>
+<summary>human_host vs vertebrate_host</summary>
 
 The `human_host` set provides 33 detailed pathway-level categories optimised for human infection, inflammation, and clinical studies. The `vertebrate_host` set provides 17 broader categories suitable for non-human vertebrate hosts (mouse, fish, birds) where pathway-specific annotations are sparser:
 
@@ -318,20 +153,11 @@ The `human_host` set provides 33 detailed pathway-level categories optimised for
 | Interferon & Antiviral Response | Interferon Response (Type I), Interferon Response (Type II), Interferon Response (Type III), Antiviral Defense |
 | Inflammatory Signaling | TNF-NF-kB Signaling, Chemokine Signaling, Inflammasome & IL-1 Signaling, Interleukin Signaling |
 | Signaling Pathways | JAK-STAT Signaling, MAPK-RAS Signaling, PI3K-AKT-mTOR Signaling, TGF-Beta & Developmental Signaling |
-| Innate Immunity | Pattern Recognition & TLR Signaling, Complement System |
-| Adaptive Immunity | Adaptive Immunity |
-| Stress Response | Unfolded Protein Response, Hypoxia Response, Oxidative Stress & ROS |
-| Metabolism | Glycolysis, Oxidative Phosphorylation, Fatty Acid Metabolism, Cholesterol & Steroid Metabolism |
-| Cell Death | Apoptosis, Autophagy |
-| Cell Cycle & Proliferation | E2F Targets & DNA Replication, G2M Checkpoint & Mitosis |
-| Tissue Repair & Coagulation | Tissue Repair & Remodelling, Coagulation & Thromboinflammation |
-
-Use `human_host` for human-derived samples requiring pathway-level resolution. Use `vertebrate_host` for broader vertebrate studies.
 
 </details>
 
 <details>
-<summary><strong>helminth_nematode vs helminth_platyhelminth</strong></summary>
+<summary>helminth_nematode vs helminth_platyhelminth</summary>
 
 Two specialised helminth category sets reflecting distinct biology:
 
@@ -340,14 +166,13 @@ Two specialised helminth category sets reflecting distinct biology:
 | Cuticle & Molting | Tegument & Surface Biology |
 | Dauer & Larval Development | Lifecycle & Morphological Development |
 | Sensory & Chemoreception | Neoblasts & Stem Cell Biology |
-| - | Egg Biology & Granuloma Formation |
 
 Both share analogous categories for immune evasion, neuromuscular function, reproduction, digestion, detoxification, metabolism, and signaling, but with organism-specific GO anchors and keywords.
 
 </details>
 
 <details>
-<summary><strong>Custom category sets</strong></summary>
+<summary>Custom category sets</summary>
 
 ```bash
 nextflow run main.nf \
@@ -359,7 +184,7 @@ nextflow run main.nf \
   -profile docker
 ```
 
-Category JSON format (v2):
+Category JSON format:
 
 ```json
 {
@@ -371,70 +196,64 @@ Category JSON format (v2):
 }
 ```
 
-The `core_keywords` field is optional. If omitted or empty, all matches are treated as "extended" (core specificity 0%).
-
+</details>
 </details>
 
 <br>
 
 ## Comparing Two Conditions
 
-If you have two conditions (mock vs infected, control vs treated), you can run SCEPTR on each sample independently and then compare their enrichment profiles. This asks a fundamentally different question from differential expression: not "which genes change?" but "does the functional architecture of the transcriptome shift between states?"
+If you have two conditions (mock vs infected, control vs treated), SCEPTR can compare their enrichment profiles. This asks a different question from differential expression: not "which genes change?" but "does the functional architecture of the transcriptome shift between states?"
 
-SCEPTR's comparison module aggregates genes into functional categories and uses a gene-label permutation test (10,000 permutations, per-tier BH correction) to assess whether enrichment differences are larger than expected by chance. Because the test builds its null distribution from the data itself, no variance estimate from replicates is needed. This is not a replacement for replicated experimental designs. It is a principled way to compare enrichment profiles when replicates are unavailable.
+The comparison module uses gene-label permutation testing (10,000 permutations, per-tier BH correction) to assess whether enrichment differences are larger than expected by chance. This is not a replacement for replicated experimental designs - it is a principled way to compare enrichment profiles when replicates are unavailable.
 
 <details>
-<summary><b>Usage</b></summary>
+<summary><b>Usage and outputs</b></summary>
 
 ```bash
-# First, run SCEPTR on each condition separately:
+# Run SCEPTR on each condition, then compare:
 ./run_sceptr.sh -r data/mock_reads -t reference.fasta -c vertebrate_host -o results_mock
 ./run_sceptr.sh -r data/infected_reads -t reference.fasta -c vertebrate_host -o results_infected
 
-# Then compare:
 ./run_sceptr.sh --compare \
   --condition-a results_mock/integrated_data/integrated_annotations_expression.tsv \
   --condition-b results_infected/integrated_data/integrated_annotations_expression.tsv \
   --label-a Mock --label-b Infected \
   -c vertebrate_host
-
-# Or with Nextflow directly:
-nextflow run main.nf -entry compare \
-  --condition_a results_mock/integrated_data/integrated_annotations_expression.tsv \
-  --condition_b results_infected/integrated_data/integrated_annotations_expression.tsv \
-  --label_a "Mock" --label_b "Infected" \
-  --category_set vertebrate_host \
-  --outdir results_comparison \
-  -profile docker
 ```
 
 Both samples must use the same reference transcriptome.
 
-</details>
-
-<details>
-<summary><b>Outputs</b></summary>
-
-| File | Contents |
-|------|----------|
-| Differential enrichment TSV | Category x tier fold changes, FC difference, permutation p-value, BH-adjusted FDR |
-| Concordance TSV | Spearman rho (with Fisher z-transform CI) and Jaccard similarity per tier |
-| HTML dashboard report | Summary statistics, concordance metrics, differential enrichment table, embedded figures |
-| Figures (PNG + SVG) | Radar overlay, differential heatmap, grouped bar plot, volcano plot, gradient overlay |
+**Outputs:** Differential enrichment TSV (per-category, per-tier fold-change differences with permutation p-values), concordance metrics (Spearman rho with Fisher z-transform CI, Jaccard similarity), and an HTML dashboard with radar overlays, differential heatmaps, and gradient comparison plots.
 
 </details>
 
+<br>
+
+## How the Method Works
+
 <details>
-<summary><b>Interpreting results</b></summary>
+<summary><strong>Continuous enrichment profiling</strong></summary>
 
-| Metric | Meaning |
-|--------|---------|
-| Significant positive FC_Diff | Category more enriched in condition B at that tier |
-| Significant negative FC_Diff | Category more enriched in condition A |
-| Spearman rho > 0.7 | Conditions share similar functional investment patterns |
-| Spearman rho < 0.3 | Fundamentally different functional allocation |
+Genes are ranked by TPM and the enrichment ratio E<sub>C</sub>(k) is evaluated at every integer gene rank k from k=10 to N/2, then smoothed with an adaptive Gaussian kernel (bandwidth: sigma = max(3, 0.5 * sqrt(N/|C|)), scaling with inter-member spacing) to produce continuous fold-enrichment curves. Profile shapes are classified via normalised linear slope: apex-concentrated (slope < -0.1), distributed (slope > 0.1), or flat.
 
-The permutation test evaluates per-tier enrichment differences. The module identifies biologically meaningful shifts that would otherwise require subjective side-by-side inspection, however results should be treated as exploratory.
+Statistical significance is assessed by permutation-based global profile test (1,000 gene-category shuffles, supremum statistic, Phipson-Smyth p-value) with 95% null envelope for visual interpretation. Discrete-tier significance uses Fisher's exact test with Benjamini-Hochberg correction.
+
+</details>
+
+<details>
+<summary><strong>Functional specialisation and allocation</strong></summary>
+
+**D<sub>KL</sub> divergence** measures how the functional composition at each tier diverges from the whole-transcriptome background. Steep D<sub>KL</sub> gradients indicate extreme apex specialisation; shallow gradients indicate distributed investment.
+
+**Functional Allocation Profiles** show the compositional budget at each tier - what fraction of annotated genes belongs to each category. The **Compositional Apex Distance** (CAD) quantifies apex specialisation using Aitchison distance on the compositional simplex, with permutation significance testing.
+
+</details>
+
+<details>
+<summary><strong>Category assignment</strong></summary>
+
+Functional categories are assigned through keyword regex matching against UniProt annotations and GO hierarchy traversal from curated anchor GO terms. Each assignment is tagged with its source (keyword, GO, or both). GO-only ablation recovers 100% of significantly enriched categories across validated organisms (mean r = 0.90), confirming keywords are supplementary. External validation against MSigDB Hallmark gene sets shows 100% concordance with independently curated pathway definitions.
 
 </details>
 
@@ -451,14 +270,10 @@ cd SCEPTR
 
 ### Step 2: Download databases
 
-SCEPTR requires UniProt Swiss-Prot, DIAMOND databases, and the Gene Ontology hierarchy (~3.5 GB total). The setup script downloads and builds everything automatically:
-
 ```bash
-bash setup_databases.sh           # Full setup
+bash setup_databases.sh           # Full setup (~3.5 GB: UniProt, DIAMOND, GO)
 bash setup_databases.sh --check   # Verify database status
 ```
-
-The script is idempotent so it skips databases that already exist.
 
 ### Step 3: Build Docker image
 
@@ -476,69 +291,15 @@ docker build -t sceptr:1.0.0 .
 ./run_sceptr.sh
 ```
 
-Auto-detects read files, validates inputs, and builds the command interactively. Supports four modes:
+Auto-detects read files, validates inputs, and supports four modes: full framework, method only, compare conditions, and re-run enrichment.
 
-1. **Full framework** - Process raw reads to enrichment report
-2. **Method only** - Run enrichment profiling on your own annotated expression table (no preprocessing required)
-3. **Compare conditions** - Compare two existing SCEPTR outputs
-4. **Re-run enrichment** - Re-analyse existing results with different categories or parameters
-
-### Command-line launcher
+### Command-line examples
 
 ```bash
-# Paired-end reads (default)
-./run_sceptr.sh -r data/reads -t assembly.fasta -c bacteria
-
-# Single-end reads
-./run_sceptr.sh -r 'data/*.fastq.gz' -t cds.fasta -c bacteria --single-end
-
-# With host contamination removal (parasite studies)
-./run_sceptr.sh -r data/reads -t parasite.fasta -c parasite_protozoan -H host.fasta
-
-# Pre-translated host proteome (faster)
-./run_sceptr.sh -r data/reads -t parasite.fasta -c parasite_protozoan --host-proteome host_proteins.fasta
+./run_sceptr.sh -r data/reads -t assembly.fasta -c bacteria              # Paired-end
+./run_sceptr.sh -r 'data/*.fastq.gz' -t cds.fasta -c bacteria --single-end  # Single-end
+./run_sceptr.sh -r data/reads -t parasite.fasta -c parasite_protozoan -H host.fasta  # With host removal
 ```
-
-<details>
-<summary><strong>Direct Nextflow commands</strong></summary>
-
-```bash
-# Paired-end eukaryote
-nextflow run main.nf \
-  --reads "data/*_{1,2}.fastq.gz" \
-  --transcripts assembly.fasta \
-  --category_set general \
-  --outdir results \
-  -profile docker
-
-# Bacterial CDS (auto-skips TransDecoder and contaminant filtering)
-nextflow run main.nf \
-  --reads "data/*_{1,2}.fastq.gz" \
-  --transcripts reference_cds.fasta \
-  --category_set bacteria \
-  --outdir results \
-  -profile docker
-
-# Single-end
-nextflow run main.nf \
-  --reads "data/*.fastq.gz" \
-  --transcripts cds.fasta \
-  --category_set bacteria_gram_negative \
-  --single_end true \
-  --outdir results \
-  -profile docker
-
-# Host response to infection
-nextflow run main.nf \
-  --reads "data/*.fastq.gz" \
-  --transcripts Homo_sapiens.GRCh38.cds.all.fa \
-  --category_set vertebrate_host \
-  --single_end true \
-  --outdir results \
-  -profile docker
-```
-
-</details>
 
 ### Organism-aware processing
 
@@ -548,10 +309,7 @@ SCEPTR automatically adapts based on `--category_set`:
 |-----------------------|-----------------------------------|-------------------------------------|-----------------------------------|
 | ORF prediction        | TransDecoder                      | Direct CDS translation (table 11)   | Direct CDS translation (table 1)  |
 | Contaminant filtering | Enabled                           | Auto-skipped                        | Auto-skipped                      |
-| Category keywords     | Eukaryotic processes              | Prokaryotic processes               | Host response processes           |
 | Input expectation     | Trinity assembly or transcriptome | Reference CDS file                  | Reference CDS file (e.g. Ensembl) |
-
-<br>
 
 <details>
 <summary><strong>Full parameter reference</strong></summary>
@@ -578,9 +336,7 @@ SCEPTR automatically adapts based on `--category_set`:
 | Parameter                      | Default | Description                                        |
 |--------------------------------|---------|----------------------------------------------------|
 | `--explot_continuous`          | `true`  | Compute continuous enrichment functions             |
-| `--explot_continuous_step`     | `5`     | Output resampling step (enrichment is computed at every gene rank internally) |
-| `--explot_continuous_k_min`    | `10`    | Minimum gene rank k                                 |
-| `--explot_continuous_k_max`    | N/2     | Maximum gene rank k (default: half of total genes)  |
+| `--explot_continuous_step`     | `5`     | Output resampling step                              |
 | `--explot_profile_permutations`| `1000`  | Permutations for global profile significance test   |
 
 ### Host filtering (parasite/pathogen studies)
@@ -589,96 +345,20 @@ SCEPTR automatically adapts based on `--category_set`:
 |------------------------|---------|-----------------------------------------------|
 | `--host_transcriptome` | -       | Host transcriptome FASTA (will be translated) |
 | `--host_proteome`      | -       | Host proteome FASTA (used directly, faster)   |
-| `--skip_host_filter`   | `false` | Disable host filtering                        |
-
-### Contamination filtering
-
-| Parameter              | Default | Description                             |
-|------------------------|---------|-----------------------------------------|
-| `--identity_threshold` | `50.0`  | Minimum % identity for contaminant hits |
-| `--coverage_threshold` | `30.0`  | Minimum % query coverage                |
-| `--evalue_threshold`   | `1e-3`  | Maximum e-value                         |
 
 ### Cross-sample comparison
 
 | Parameter           | Default  | Description                                     |
 |---------------------|----------|-------------------------------------------------|
-| `--condition_a`     | -        | Path to condition A `integrated_annotations_expression.tsv` |
-| `--condition_b`     | -        | Path to condition B `integrated_annotations_expression.tsv` |
+| `--condition_a`     | -        | Path to condition A integrated results TSV      |
+| `--condition_b`     | -        | Path to condition B integrated results TSV      |
 | `--label_a`         | `Condition_A` | Display label for condition A              |
 | `--label_b`         | `Condition_B` | Display label for condition B              |
 | `--n_permutations`  | `10000`  | Number of gene-label permutations               |
-| `--comparison_seed` | `42`     | Random seed for reproducibility                 |
-
-### Single-end options
-
-| Parameter    | Default | Description                                     |
-|--------------|---------|-------------------------------------------------|
-| `--fld_mean` | `250`   | Fragment length distribution mean               |
-| `--fld_sd`   | `25`    | Fragment length distribution standard deviation |
-
-### Skip flags
-
-| Parameter               | Description                                                              |
-|-------------------------|--------------------------------------------------------------------------|
-| `--skip_transdecoder`   | Skip TransDecoder; use direct CDS translation                            |
-| `--skip_contamination`  | Skip contaminant filtering (auto-enabled for bacteria/bacteria_gram_*/human_host/vertebrate_host) |
-| `--skip_explot`         | Skip continuous enrichment profiling                                     |
-| `--skip_landscape`      | Skip landscape characterisation                                          |
 
 </details>
 
 <br>
-
-## Repository Structure
-
-<details>
-<summary><strong>Click to expand</strong></summary>
-
-```
-SCEPTR/
-├── main.nf                  # Main framework workflow
-├── nextflow.config          # Framework configuration
-├── run_sceptr.sh            # Interactive launcher
-├── setup_databases.sh       # Database download/build script
-├── Dockerfile               # Container definition
-├── LICENSE                  # MIT License
-├── README.md
-├── bin/                     # Framework scripts
-│   ├── annotation/          # UniProt annotation scripts
-│   ├── contamination/       # Contaminant filtering scripts
-│   ├── enrichment/          # GO enrichment scripts
-│   └── sceptr_compare.py    # Cross-sample comparison script
-├── modules/                 # Nextflow modules
-│   ├── annotation.nf
-│   ├── comparison.nf        # Cross-sample comparison process
-│   ├── contamination.nf
-│   ├── enrichment/
-│   ├── explot/              # Continuous enrichment profiling
-│   │   ├── cli/             # functional_profiling_cli.py, cellular_profiling_cli.py, generate_report_cli.py
-│   │   ├── categories/      # Organism-specific category JSON files
-│   │   ├── categorisation.py
-│   │   ├── enrichment.py
-│   │   ├── continuous_enrichment.py
-│   │   ├── go_utils.py
-│   │   ├── visualisation/   # Static figure generation (bar charts, continuous curves)
-│   │   └── reporting/       # Interactive HTML report generator
-│   ├── landscape/           # Transcriptome landscape module
-│   ├── qc.nf
-│   ├── salmon.nf
-│   └── transdecoder.nf
-├── workflows/               # Nextflow sub-workflows
-└── data/                    # Databases (created by setup_databases.sh)
-    ├── uniprot/             # UniProt DIAMOND database
-    ├── contaminants/        # Contaminant DIAMOND database
-    └── go/                  # Gene Ontology hierarchy
-```
-
-</details>
-
-<br>
-
-<p align="center"><sub><em>Slainte a chara!</em></sub></p>
 
 ## Citation
 

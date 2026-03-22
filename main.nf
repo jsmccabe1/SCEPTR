@@ -554,21 +554,31 @@ workflow {
 workflow ExPlotEntry {
     // Resolve category files first
     resolveCategoryFiles()
-    
+
     prepareOutputDirs(params.outdir ?: "results")
-    
+
     Channel
         .fromPath(params.integrated_results ?: "${params.outdir ?: 'results'}/integrated_data/integrated_annotations_expression.tsv")
         .ifEmpty { error "No integrated results file found. Run the full pipeline first to generate expression data." }
         .set { integrated_results_ch }
-    
+
     integrated_results_ch.view { file ->
         log.info "Found integrated results file: ${file}"
         return file
     }
-        
+
     ExPlot(integrated_results_ch)
-    
+
+    // Also run Landscape analysis (Gini, Lorenz, annotation quality, taxonomy)
+    if (!params.skip_landscape) {
+        try {
+            Landscape(integrated_results_ch)
+            log.info "Transcriptome Landscape analysis completed"
+        } catch (Exception e) {
+            log.warn "Landscape step failed: ${e.message}. Continuing."
+        }
+    }
+
     log.info "SCEPTR enrichment profiling complete."
 }
 
