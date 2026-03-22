@@ -839,8 +839,8 @@ document.addEventListener('mousemove', e => {
     const ctx = canvas.getContext('2d');
     let w, h, particles;
     const COUNT = 60;
-    const CONNECT_DIST = 180;
-    const MOUSE_RADIUS = 200;
+    const CONNECT_DIST = 200;
+    const MOUSE_RADIUS = 250;
 
     function resize() {
         w = canvas.width = window.innerWidth;
@@ -854,9 +854,9 @@ document.addEventListener('mousemove', e => {
             particles.push({
                 x: Math.random() * w,
                 y: Math.random() * h,
-                vx: (Math.random() - 0.5) * 0.4,
-                vy: (Math.random() - 0.5) * 0.4,
-                r: Math.random() * 2.5 + 1.5
+                vx: (Math.random() - 0.5) * 0.6,
+                vy: (Math.random() - 0.5) * 0.6,
+                r: Math.random() * 3.0 + 2.0
             });
         }
     }
@@ -882,29 +882,35 @@ document.addEventListener('mousemove', e => {
             const dy = mouse.y - p.y;
             const dist = Math.sqrt(dx * dx + dy * dy);
             if (dist < MOUSE_RADIUS && dist > 30) {
-                const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS * 0.3;
-                p.vx += (dx / dist) * force * 0.1;
-                p.vy += (dy / dist) * force * 0.1;
+                const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS * 0.5;
+                p.vx += (dx / dist) * force * 0.15;
+                p.vy += (dy / dist) * force * 0.15;
             }
 
             // Dampen velocity
             p.vx *= 0.99;
             p.vy *= 0.99;
 
+            // Proximity boost: particles near cursor get bigger and brighter
+            const proximity = (dist < MOUSE_RADIUS) ? 1 + 0.8 * (1 - dist / MOUSE_RADIUS) : 1;
+            const drawR = p.r * proximity;
+            const coreAlpha = Math.min(0.8 + 0.2 * (proximity - 1), 1.0);
+            const glowAlpha = 0.6 * proximity;
+
             // Glow effect
-            const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4);
-            gradient.addColorStop(0, 'rgba(6, 182, 212, 0.6)');
-            gradient.addColorStop(0.4, 'rgba(6, 182, 212, 0.2)');
+            const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, drawR * 5);
+            gradient.addColorStop(0, `rgba(6, 182, 212, ${glowAlpha})`);
+            gradient.addColorStop(0.4, `rgba(6, 182, 212, ${glowAlpha * 0.35})`);
             gradient.addColorStop(1, 'rgba(6, 182, 212, 0)');
             ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2);
+            ctx.arc(p.x, p.y, drawR * 5, 0, Math.PI * 2);
             ctx.fillStyle = gradient;
             ctx.fill();
 
             // Core dot
             ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(6, 182, 212, 0.8)';
+            ctx.arc(p.x, p.y, drawR, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(6, 182, 212, ${coreAlpha})`;
             ctx.fill();
 
             // Connect nearby particles
@@ -971,10 +977,10 @@ document.addEventListener('mousemove', e => {
                 trail.splice(i, 1);
                 continue;
             }
-            const radius = p.life * 8;
+            const radius = p.life * 14;
             const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, radius);
-            gradient.addColorStop(0, `rgba(6, 182, 212, ${p.life * 0.3})`);
-            gradient.addColorStop(0.5, `rgba(59, 130, 246, ${p.life * 0.15})`);
+            gradient.addColorStop(0, `rgba(6, 182, 212, ${p.life * 0.4})`);
+            gradient.addColorStop(0.5, `rgba(59, 130, 246, ${p.life * 0.2})`);
             gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
             ctx.beginPath();
             ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
