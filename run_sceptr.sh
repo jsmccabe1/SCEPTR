@@ -967,29 +967,54 @@ exit_code=$?
 
 echo ""
 if (( exit_code == 0 )); then
+
+    # Organise outputs: promote combined report, tidy intermediates
+    if [[ -d "${OUTDIR}" ]]; then
+        # Move combined report to top level of results
+        if [[ -f "${OUTDIR}/enrichment_profiles/sceptr_report.html" ]]; then
+            cp "${OUTDIR}/enrichment_profiles/sceptr_report.html" "${OUTDIR}/sceptr_report.html" 2>/dev/null
+        fi
+        for prefix_file in "${OUTDIR}/enrichment_profiles/"*"_report.html"; do
+            [[ -f "$prefix_file" ]] || continue
+            bn=$(basename "$prefix_file")
+            [[ "$bn" == *"_BP_MF_report.html" || "$bn" == *"_CC_report.html" ]] || continue
+            # These are already in the combined report
+        done
+
+        # Move redundant standalone reports to intermediate/ folder
+        mkdir -p "${OUTDIR}/intermediate" 2>/dev/null
+        for redundant in \
+            "${OUTDIR}/enrichment_profiles/functional/"*"_BP_MF_report.html" \
+            "${OUTDIR}/enrichment_profiles/cellular/"*"_CC_report.html" \
+            "${OUTDIR}/functional/"*"_BP_MF_report.html" \
+            "${OUTDIR}/landscape/"*"_landscape_report.html"; do
+            if [[ -f "$redundant" ]]; then
+                mv "$redundant" "${OUTDIR}/intermediate/" 2>/dev/null
+            fi
+        done
+
+        # Also move the duplicate combined report from enrichment_profiles/
+        # (the top-level copy is now the canonical one)
+        if [[ -f "${OUTDIR}/sceptr_report.html" && -f "${OUTDIR}/enrichment_profiles/sceptr_report.html" ]]; then
+            mv "${OUTDIR}/enrichment_profiles/sceptr_report.html" "${OUTDIR}/intermediate/" 2>/dev/null
+        fi
+    fi
+
     echo -e "${GREEN}${BOLD}┌─────────────────────────────────────────────────────────────┐${NC}"
     echo -e "${GREEN}${BOLD}│  SCEPTR completed successfully!                    │${NC}"
     echo -e "${GREEN}${BOLD}└─────────────────────────────────────────────────────────────┘${NC}"
     echo ""
     echo -e "  ${BOLD}Results:${NC} ${OUTDIR}/"
     echo ""
-    echo -e "  ${BOLD}Reports:${NC}"
-    # Show only the primary reports (not redundant standalone functional/cellular)
-    for report in \
-        "${OUTDIR}"/enrichment_profiles/sceptr_report.html \
-        "${OUTDIR}"/enrichment_profiles/*_report.html \
-        "${OUTDIR}"/go_enrichment/reports/*.html \
-        "${OUTDIR}"/pipeline_info/execution_report_*.html \
-        "${OUTDIR}"/pipeline_info/execution_timeline_*.html; do
-        if [[ -f "$report" ]]; then
-            # Skip standalone functional/cellular reports (redundant with combined)
-            [[ "$report" == *"_BP_MF_report.html" ]] && continue
-            [[ "$report" == *"_CC_report.html" ]] && continue
-            # Skip landscape report (integrated into combined report)
-            [[ "$report" == *"_landscape_report.html" ]] && continue
-            echo -e "    ${GREEN}→${NC} ${report}"
-        fi
-    done
+    echo -e "  ${BOLD}Report:${NC}"
+    if [[ -f "${OUTDIR}/sceptr_report.html" ]]; then
+        echo -e "    ${GREEN}→${NC} ${OUTDIR}/sceptr_report.html"
+    fi
+    if [[ -f "${OUTDIR}/go_enrichment/reports/"*".html" ]]; then
+        for r in "${OUTDIR}"/go_enrichment/reports/*.html; do
+            [[ -f "$r" ]] && echo -e "    ${GREEN}→${NC} ${r}"
+        done
+    fi
     echo ""
     echo -e "  ${DIM}Sláinte a chara!${NC}"
     echo ""
