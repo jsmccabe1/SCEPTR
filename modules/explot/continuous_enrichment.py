@@ -510,8 +510,17 @@ def compute_trajectory_distance(compositions_a, compositions_b):
 # Profile shape classification
 # ---------------------------------------------------------------------------
 
-def classify_profile_shapes(k_values, enrichment_matrix, cat_names):
+def classify_profile_shapes(k_values, enrichment_matrix, cat_names,
+                            slope_threshold=0.075):
     """Classify enrichment profile shapes using linear trend.
+
+    Args:
+        k_values: 1D array of gene ranks
+        enrichment_matrix: (K, C) array of enrichment values
+        cat_names: list of category names
+        slope_threshold: absolute slope below which a profile is classified
+            as flat (default: 0.075). The continuous slope is always reported
+            alongside the discrete classification.
 
     Returns:
         shape_stats: {category: {slope, r_value, shape_class}}
@@ -537,7 +546,7 @@ def classify_profile_shapes(k_values, enrichment_matrix, cat_names):
         slope = result.slope
         max_fc = float(np.max(curve))
 
-        if abs(slope) < 0.1:
+        if abs(slope) < slope_threshold:
             shape_class = 'flat'
         elif slope < 0:
             shape_class = 'apex-concentrated'

@@ -155,13 +155,19 @@ class TestShapeClassification:
         assert info['shape_class'] == 'flat'
 
     def test_threshold_boundary(self):
-        """Slope exactly at the boundary (|slope| = 0.1) should be flat."""
-        # A linear curve on k_norm in [0,1] with slope = 0.09 (just below 0.1)
+        """Slope just below the boundary should be flat."""
+        # Default threshold is 0.075.
+        # A curve with slope = 0.07 (below 0.075) should be flat.
         k = np.arange(10, 110)
         k_norm = (k - 10.0) / 99.0
-        curve = 2.0 + 0.09 * k_norm  # slope in normalised coords = 0.09
+        curve = 2.0 + 0.07 * k_norm  # slope in normalised coords = 0.07
         info = self._classify_single(k, curve)
         assert info['shape_class'] == 'flat'
+
+        # A curve with slope = 0.08 (above 0.075) should be distributed.
+        curve2 = 2.0 + 0.08 * k_norm
+        info2 = self._classify_single(k, curve2)
+        assert info2['shape_class'] == 'distributed'
 
 
 # ---------------------------------------------------------------------------
