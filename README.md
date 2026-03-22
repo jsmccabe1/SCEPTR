@@ -32,6 +32,12 @@ SCEPTR produces an **interactive HTML report** that tells you:
 
 **What the cell is spending its budget on.** The Functional Allocation Profile shows what proportion of the expression apex each programme commands. When 41% of a malaria parasite's apex goes to Translation, that is 41% not available for anything else. A category can be highly enriched yet occupy a small budget share if it is a small category - both perspectives matter, and SCEPTR provides both.
 
+<p align="center">
+  <img src="docs/assets/transcriptome_identity_card.png" alt="SCEPTR Transcriptome Identity Card showing apex allocation, Gini coefficient, and notable findings for Toxoplasma gondii" width="900">
+  <br>
+  <sub><em>Transcriptome Identity Card for <em>Toxoplasma gondii</em> tachyzoites. Translation & Ribosome commands 29% of the apex budget (2.7x background), while Immune Evasion & Host Manipulation takes 24% (10.7x background). Notable findings are flagged automatically with p-values.</em></sub>
+</p>
+
 **Whether the patterns are real.** Every enrichment profile is tested against a permutation-based null (1,000 shuffles of gene-category assignments, same smoothing applied to observed and null curves). The report shows 95% null envelopes so you can see exactly where each category departs from random expectation.
 
 **Which genes drive the enrichment.** Each category card in the report lists the specific genes contributing to the enrichment, ranked by expression. For a parasitologist, this means seeing GAPDH, HGXPRT, and KAHRP at the top of the *P. falciparum* Translation apex. For a virologist, this means seeing ISG15, MX1, and IFIT1 driving the Interferon response.
@@ -40,6 +46,12 @@ SCEPTR produces an **interactive HTML report** that tells you:
   <img src="docs/assets/example_sceptr_output.png" alt="SCEPTR interactive enrichment profile" width="900">
   <br>
   <sub><em>Interactive enrichment profile from the SCEPTR report. Each curve traces a functional category's enrichment across the full expression gradient. Here, Immune Evasion & Host Manipulation dominates the apex of <em>Toxoplasma gondii</em> tachyzoite expression (8.33x at k=15, driven by dense granule effectors). The grey band shows the 95% null envelope. Hover for per-gene-rank values; click legend entries to show/hide.</em></sub>
+</p>
+
+<p align="center">
+  <img src="docs/assets/sceptr_FAP_example_output.png" alt="SCEPTR Functional Allocation Profile showing how the transcriptome distributes resources across functional programmes" width="900">
+  <br>
+  <sub><em>Functional Allocation Profile for the same <em>T. gondii</em> transcriptome. The stacked area chart shows how the cell's resource budget redistributes as the expression window broadens. Translation & Ribosome (yellow) dominates the extreme apex, while Immune Evasion (dark blue) and Specialised Organelles (pink) maintain substantial shares throughout. The explanatory callout distinguishes fold enrichment from budget allocation.</em></sub>
 </p>
 
 <br>
