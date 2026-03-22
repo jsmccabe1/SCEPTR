@@ -448,9 +448,9 @@
     <div class="container">
         <div class="logo">SCEPTR</div>
         <div class="links">
-            <a href="#method">Method</a>
+            <a href="#method">What You Learn</a>
             <a href="#categories">Categories</a>
-            <a href="#validation">Why SCEPTR</a>
+            <a href="#validation">Who It's For</a>
             <a href="#pipeline">Get Started</a>
             <a href="https://github.com/jsmccabe1/SCEPTR">GitHub</a>
         </div>
@@ -464,7 +464,8 @@
         <img src="assets/SCEPTR_high_res.png" alt="SCEPTR">
         <p class="tagline">
             <strong>What is your transcriptome doing, and where is it investing its resources?</strong><br>
-            Continuous enrichment profiling reveals the functional architecture of any transcriptome from a single sample.
+            Tumour biopsies. Clinical parasite isolates. Drug-resistant pathogens. Environmental metatranscriptomes.
+            One sample, no replicates, no control required. SCEPTR tells you what your organism is spending its transcriptional budget on.
         </p>
         <div class="cta-group">
             <a href="https://github.com/jsmccabe1/SCEPTR" class="btn btn-primary">
@@ -516,90 +517,75 @@
 <!-- Method -->
 <section id="method">
     <div class="container">
-        <div class="section-title reveal">The Method</div>
+        <div class="section-title reveal">What SCEPTR Tells You</div>
         <p class="section-subtitle reveal">
-            A continuous enrichment framework that reveals what standard approaches miss.
+            Not just which pathways are enriched, but how your cell allocates its entire transcriptional budget.
         </p>
         <div class="features stagger-children">
             <div class="feature reveal" style="--i:0">
                 <div class="icon icon-green">&#x25B2;</div>
-                <h3>Continuous Enrichment Profiling</h3>
+                <h3>Which Programmes Dominate and Where</h3>
                 <p>
-                    Genes ranked by TPM are evaluated at every integer gene rank from k=10
-                    to N/2, then smoothed with an adaptive Gaussian kernel to produce a
-                    genuinely continuous enrichment function E<sub>C</sub>(t) for each functional
-                    category. The kernel bandwidth scales with inter-member spacing, preserving
-                    sharp apex features in dense categories while stabilising sparse ones.
-                    The result: smooth enrichment profiles that reveal how each programme's
-                    dominance changes across the entire expression gradient.
+                    Continuous enrichment profiles show each functional category's fold enrichment
+                    across the full expression gradient. Translation at 9x in the top 50 genes looks
+                    fundamentally different from immune signalling distributed across hundreds of
+                    moderately expressed genes. SCEPTR classifies these patterns automatically
+                    as apex-concentrated, distributed, or flat, and tests each against a permutation null.
                 </p>
             </div>
             <div class="feature reveal" style="--i:1">
-                <div class="icon icon-blue">D<sub>KL</sub></div>
-                <h3>KL Divergence as Functional Specialisation</h3>
+                <div class="icon icon-blue">&#x25CB;</div>
+                <h3>What the Cell Is Spending Its Budget On</h3>
                 <p>
-                    Kullback-Leibler divergence computed across the smoothed enrichment profile
-                    measures how functional composition diverges from the background at every
-                    point along the expression gradient. The shape of this gradient is a
-                    quantitative phenotype: steep gradients indicate extreme functional
-                    concentration at the expression apex, while shallow gradients indicate
-                    more evenly distributed investment.
+                    The Functional Allocation Profile shows what proportion of the expression
+                    apex each programme commands. In a clinical <em>P. falciparum</em> isolate,
+                    Translation takes 41% of the apex budget at 3x its background share, with the
+                    validated drug target HGXPRT as the #2 most expressed gene. A category can be
+                    highly enriched yet occupy a small budget share if it is a small category. Both
+                    perspectives matter; SCEPTR provides both.
                 </p>
             </div>
             <div class="feature reveal" style="--i:2">
                 <div class="icon icon-purple">&#x2726;</div>
-                <h3>Functional Allocation</h3>
+                <h3>Whether the Patterns Are Real</h3>
                 <p>
-                    Enrichment tells you what is disproportionately represented. Allocation
-                    tells you where the resources actually go. SCEPTR provides both: fold
-                    enrichment curves per category, and a compositional view showing what
-                    fraction of the expression apex each programme commands. A category can
-                    be highly enriched yet occupy a small budget share if it is small.
-                    The Compositional Apex Distance (Aitchison geometry on the simplex)
-                    quantifies overall specialisation with proper compositional statistics.
+                    Every enrichment profile is tested against a permutation-based null (1,000
+                    shuffles of gene-category assignments, same smoothing applied to both).
+                    The report shows 95% null envelopes so you can see exactly where each category
+                    departs from random expectation. No arbitrary thresholds, no guesswork.
                 </p>
             </div>
             <div class="feature reveal" style="--i:3">
                 <div class="icon icon-amber">&#x2699;</div>
-                <h3>Dual-Method Category Assignment</h3>
+                <h3>Which Genes Drive the Enrichment</h3>
                 <p>
-                    Genes are assigned to functional categories through keyword regex matching
-                    against UniProt annotations and GO hierarchy traversal from curated anchor
-                    terms. Each assignment is tagged with its source for full transparency,
-                    and core diagnostic keywords report a specificity percentage alongside
-                    enrichment statistics.
-                </p>
-            </div>
-            <div class="feature reveal" style="--i:3">
-                <div class="icon icon-amber">&#x25C9;</div>
-                <h3>Permutation Profile Testing</h3>
-                <p>
-                    A global profile test permutes gene-category labels (default 1000 iterations)
-                    to assess whether the observed enrichment profile for each category is
-                    significantly non-random. Both observed and null curves are smoothed with
-                    the same adaptive kernel for valid comparison. Each result carries a
-                    permutation p-value so you know which findings reflect genuine transcriptomic
-                    investment rather than annotation noise.
+                    Each category in the report lists the specific genes contributing to the enrichment,
+                    ranked by expression. For a parasitologist, that means seeing GAPDH and HGXPRT at
+                    the top of the Translation apex. For a virologist, ISG15 and MX1 driving the
+                    Interferon response. Expandable gene tables connect enrichment back to concrete
+                    gene biology.
                 </p>
             </div>
             <div class="feature reveal" style="--i:4">
                 <div class="icon icon-cyan">&#x21C4;</div>
-                <h3>Cross-Sample Comparison</h3>
+                <h3>How Architecture Shifts Between Conditions</h3>
                 <p>
-                    Compare enrichment profiles between two conditions (e.g. mock vs infected)
-                    using gene-label permutation testing. Tests whether observed profile
-                    differences exceed what would be expected by chance, with per-category
-                    significance and effect size.
+                    Compare enrichment profiles between two conditions (mock vs infected, treated vs
+                    control) using gene-label permutation testing. SCEPTR detects not just magnitude
+                    changes but shape transitions: a programme reorganised from distributed expression
+                    into apex concentration upon infection represents a qualitatively different kind
+                    of response than a simple increase in mean expression.
                 </p>
             </div>
             <div class="feature reveal" style="--i:5">
                 <div class="icon icon-rose">&#x2609;</div>
-                <h3>Single Sample. No Replicates.</h3>
+                <h3>Works From a Single Sample</h3>
                 <p>
                     Because each tier is compared to the sample's own background, SCEPTR works
-                    from a single sample with no replicates, no control, and no comparative data.
-                    The clinical isolate, the field sample, the pilot experiment. If you have
-                    expression data, SCEPTR tells you what your transcriptome is investing in.
+                    from one sample with no replicates, no control, and no comparative data.
+                    Clinical isolates, irreplaceable field samples, pilot experiments, the first
+                    transcriptome of a non-model organism. If you have expression data, SCEPTR
+                    tells you what your transcriptome is investing in.
                 </p>
             </div>
         </div>
@@ -680,42 +666,54 @@
 <!-- Why SCEPTR -->
 <section id="validation">
     <div class="container">
-        <div class="section-title reveal">What You Get</div>
+        <div class="section-title reveal">Who SCEPTR Is For</div>
         <p class="section-subtitle reveal">
-            From raw reads to biological insight in a single self-contained report.
+            Built for researchers who need to understand what a transcriptome is doing, especially when standard approaches fall short.
         </p>
         <div class="validation-grid reveal">
             <div class="val-card">
-                <div class="organism">Interactive Report</div>
+                <div class="organism">Clinical &amp; Parasitology Researchers</div>
                 <div class="detail">
-                    A single HTML file containing enrichment profiles, significance testing,
-                    and full results tables. Self-contained and shareable - open it in any
-                    browser, no additional software required.
+                    Single clinical isolates where each infection is unique and irreproducible.
+                    SCEPTR characterises functional investment from one sample - no replicates,
+                    no control condition needed. Expression apex genes include known drug targets
+                    like HGXPRT in <em>P. falciparum</em>.
                 </div>
+                <div class="tag">parasite_protozoan</div>
             </div>
             <div class="val-card">
-                <div class="organism">Transcriptome Overview</div>
+                <div class="organism">Cancer &amp; Immunology Researchers</div>
                 <div class="detail">
-                    Interactive Lorenz curve, expression distribution, annotation quality
-                    by expression decile, and taxonomic composition - a complete summary
-                    of your transcriptome's structure before any enrichment analysis.
+                    Tumour biopsies, infected cell lines, patient-derived samples. SCEPTR detects
+                    shape transitions: interferon genes reorganised from distributed expression to
+                    apex concentration upon SARS-CoV-2 infection, a qualitative change invisible to
+                    magnitude-based methods.
                 </div>
+                <div class="tag">cancer</div>
+                <div class="tag">human_host</div>
+                <div class="tag">vertebrate_host</div>
             </div>
             <div class="val-card">
-                <div class="organism">Continuous Enrichment Profiles</div>
+                <div class="organism">Microbiology &amp; AMR Researchers</div>
                 <div class="detail">
-                    Visualise how each functional programme rises and falls across the
-                    full expression gradient. Identify where investment peaks, where it
-                    drops off, and which programmes dominate at which expression levels.
+                    Bacterial pathogens under different growth conditions, stress responses,
+                    antibiotic exposure. Gram-specific category sets capture LPS biogenesis,
+                    type III/VI secretion, sporulation, and antimicrobial resistance programmes
+                    with organism-appropriate keywords and GO terms.
                 </div>
+                <div class="tag">bacteria_gram_negative</div>
+                <div class="tag">bacteria_gram_positive</div>
             </div>
             <div class="val-card">
-                <div class="organism">Built for Any Transcriptome</div>
+                <div class="organism">Environmental &amp; Marine Biologists</div>
                 <div class="detail">
-                    Whether you work with clinical isolates, environmental metagenomes,
-                    agricultural pathogens, cancer cell lines, or coral symbionts - SCEPTR
-                    characterises functional investment from whatever expression data you have.
+                    The 650+ MMETSP marine eukaryote transcriptomes. Dinoflagellate symbionts under
+                    thermal stress. De novo assemblies with sparse annotation. SCEPTR works at
+                    annotation rates as low as 17% and provides meaningful functional characterisation
+                    where curated pathway databases are unavailable.
                 </div>
+                <div class="tag">protist_dinoflagellate</div>
+                <div class="tag">general</div>
             </div>
         </div>
     </div>
