@@ -30,7 +30,7 @@ SCEPTR produces an **interactive HTML report** that tells you:
 
 **Which programmes dominate and where.** Continuous enrichment curves show each functional category's fold enrichment across the full expression gradient. Translation at 9x enrichment in the top 50 genes looks fundamentally different from immune signalling distributed across hundreds of moderately expressed genes - SCEPTR distinguishes these patterns automatically and classifies them as apex-concentrated, distributed, or flat.
 
-**What the cell is spending its budget on.** The Functional Allocation Profile shows what proportion of the expression apex each programme commands. When 41% of a malaria parasite's apex goes to Translation, that is 41% not available for anything else. A category can be highly enriched yet occupy a small budget share if it is a small category - both perspectives matter, and SCEPTR provides both.
+**What the cell is spending its budget on.** Enrichment tells you what is disproportionately represented. The Functional Allocation Profile tells you where the resources actually go. When 29% of a *Toxoplasma* tachyzoite's apex goes to Translation, that is 29% not available for anything else. A category can be highly enriched yet occupy a small budget share if it is a small category. Both perspectives matter, and SCEPTR provides both.
 
 <p align="center">
   <img src="docs/assets/transcriptome_identity_card.png" alt="SCEPTR Transcriptome Identity Card showing apex allocation, Gini coefficient, and notable findings for Toxoplasma gondii" width="900">
@@ -247,7 +247,7 @@ Both samples must use the same reference transcriptome.
 <details>
 <summary><strong>Continuous enrichment profiling</strong></summary>
 
-Genes are ranked by TPM and the enrichment ratio E<sub>C</sub>(k) is evaluated at every integer gene rank k from k=10 to N/2, then smoothed with an adaptive Gaussian kernel (bandwidth: sigma = max(3, 0.5 * sqrt(N/|C|)), scaling with inter-member spacing) to produce continuous fold-enrichment curves. Profile shapes are classified via normalised linear slope: apex-concentrated (slope < -0.1), distributed (slope > 0.1), or flat.
+Genes are ranked by TPM and the enrichment ratio E<sub>C</sub>(k) is evaluated at every integer gene rank k from k=10 to N/2, then smoothed with an adaptive Gaussian kernel to produce continuous fold-enrichment curves. Profile shapes are classified via normalised linear slope as apex-concentrated, distributed, or flat, with continuous slopes always reported alongside the discrete classification.
 
 Statistical significance is assessed by permutation-based global profile test (1,000 gene-category shuffles, supremum statistic, Phipson-Smyth p-value) with 95% null envelope for visual interpretation. Discrete-tier significance uses Fisher's exact test with Benjamini-Hochberg correction.
 
@@ -256,9 +256,9 @@ Statistical significance is assessed by permutation-based global profile test (1
 <details>
 <summary><strong>Functional specialisation and allocation</strong></summary>
 
-**D<sub>KL</sub> divergence** measures how the functional composition at each tier diverges from the whole-transcriptome background. Steep D<sub>KL</sub> gradients indicate extreme apex specialisation; shallow gradients indicate distributed investment.
+**D<sub>KL</sub> divergence** measures how the functional composition at each tier diverges from the whole-transcriptome background. Steep gradients indicate extreme apex specialisation; shallow gradients indicate distributed investment.
 
-**Functional Allocation Profiles** show the compositional budget at each tier - what fraction of annotated genes belongs to each category. The **Compositional Apex Distance** (CAD) quantifies apex specialisation using Aitchison distance on the compositional simplex, with permutation significance testing.
+**Functional Allocation Profiles** show the compositional budget at each tier - what fraction of annotated genes belongs to each category. This complements fold enrichment: a category can be highly enriched yet occupy a small budget share if it is a small category.
 
 </details>
 
