@@ -8,7 +8,7 @@ repository-code: "https://github.com/jsmccabe1/SCEPTR"
 authors:
   - family-names: McCabe
     given-names: James S.
-  - family-names: "Janouskovec"
+  - family-names: "Janouškovec"
     given-names: Jan
 preferred-citation:
   type: article
@@ -16,6 +16,6 @@ preferred-citation:
   authors:
     - family-names: McCabe
       given-names: James S.
-    - family-names: "Janouskovec"
+    - family-names: "Janouškovec"
       given-names: Jan
   year: 2026
