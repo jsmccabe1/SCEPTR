@@ -376,7 +376,7 @@ SCEPTR automatically adapts based on `--category_set`:
 
 If you use SCEPTR in your research, please cite:
 
-> McCabe, J.S., and Janouskovec, J. (2026). SCEPTR: continuous enrichment profiling reveals functional architecture across the expression gradient.
+> McCabe, J.S., and Janouškovec, J. (2026). SCEPTR: continuous enrichment profiling reveals functional architecture across the expression gradient.
 
 ## License
 
