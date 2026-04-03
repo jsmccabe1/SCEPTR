@@ -622,6 +622,13 @@ Example:
     except Exception as e:
         logger.warning(f"Gradient overlay failed: {e}")
 
+    try:
+        comparison_charts.create_apex_displacement_chart(
+            diff_df, results_a, results_b, cat_names,
+            args.label_a, args.label_b, fig_prefix)
+    except Exception as e:
+        logger.warning(f"Apex displacement chart failed: {e}")
+
     # -----------------------------------------------------------------------
     # Step 6: Load continuous enrichment data (if provided)
     # -----------------------------------------------------------------------

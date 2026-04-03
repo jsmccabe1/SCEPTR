@@ -446,3 +446,133 @@ def create_gradient_overlay(
                  fontsize=13, fontweight='bold', y=1.02)
     plt.tight_layout()
     return _save_figure(fig, f"{output_prefix}_gradient_overlay")
+
+
+def create_apex_displacement_chart(
+    diff_df,
+    results_a: Dict[str, Any],
+    results_b: Dict[str, Any],
+    categories: List[str],
+    label_a: str,
+    label_b: str,
+    output_prefix: str,
+    apex_tier: int = 50,
+) -> Tuple[str, str]:
+    """
+    Apex displacement chart: shows which categories gained or lost share
+    of the expression apex between two conditions.
+
+    This answers the question: "What did the cell trade away to invest
+    in the activated programmes?"  -  a resource reallocation view that
+    scalar enrichment scores cannot provide.
+
+    Args:
+        diff_df: differential enrichment DataFrame from comparison
+        results_a: per-tier enrichment results for condition A
+        results_b: per-tier enrichment results for condition B
+        categories: list of category names
+        label_a: condition A label
+        label_b: condition B label
+        output_prefix: path prefix for output files
+        apex_tier: tier size defining the apex (default: 50)
+
+    Returns:
+        (png_path, svg_path)
+    """
+    logger.info("Creating apex displacement chart...")
+
+    plt.style.use('default')
+
+    # Compute apex budget share for each category in each condition
+    tier_key = f'top_{apex_tier}'
+    budget_a = {}
+    budget_b = {}
+
+    for cat in categories:
+        if cat == 'Uncharacterised':
+            continue
+        # Get count in apex tier from results
+        fc_a = 0.0
+        fc_b = 0.0
+        if tier_key in results_a and cat in results_a[tier_key]:
+            fc_a = results_a[tier_key][cat].get('fold_change', 0.0)
+        if tier_key in results_b and cat in results_b[tier_key]:
+            fc_b = results_b[tier_key][cat].get('fold_change', 0.0)
+
+        # Also try from diff_df
+        if fc_a == 0.0 or fc_b == 0.0:
+            rows = diff_df[(diff_df['Category'] == cat) &
+                           (diff_df['Tier'] == apex_tier)]
+            if len(rows) > 0:
+                fc_a = float(rows.iloc[0].get('FC_A', fc_a))
+                fc_b = float(rows.iloc[0].get('FC_B', fc_b))
+
+        budget_a[cat] = fc_a
+        budget_b[cat] = fc_b
+
+    # Normalise to budget shares (proportion of total fold-change)
+    total_a = sum(max(v, 0) for v in budget_a.values()) or 1.0
+    total_b = sum(max(v, 0) for v in budget_b.values()) or 1.0
+
+    displacements = {}
+    for cat in budget_a:
+        share_a = max(budget_a[cat], 0) / total_a * 100
+        share_b = max(budget_b[cat], 0) / total_b * 100
+        delta = share_b - share_a
+        if abs(delta) > 0.1:  # Only show meaningful changes
+            displacements[cat] = {
+                'share_a': share_a, 'share_b': share_b, 'delta': delta
+            }
+
+    if not displacements:
+        logger.warning("No significant apex displacement detected")
+        fig, ax = plt.subplots(figsize=(7, 4), facecolor='white')
+        ax.text(0.5, 0.5, 'No significant apex budget reallocation detected',
+                ha='center', va='center', fontsize=11, color='#666666')
+        ax.axis('off')
+        return _save_figure(fig, f"{output_prefix}_apex_displacement")
+
+    # Sort by displacement magnitude
+    sorted_cats = sorted(displacements.keys(),
+                         key=lambda c: displacements[c]['delta'])
+
+    names = [c for c in sorted_cats]
+    deltas = [displacements[c]['delta'] for c in sorted_cats]
+    colors = ['#c0392b' if d < 0 else '#2980b9' for d in deltas]
+
+    # Create figure
+    n = len(names)
+    fig_height = max(3.0, 0.35 * n + 1.5)
+    fig, ax = plt.subplots(figsize=(7.2, fig_height), facecolor='white')
+
+    y_pos = np.arange(n)
+    bars = ax.barh(y_pos, deltas, color=colors, alpha=0.85,
+                   edgecolor='white', linewidth=0.5, height=0.7)
+
+    # Add value labels
+    for j, (bar, delta) in enumerate(zip(bars, deltas)):
+        x = bar.get_width()
+        ha = 'left' if x >= 0 else 'right'
+        offset = 0.15 if x >= 0 else -0.15
+        ax.text(x + offset, j, f'{delta:+.1f}%', va='center', ha=ha,
+                fontsize=7, color='#333333')
+
+    ax.set_yticks(y_pos)
+    ax.set_yticklabels(names, fontsize=8)
+    ax.axvline(0, color='black', linewidth=0.8)
+    ax.set_xlabel(f'Change in apex budget share (%, top {apex_tier} genes)',
+                  fontsize=9)
+    ax.set_title(f'Apex Budget Reallocation: {label_a} → {label_b}',
+                 fontsize=11, fontweight='bold', pad=12)
+
+    # Add legend-like annotation
+    ax.text(0.98, 0.02, f'← Lost apex share    Gained apex share →',
+            transform=ax.transAxes, ha='right', va='bottom',
+            fontsize=7, color='#888888', style='italic')
+
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.grid(axis='x', alpha=0.2)
+
+    plt.tight_layout()
+    return _save_figure(fig, f"{output_prefix}_apex_displacement")

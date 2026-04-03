@@ -383,6 +383,100 @@ def _build_heatmap_data(diff_df, cat_names, tiers, label_a, label_b):
 # HTML table builders
 # ---------------------------------------------------------------------------
 
+def _build_apex_displacement_data(diff_df, cat_names, label_a, label_b,
+                                   apex_tier=50):
+    """Build Plotly traces and layout for the apex displacement chart.
+
+    Shows which categories gained or lost share of the expression apex
+    between two conditions  -  the resource reallocation view.
+    """
+    # Get fold changes at the apex tier
+    tier_data = diff_df[diff_df['Tier'] == apex_tier].copy()
+    if len(tier_data) == 0:
+        # Try smallest available tier
+        apex_tier = diff_df['Tier'].min()
+        tier_data = diff_df[diff_df['Tier'] == apex_tier].copy()
+
+    if len(tier_data) == 0:
+        return None, None
+
+    # Compute budget shares from fold changes
+    fc_a = {}
+    fc_b = {}
+    for _, row in tier_data.iterrows():
+        cat = row['Category']
+        fc_a[cat] = max(float(row.get('FC_A', 0)), 0)
+        fc_b[cat] = max(float(row.get('FC_B', 0)), 0)
+
+    total_a = sum(fc_a.values()) or 1.0
+    total_b = sum(fc_b.values()) or 1.0
+
+    displacements = []
+    for cat in fc_a:
+        share_a = fc_a[cat] / total_a * 100
+        share_b = fc_b[cat] / total_b * 100
+        delta = share_b - share_a
+        if abs(delta) > 0.1:
+            displacements.append({
+                'category': cat, 'share_a': share_a,
+                'share_b': share_b, 'delta': delta
+            })
+
+    if not displacements:
+        return None, None
+
+    # Sort by delta
+    displacements.sort(key=lambda x: x['delta'])
+
+    cats = [d['category'] for d in displacements]
+    deltas = [d['delta'] for d in displacements]
+    colors = ['#c0392b' if d < 0 else '#2980b9' for d in deltas]
+    hover = [
+        f"{d['category']}<br>"
+        f"{label_a}: {d['share_a']:.1f}%<br>"
+        f"{label_b}: {d['share_b']:.1f}%<br>"
+        f"Change: {d['delta']:+.1f}%"
+        for d in displacements
+    ]
+
+    traces = [{
+        'type': 'bar',
+        'y': cats,
+        'x': deltas,
+        'orientation': 'h',
+        'marker': {'color': colors, 'opacity': 0.85},
+        'text': [f"{d:+.1f}%" for d in deltas],
+        'textposition': 'outside',
+        'textfont': {'size': 10},
+        'hovertext': hover,
+        'hoverinfo': 'text',
+    }]
+
+    layout = {
+        'title': {
+            'text': f'Apex Budget Reallocation (top {apex_tier} genes)',
+            'font': {'size': 14},
+        },
+        'xaxis': {
+            'title': f'Change in apex budget share (%)',
+            'zeroline': True, 'zerolinewidth': 2, 'zerolinecolor': '#333',
+        },
+        'yaxis': {'automargin': True},
+        'height': max(350, len(cats) * 28 + 120),
+        'margin': {'l': 200, 'r': 80, 't': 60, 'b': 60},
+        'showlegend': False,
+        'plot_bgcolor': 'white',
+        'annotations': [{
+            'text': f'\u2190 Lost apex share | Gained apex share \u2192',
+            'xref': 'paper', 'yref': 'paper',
+            'x': 0.5, 'y': -0.12, 'showarrow': False,
+            'font': {'size': 10, 'color': '#888'},
+        }],
+    }
+
+    return traces, layout
+
+
 def _build_concordance_table(concordance_data):
     if not concordance_data:
         return "<p>No concordance data available.</p>"
@@ -637,6 +731,31 @@ def generate_comparison_report(
 </div>
 """
 
+    # Apex displacement chart
+    apex_traces, apex_layout = _build_apex_displacement_data(
+        diff_df, cat_names, label_a, label_b)
+    apex_section = ''
+    if apex_traces is not None:
+        chart_js_blocks.append(
+            f"Plotly.newPlot('apex-displacement', "
+            f"{json.dumps(apex_traces)}, "
+            f"{json.dumps(apex_layout)}, plotlyConfig);")
+        apex_section = f"""
+<div class="section">
+    <h2>Apex Budget Reallocation</h2>
+    <p>How the cell's transcriptional investment at the expression apex shifted
+    between <strong>{label_a}</strong> and <strong>{label_b}</strong>. Categories
+    on the right gained apex share; categories on the left lost it. This shows
+    what the cell traded away to invest in the activated programmes &mdash; a
+    resource competition view that scalar enrichment scores cannot provide.</p>
+    <div class="plot-container" id="apex-displacement"></div>
+    <div style="text-align:right;">
+        <button class="export-btn" onclick="exportPlot('apex-displacement','sceptr_apex_displacement','svg')">Export SVG</button>
+        <button class="export-btn" onclick="exportPlot('apex-displacement','sceptr_apex_displacement','png')">Export PNG</button>
+    </div>
+</div>
+"""
+
     # Heatmap
     heatmap_traces, heatmap_layout = _build_heatmap_data(
         diff_df, cat_names, tiers, label_a, label_b)
@@ -699,6 +818,8 @@ def generate_comparison_report(
 </div>
 
 {continuous_section}
+
+{apex_section}
 
 <div class="section">
     <h2>Concordance Overview</h2>
