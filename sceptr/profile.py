@@ -341,6 +341,8 @@ def run(expression_file: str,
         k_values, enrichment_matrix, cont_cat_names)
 
     logger.info(f"  Running global profile test ({permutations} permutations)...")
+    if not quiet:
+        print(f"  Running permutation test ({permutations} permutations)...", flush=True)
     _, profile_stats = continuous.permutation_global_test(
         membership, cont_cat_names, cont_bg_counts, N,
         k_min=10, k_max=k_max, step=5,

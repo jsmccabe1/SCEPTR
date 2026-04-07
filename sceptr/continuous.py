@@ -374,6 +374,20 @@ def _stratified_permutation(membership_col, strata, strata_ranges, rng):
     return perm
 
 
+def _stratified_permutation_batch(membership, strata_ranges, rng):
+    """Batch stratified permutation for all categories simultaneously."""
+    N, n_cats = membership.shape
+    perm = np.zeros_like(membership)
+    for start, end in strata_ranges:
+        stratum_size = end - start
+        for i in range(n_cats):
+            n_in = int(membership[start:end, i].sum())
+            if n_in > 0:
+                chosen = rng.choice(stratum_size, size=min(n_in, stratum_size), replace=False)
+                perm[start + chosen, i] = True
+    return perm
+
+
 def permutation_global_test(membership, cat_names, bg_counts, N,
                              k_min=10, k_max=None, step=5,
                              n_permutations=1000, seed=42,
@@ -466,10 +480,7 @@ def permutation_global_test(membership, cat_names, bg_counts, N,
 
     for p in range(n_permutations):
         # Build permuted membership matrix (stratified per category)
-        perm_membership = np.zeros_like(membership)
-        for i in range(n_cats):
-            perm_membership[:, i] = _stratified_permutation(
-                membership[:, i], strata, strata_ranges, rng)
+        perm_membership = _stratified_permutation_batch(membership, strata_ranges, rng)
 
         perm_cumsum = np.cumsum(perm_membership, axis=0)
         perm_counts = perm_cumsum[k_all - 1]
@@ -485,6 +496,7 @@ def permutation_global_test(membership, cat_names, bg_counts, N,
 
         if (p + 1) % 200 == 0:
             logger.info(f"  Global profile test: {p + 1}/{n_permutations} permutations")
+            print(f"    Permutation {p + 1}/{n_permutations}...", flush=True)
 
     # --- Conditional null mean curve mu_C(k) ---
     null_mean = np.mean(null_curves, axis=0)  # (K, C)

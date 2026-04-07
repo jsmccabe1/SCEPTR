@@ -388,7 +388,7 @@ def _build_apex_displacement_data(diff_df, cat_names, label_a, label_b,
     """Build Plotly traces and layout for the apex displacement chart.
 
     Shows which categories gained or lost share of the expression apex
-    between two conditions  -  the resource reallocation view.
+    between two conditions - the resource reallocation view.
     """
     # Get fold changes at the apex tier
     tier_data = diff_df[diff_df['Tier'] == apex_tier].copy()

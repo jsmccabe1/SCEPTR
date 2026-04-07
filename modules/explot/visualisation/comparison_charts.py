@@ -463,7 +463,7 @@ def create_apex_displacement_chart(
     of the expression apex between two conditions.
 
     This answers the question: "What did the cell trade away to invest
-    in the activated programmes?"  -  a resource reallocation view that
+    in the activated programmes?" - a resource reallocation view that
     scalar enrichment scores cannot provide.
 
     Args:

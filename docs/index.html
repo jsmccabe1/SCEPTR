@@ -593,6 +593,62 @@
 </section>
 
 <!-- Categories -->
+<!-- Why SCEPTR -->
+<section id="validation">
+    <div class="container">
+        <div class="section-title reveal">Who SCEPTR Is For</div>
+        <p class="section-subtitle reveal">
+            Built for researchers who need to understand what a transcriptome is doing, especially when standard approaches fall short.
+        </p>
+        <div class="validation-grid reveal">
+            <div class="val-card">
+                <div class="organism">Clinical &amp; Parasitology Researchers</div>
+                <div class="detail">
+                    Single clinical isolates where each infection is unique and irreproducible.
+                    SCEPTR characterises functional investment from one sample - no replicates,
+                    no control condition needed. Expression apex genes include known drug targets
+                    like HGXPRT in <em>P. falciparum</em>.
+                </div>
+                <div class="tag">parasite_protozoan</div>
+            </div>
+            <div class="val-card">
+                <div class="organism">Cancer &amp; Immunology Researchers</div>
+                <div class="detail">
+                    Tumour biopsies, infected cell lines, patient-derived samples. SCEPTR detects
+                    shape transitions: interferon genes reorganised from distributed expression to
+                    apex concentration upon SARS-CoV-2 infection, a qualitative change invisible to
+                    magnitude-based methods.
+                </div>
+                <div class="tag">cancer</div>
+                <div class="tag">human_host</div>
+                <div class="tag">vertebrate_host</div>
+            </div>
+            <div class="val-card">
+                <div class="organism">Microbiology &amp; AMR Researchers</div>
+                <div class="detail">
+                    Bacterial pathogens under different growth conditions, stress responses,
+                    antibiotic exposure. Gram-specific category sets capture LPS biogenesis,
+                    type III/VI secretion, sporulation, and antimicrobial resistance programmes
+                    with organism-appropriate keywords and GO terms.
+                </div>
+                <div class="tag">bacteria_gram_negative</div>
+                <div class="tag">bacteria_gram_positive</div>
+            </div>
+            <div class="val-card">
+                <div class="organism">Environmental &amp; Marine Biologists</div>
+                <div class="detail">
+                    The 650+ MMETSP marine eukaryote transcriptomes. Dinoflagellate symbionts under
+                    thermal stress. De novo assemblies with sparse annotation. SCEPTR works at
+                    annotation rates as low as 17% and provides meaningful functional characterisation
+                    where curated pathway databases are unavailable.
+                </div>
+                <div class="tag">protist_dinoflagellate</div>
+                <div class="tag">general</div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <section id="categories">
     <div class="container">
         <div class="section-title reveal">Category Sets</div>
@@ -660,62 +716,6 @@
         <p style="margin-top: 1.5rem; color: var(--text-dim); font-size: 0.85rem;">
             All keywords validated through multi-layer provenance audit: 68.9% backed by Gene Ontology or Swiss-Prot controlled vocabularies. Bring your own categories with <code style="color:var(--accent);">--category_set custom</code>.
         </p>
-    </div>
-</section>
-
-<!-- Why SCEPTR -->
-<section id="validation">
-    <div class="container">
-        <div class="section-title reveal">Who SCEPTR Is For</div>
-        <p class="section-subtitle reveal">
-            Built for researchers who need to understand what a transcriptome is doing, especially when standard approaches fall short.
-        </p>
-        <div class="validation-grid reveal">
-            <div class="val-card">
-                <div class="organism">Clinical &amp; Parasitology Researchers</div>
-                <div class="detail">
-                    Single clinical isolates where each infection is unique and irreproducible.
-                    SCEPTR characterises functional investment from one sample - no replicates,
-                    no control condition needed. Expression apex genes include known drug targets
-                    like HGXPRT in <em>P. falciparum</em>.
-                </div>
-                <div class="tag">parasite_protozoan</div>
-            </div>
-            <div class="val-card">
-                <div class="organism">Cancer &amp; Immunology Researchers</div>
-                <div class="detail">
-                    Tumour biopsies, infected cell lines, patient-derived samples. SCEPTR detects
-                    shape transitions: interferon genes reorganised from distributed expression to
-                    apex concentration upon SARS-CoV-2 infection, a qualitative change invisible to
-                    magnitude-based methods.
-                </div>
-                <div class="tag">cancer</div>
-                <div class="tag">human_host</div>
-                <div class="tag">vertebrate_host</div>
-            </div>
-            <div class="val-card">
-                <div class="organism">Microbiology &amp; AMR Researchers</div>
-                <div class="detail">
-                    Bacterial pathogens under different growth conditions, stress responses,
-                    antibiotic exposure. Gram-specific category sets capture LPS biogenesis,
-                    type III/VI secretion, sporulation, and antimicrobial resistance programmes
-                    with organism-appropriate keywords and GO terms.
-                </div>
-                <div class="tag">bacteria_gram_negative</div>
-                <div class="tag">bacteria_gram_positive</div>
-            </div>
-            <div class="val-card">
-                <div class="organism">Environmental &amp; Marine Biologists</div>
-                <div class="detail">
-                    The 650+ MMETSP marine eukaryote transcriptomes. Dinoflagellate symbionts under
-                    thermal stress. De novo assemblies with sparse annotation. SCEPTR works at
-                    annotation rates as low as 17% and provides meaningful functional characterisation
-                    where curated pathway databases are unavailable.
-                </div>
-                <div class="tag">protist_dinoflagellate</div>
-                <div class="tag">general</div>
-            </div>
-        </div>
     </div>
 </section>
 
@@ -856,7 +856,7 @@ document.addEventListener('mousemove', e => {
                 y: Math.random() * h,
                 vx: (Math.random() - 0.5) * 0.6,
                 vy: (Math.random() - 0.5) * 0.6,
-                r: Math.random() * 3.0 + 2.0
+                r: Math.random() * 2.0 + 1.2
             });
         }
     }
@@ -892,10 +892,10 @@ document.addEventListener('mousemove', e => {
             p.vy *= 0.99;
 
             // Proximity boost: particles near cursor get bigger and brighter
-            const proximity = (dist < MOUSE_RADIUS) ? 1 + 0.8 * (1 - dist / MOUSE_RADIUS) : 1;
+            const proximity = (dist < MOUSE_RADIUS) ? 1 + 0.5 * (1 - dist / MOUSE_RADIUS) : 1;
             const drawR = p.r * proximity;
-            const coreAlpha = Math.min(0.8 + 0.2 * (proximity - 1), 1.0);
-            const glowAlpha = 0.6 * proximity;
+            const coreAlpha = Math.min(0.4 + 0.15 * (proximity - 1), 0.6);
+            const glowAlpha = 0.25 * proximity;
 
             // Glow effect
             const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, drawR * 5);
@@ -920,7 +920,7 @@ document.addEventListener('mousemove', e => {
                 const ddy = p.y - p2.y;
                 const d = Math.sqrt(ddx * ddx + ddy * ddy);
                 if (d < CONNECT_DIST) {
-                    const alpha = 0.2 * (1 - d / CONNECT_DIST);
+                    const alpha = 0.08 * (1 - d / CONNECT_DIST);
                     ctx.beginPath();
                     ctx.moveTo(p.x, p.y);
                     ctx.lineTo(p2.x, p2.y);
@@ -930,9 +930,9 @@ document.addEventListener('mousemove', e => {
                 }
             }
 
-            // Brighter lines to cursor when close
+            // Lines to cursor when close
             if (dist < MOUSE_RADIUS && dist > 30) {
-                const alpha = 0.15 * (1 - dist / MOUSE_RADIUS);
+                const alpha = 0.06 * (1 - dist / MOUSE_RADIUS);
                 ctx.beginPath();
                 ctx.moveTo(p.x, p.y);
                 ctx.lineTo(mouse.x, mouse.y);
@@ -977,10 +977,10 @@ document.addEventListener('mousemove', e => {
                 trail.splice(i, 1);
                 continue;
             }
-            const radius = p.life * 14;
+            const radius = p.life * 10;
             const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, radius);
-            gradient.addColorStop(0, `rgba(6, 182, 212, ${p.life * 0.4})`);
-            gradient.addColorStop(0.5, `rgba(59, 130, 246, ${p.life * 0.2})`);
+            gradient.addColorStop(0, `rgba(6, 182, 212, ${p.life * 0.2})`);
+            gradient.addColorStop(0.5, `rgba(59, 130, 246, ${p.life * 0.1})`);
             gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
             ctx.beginPath();
             ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
@@ -1014,13 +1014,13 @@ document.addEventListener('mousemove', e => {
     const SKY  = [56,189,248];
 
     const waves = [
-        { amplitude: 18, wavelength: 500, speed: 0.0006, yOffset: 0.58, phase: 0,    lineWidth: 2.0, glowWidth: 12, color: CYAN,  glowAlpha: 0.12, coreAlpha: 0.5, mouseInfluence: 0.05 },
-        { amplitude: 22, wavelength: 400, speed: 0.0008, yOffset: 0.63, phase: 1.2,  lineWidth: 1.8, glowWidth: 10, color: SKY,   glowAlpha: 0.10, coreAlpha: 0.45, mouseInfluence: 0.06 },
-        { amplitude: 15, wavelength: 600, speed: 0.0004, yOffset: 0.68, phase: 2.5,  lineWidth: 1.5, glowWidth: 9,  color: BLUE,  glowAlpha: 0.08, coreAlpha: 0.35, mouseInfluence: 0.04 },
-        { amplitude: 25, wavelength: 350, speed: 0.001,  yOffset: 0.73, phase: 3.8,  lineWidth: 1.3, glowWidth: 8,  color: CYAN,  glowAlpha: 0.07, coreAlpha: 0.3, mouseInfluence: 0.07 },
-        { amplitude: 12, wavelength: 450, speed: 0.0005, yOffset: 0.53, phase: 5.0,  lineWidth: 1.0, glowWidth: 7,  color: BLUE,  glowAlpha: 0.06, coreAlpha: 0.25, mouseInfluence: 0.03 },
-        { amplitude: 20, wavelength: 550, speed: 0.0007, yOffset: 0.78, phase: 0.7,  lineWidth: 1.2, glowWidth: 8,  color: SKY,   glowAlpha: 0.06, coreAlpha: 0.28, mouseInfluence: 0.05 },
-        { amplitude: 10, wavelength: 700, speed: 0.0003, yOffset: 0.48, phase: 4.2,  lineWidth: 0.8, glowWidth: 6,  color: CYAN,  glowAlpha: 0.04, coreAlpha: 0.2, mouseInfluence: 0.02 },
+        { amplitude: 18, wavelength: 500, speed: 0.0006, yOffset: 0.58, phase: 0,    lineWidth: 1.5, glowWidth: 8,  color: CYAN,  glowAlpha: 0.06, coreAlpha: 0.25, mouseInfluence: 0.05 },
+        { amplitude: 22, wavelength: 400, speed: 0.0008, yOffset: 0.63, phase: 1.2,  lineWidth: 1.3, glowWidth: 7,  color: SKY,   glowAlpha: 0.05, coreAlpha: 0.22, mouseInfluence: 0.06 },
+        { amplitude: 15, wavelength: 600, speed: 0.0004, yOffset: 0.68, phase: 2.5,  lineWidth: 1.2, glowWidth: 6,  color: BLUE,  glowAlpha: 0.04, coreAlpha: 0.18, mouseInfluence: 0.04 },
+        { amplitude: 25, wavelength: 350, speed: 0.001,  yOffset: 0.73, phase: 3.8,  lineWidth: 1.0, glowWidth: 6,  color: CYAN,  glowAlpha: 0.035, coreAlpha: 0.15, mouseInfluence: 0.07 },
+        { amplitude: 12, wavelength: 450, speed: 0.0005, yOffset: 0.53, phase: 5.0,  lineWidth: 0.8, glowWidth: 5,  color: BLUE,  glowAlpha: 0.03, coreAlpha: 0.12, mouseInfluence: 0.03 },
+        { amplitude: 20, wavelength: 550, speed: 0.0007, yOffset: 0.78, phase: 0.7,  lineWidth: 0.9, glowWidth: 5,  color: SKY,   glowAlpha: 0.03, coreAlpha: 0.14, mouseInfluence: 0.05 },
+        { amplitude: 10, wavelength: 700, speed: 0.0003, yOffset: 0.48, phase: 4.2,  lineWidth: 0.6, glowWidth: 4,  color: CYAN,  glowAlpha: 0.02, coreAlpha: 0.1, mouseInfluence: 0.02 },
     ];
 
     let time = 0;
