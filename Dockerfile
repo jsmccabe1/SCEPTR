@@ -142,9 +142,19 @@ RUN mkdir -p /app/bin/annotation \
              /app/modules/explot/categories \
              /app/modules/landscape
 
-# Copy ONLY scripts and modules to app directory
+# Copy scripts and modules to app directory
 COPY bin/ /app/bin/
-COPY modules/ /app/modules/
+COPY sceptr/ /app/sceptr/
+COPY modules/*.nf /app/modules/
+COPY modules/enrichment/ /app/modules/enrichment/
+COPY modules/landscape/ /app/modules/landscape/
+# Copy explot module (resolve categories symlink via sceptr/)
+COPY modules/explot/*.py /app/modules/explot/
+COPY modules/explot/*.nf /app/modules/explot/
+COPY modules/explot/cli/ /app/modules/explot/cli/
+COPY modules/explot/reporting/ /app/modules/explot/reporting/
+COPY modules/explot/visualisation/ /app/modules/explot/visualisation/
+RUN ln -s /app/sceptr/categories /app/modules/explot/categories
 
 # Make scripts executable
 RUN find /app -type f -name "*.py" -exec chmod +x {} \; && \
