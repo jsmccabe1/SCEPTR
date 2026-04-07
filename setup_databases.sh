@@ -129,7 +129,7 @@ else
     if $USE_DOCKER_DIAMOND; then
         docker run --rm -v "${DATA_DIR}:/data" \
             buchfink/diamond:latest \
-            diamond makedb --in /data/uniprot/uniprot_sprot.fasta \
+            makedb --in /data/uniprot/uniprot_sprot.fasta \
             --db /data/uniprot/uniprot -p 4
     else
         diamond makedb --in "${DATA_DIR}/uniprot/uniprot_sprot.fasta" \
@@ -223,7 +223,7 @@ else
     if $USE_DOCKER_DIAMOND; then
         docker run --rm -v "${DATA_DIR}:/data" \
             buchfink/diamond:latest \
-            diamond makedb --in /data/contaminants/contaminants_combined.fasta \
+            makedb --in /data/contaminants/contaminants_combined.fasta \
             --db /data/contaminants/contaminants_uniprot -p 4
     else
         diamond makedb --in "${CONTAM_DIR}/contaminants_combined.fasta" \
