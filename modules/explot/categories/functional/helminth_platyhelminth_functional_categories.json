@@ -1,0 +1,526 @@
+{
+  "Tegument & Surface Biology": {
+    "keywords": [
+      "tegument",
+      "tegumental protein",
+      "tegument surface",
+      "syncytium",
+      "syncytial",
+      "surface membrane",
+      "surface antigen",
+      "tegumental antigen",
+      "tetraspanin",
+      "TSP-1",
+      "TSP-2",
+      "Sm-TSP-2",
+      "tegument-associated",
+      "surface glycoprotein",
+      "glycocalyx",
+      "annexin",
+      "dysferlin",
+      "tegumental calcium-binding protein",
+      "tegumental maintenance",
+      "surface turnover"
+    ],
+    "anchor_go_ids": [
+      "GO:0006949",
+      "GO:0005576"
+    ],
+    "core_keywords": [
+      "tegument",
+      "tegumental protein",
+      "syncytium",
+      "tetraspanin",
+      "tegumental antigen",
+      "surface antigen",
+      "tegument surface"
+    ]
+  },
+  "Neoblasts & Stem Cell Biology": {
+    "keywords": [
+      "neoblast",
+      "stem cell",
+      "stem cell maintenance",
+      "somatic stem cell",
+      "germinal cell",
+      "cell proliferation",
+      "self-renewal",
+      "pluripotency",
+      "totipotent",
+      "cell differentiation",
+      "nanos",
+      "piwi",
+      "argonaute",
+      "vasa",
+      "tudor domain",
+      "chromatoid body",
+      "cell cycle regulation",
+      "germinative cell",
+      "brood capsule",
+      "protoscolex formation"
+    ],
+    "anchor_go_ids": [
+      "GO:0019827",
+      "GO:0030718",
+      "GO:0008283"
+    ],
+    "core_keywords": [
+      "neoblast",
+      "stem cell",
+      "stem cell maintenance",
+      "pluripotency",
+      "piwi",
+      "nanos",
+      "germinative cell"
+    ]
+  },
+  "Lifecycle & Morphological Development": {
+    "keywords": [
+      "miracidium",
+      "sporocyst",
+      "redia",
+      "cercaria",
+      "metacercaria",
+      "schistosomulum",
+      "oncosphere",
+      "procercoid",
+      "plerocercoid",
+      "cysticercus",
+      "cysticercoid",
+      "hydatid cyst",
+      "protoscolex",
+      "strobila",
+      "proglottid",
+      "scolex",
+      "larval development",
+      "metamorphosis",
+      "morphogenesis",
+      "anatomical structure development",
+      "segmentation",
+      "asexual reproduction"
+    ],
+    "anchor_go_ids": [
+      "GO:0007275",
+      "GO:0009653",
+      "GO:0048856"
+    ],
+    "core_keywords": [
+      "miracidium",
+      "sporocyst",
+      "cercaria",
+      "metacercaria",
+      "oncosphere",
+      "cysticercus",
+      "protoscolex",
+      "strobila",
+      "proglottid"
+    ]
+  },
+  "Reproduction & Gametogenesis": {
+    "keywords": [
+      "gamete generation",
+      "oogenesis",
+      "spermatogenesis",
+      "fertilization",
+      "hermaphrodite",
+      "ovary",
+      "testis",
+      "vitellarium",
+      "vitelline cell",
+      "vitelline gland",
+      "vitellogenin",
+      "Mehlis gland",
+      "ootype",
+      "uterus",
+      "egg formation",
+      "eggshell formation",
+      "embryogenesis",
+      "pairing",
+      "mate recognition",
+      "gynecophoral canal",
+      "female reproductive system",
+      "male reproductive system"
+    ],
+    "anchor_go_ids": [
+      "GO:0007276",
+      "GO:0009566",
+      "GO:0007275"
+    ],
+    "core_keywords": [
+      "gamete generation",
+      "oogenesis",
+      "spermatogenesis",
+      "vitellarium",
+      "vitelline cell",
+      "hermaphrodite",
+      "eggshell formation",
+      "Mehlis gland"
+    ]
+  },
+  "Host Immune Evasion & Immunomodulation": {
+    "keywords": [
+      "immune evasion",
+      "immune suppression",
+      "immunomodulation",
+      "complement evasion",
+      "complement inhibitor",
+      "antigenic variation",
+      "molecular mimicry",
+      "host molecule acquisition",
+      "paramyosin",
+      "SmCB1",
+      "cathepsin B",
+      "Kunitz-type inhibitor",
+      "serpin",
+      "serine protease inhibitor",
+      "omega-1",
+      "IPSE",
+      "IL-4-inducing principle",
+      "Th2 polarization",
+      "regulatory T cell",
+      "immunosuppressive",
+      "excretory-secretory product",
+      "ES product"
+    ],
+    "anchor_go_ids": [
+      "GO:0030682",
+      "GO:0009405"
+    ],
+    "core_keywords": [
+      "immune evasion",
+      "immune suppression",
+      "immunomodulation",
+      "molecular mimicry",
+      "paramyosin",
+      "excretory-secretory product",
+      "complement evasion"
+    ]
+  },
+  "Digestive & Nutrient Acquisition": {
+    "keywords": [
+      "digestive enzyme",
+      "gut protease",
+      "hemoglobin degradation",
+      "hemoglobinase",
+      "blood feeding",
+      "hematophagy",
+      "cathepsin",
+      "cathepsin B",
+      "cathepsin D",
+      "cathepsin L",
+      "asparaginyl endopeptidase",
+      "legumain",
+      "aspartic protease",
+      "leucine aminopeptidase",
+      "dipeptidase",
+      "gastrodermis",
+      "gut caecum",
+      "nutrient absorption",
+      "glucose transporter",
+      "tegumental transport",
+      "amino acid transporter",
+      "fatty acid binding protein",
+      "FABP"
+    ],
+    "anchor_go_ids": [
+      "GO:0006508",
+      "GO:0015850"
+    ],
+    "core_keywords": [
+      "hemoglobin degradation",
+      "cathepsin",
+      "legumain",
+      "blood feeding",
+      "gastrodermis",
+      "tegumental transport",
+      "fatty acid binding protein"
+    ]
+  },
+  "Neuromuscular Function": {
+    "keywords": [
+      "neuromuscular system",
+      "serotonin receptor",
+      "serotonergic",
+      "dopaminergic",
+      "cholinergic",
+      "neuropeptide",
+      "FMRFamide",
+      "FLP neuropeptide",
+      "neuropeptide F",
+      "neuropeptide signaling",
+      "neurotransmitter",
+      "muscle contraction",
+      "body wall muscle",
+      "acetylcholine receptor",
+      "GABA receptor",
+      "voltage-gated calcium channel",
+      "praziquantel target",
+      "TRPM channel",
+      "Sm.TRPMPZQ",
+      "locomotion",
+      "sucker attachment"
+    ],
+    "anchor_go_ids": [
+      "GO:0007218",
+      "GO:0006836",
+      "GO:0006939"
+    ],
+    "core_keywords": [
+      "serotonin receptor",
+      "neuropeptide",
+      "FMRFamide",
+      "praziquantel target",
+      "neuromuscular system",
+      "muscle contraction"
+    ]
+  },
+  "Excretory System & Osmoregulation": {
+    "keywords": [
+      "protonephridium",
+      "protonephridia",
+      "flame cell",
+      "excretory system",
+      "osmoregulation",
+      "water balance",
+      "ion transport",
+      "aquaporin",
+      "sodium-potassium ATPase",
+      "potassium channel",
+      "chloride channel",
+      "calcium homeostasis",
+      "excretory tubule",
+      "excretory pore",
+      "nephridiopore",
+      "collecting duct",
+      "osmotic regulation"
+    ],
+    "anchor_go_ids": [
+      "GO:0055085",
+      "GO:0006811",
+      "GO:0006874"
+    ],
+    "core_keywords": [
+      "protonephridium",
+      "flame cell",
+      "excretory system",
+      "osmoregulation",
+      "aquaporin",
+      "ion transport"
+    ]
+  },
+  "Antioxidant & Detoxification": {
+    "keywords": [
+      "antioxidant defense",
+      "oxidative stress response",
+      "thioredoxin glutathione reductase",
+      "TGR",
+      "glutathione peroxidase",
+      "glutathione S-transferase",
+      "superoxide dismutase",
+      "peroxiredoxin",
+      "thioredoxin",
+      "cytochrome P450",
+      "xenobiotic metabolism",
+      "detoxification",
+      "ABC transporter",
+      "multidrug resistance",
+      "P-glycoprotein",
+      "auranofin target",
+      "selenoprotein",
+      "drug resistance"
+    ],
+    "anchor_go_ids": [
+      "GO:0006979",
+      "GO:0046677",
+      "GO:0006749"
+    ],
+    "core_keywords": [
+      "thioredoxin glutathione reductase",
+      "TGR",
+      "glutathione S-transferase",
+      "superoxide dismutase",
+      "selenoprotein",
+      "drug resistance"
+    ]
+  },
+  "Energy Metabolism": {
+    "keywords": [
+      "glycolysis",
+      "anaerobic metabolism",
+      "lactate production",
+      "phosphoenolpyruvate carboxykinase",
+      "PEPCK",
+      "malate dehydrogenase",
+      "cytosolic malate dehydrogenase",
+      "electron transport chain",
+      "ATP synthesis",
+      "citric acid cycle",
+      "TCA cycle",
+      "mitochondrial metabolism",
+      "fatty acid oxidation",
+      "glycogen metabolism",
+      "glycogen phosphorylase",
+      "hexokinase",
+      "pyruvate kinase",
+      "succinate dehydrogenase"
+    ],
+    "anchor_go_ids": [
+      "GO:0006096",
+      "GO:0006099",
+      "GO:0006091"
+    ],
+    "core_keywords": [
+      "glycolysis",
+      "anaerobic metabolism",
+      "PEPCK",
+      "glycogen metabolism",
+      "lactate production"
+    ]
+  },
+  "Tissue Migration & Invasion": {
+    "keywords": [
+      "tissue migration",
+      "tissue invasion",
+      "host tissue penetration",
+      "cercarial penetration",
+      "skin penetration",
+      "elastase",
+      "cercarial elastase",
+      "metalloproteinase",
+      "cysteine protease",
+      "serine protease",
+      "cathepsin",
+      "penetration gland",
+      "acetabular gland",
+      "postacetabular gland",
+      "tissue remodeling",
+      "extracellular matrix degradation"
+    ],
+    "anchor_go_ids": [
+      "GO:0006508",
+      "GO:0004252",
+      "GO:0048870"
+    ],
+    "core_keywords": [
+      "tissue migration",
+      "cercarial penetration",
+      "cercarial elastase",
+      "penetration gland",
+      "tissue invasion"
+    ]
+  },
+  "Egg Biology & Granuloma Formation": {
+    "keywords": [
+      "egg antigen",
+      "egg-derived",
+      "eggshell protein",
+      "egg secretion",
+      "egg-induced pathology",
+      "granuloma",
+      "hepatic fibrosis",
+      "periportal fibrosis",
+      "omega-1",
+      "IPSE alpha-1",
+      "kappa-5",
+      "micro-exon gene",
+      "MEG protein",
+      "egg-associated immune response",
+      "Th2 response",
+      "eosinophil recruitment"
+    ],
+    "anchor_go_ids": [
+      "GO:0009405",
+      "GO:0005576"
+    ],
+    "core_keywords": [
+      "egg antigen",
+      "eggshell protein",
+      "omega-1",
+      "IPSE",
+      "micro-exon gene",
+      "MEG protein",
+      "granuloma"
+    ]
+  },
+  "Cell Signaling & Transcriptional Regulation": {
+    "keywords": [
+      "signal transduction",
+      "receptor tyrosine kinase",
+      "protein kinase",
+      "protein phosphatase",
+      "MAP kinase",
+      "Wnt signaling",
+      "Hedgehog signaling",
+      "TGF-beta signaling",
+      "insulin signaling",
+      "FGF receptor",
+      "transcription factor",
+      "nuclear receptor",
+      "nuclear hormone receptor",
+      "gene regulation",
+      "chromatin remodeling",
+      "histone modification",
+      "SmInR1",
+      "SmInR2"
+    ],
+    "anchor_go_ids": [
+      "GO:0007165",
+      "GO:0006468",
+      "GO:0006355"
+    ],
+    "core_keywords": [
+      "signal transduction",
+      "receptor tyrosine kinase",
+      "Wnt signaling",
+      "TGF-beta signaling",
+      "insulin signaling",
+      "transcription factor"
+    ]
+  },
+  "Protein Homeostasis & Chaperones": {
+    "keywords": [
+      "protein folding",
+      "molecular chaperone",
+      "heat shock protein",
+      "HSP70",
+      "HSP90",
+      "HSP60",
+      "small heat shock protein",
+      "ubiquitin",
+      "ubiquitin-proteasome",
+      "proteasome",
+      "autophagy",
+      "ER stress",
+      "unfolded protein response",
+      "protein degradation",
+      "14-3-3 protein"
+    ],
+    "anchor_go_ids": [
+      "GO:0006457",
+      "GO:0051082",
+      "GO:0006950"
+    ],
+    "core_keywords": [
+      "molecular chaperone",
+      "heat shock protein",
+      "HSP70",
+      "HSP90",
+      "ubiquitin-proteasome",
+      "14-3-3 protein"
+    ]
+  },
+  "Uncharacterized": {
+    "keywords": [
+      "uncharacterized protein",
+      "hypothetical protein",
+      "unknown function",
+      "putative uncharacterized protein",
+      "conserved protein",
+      "species-specific protein",
+      "protein of unknown function",
+      "DUF domain"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": []
+  }
+}

@@ -1,0 +1,267 @@
+{
+  "Central Metabolism": {
+    "keywords": [
+      "glycolysis",
+      "citric acid cycle",
+      "oxidative phosphorylation",
+      "fatty acid metabolism",
+      "amino acid metabolism",
+      "carbohydrate metabolism",
+      "lipid metabolism",
+      "ATP synthesis",
+      "glucose metabolism",
+      "pyruvate metabolism",
+      "lactate dehydrogenase",
+      "NAD-dependent dehydrogenase",
+      "metabolic oxidoreductase",
+      "carbon metabolic process",
+      "ATPase activity",
+      "metabolic kinase",
+      "catabolic process",
+      "anabolic process",
+      "energy derivation",
+      "pentose phosphate pathway",
+      "TCA cycle"
+    ],
+    "anchor_go_ids": [
+      "GO:0006096",
+      "GO:0006099",
+      "GO:0006629",
+      "GO:0006091"
+    ],
+    "core_keywords": []
+  },
+  "Translation & Protein Synthesis": {
+    "keywords": [
+      "ribosomal protein",
+      "translation initiation",
+      "translation elongation",
+      "protein synthesis",
+      "elongation factor",
+      "initiation factor",
+      "aminoacyl-tRNA",
+      "rRNA processing",
+      "ribosome assembly",
+      "peptidyl transferase",
+      "ribosomal subunit",
+      "ribonucleoprotein",
+      "mRNA binding",
+      "tRNA binding",
+      "protein biosynthetic process",
+      "ribosome biogenesis",
+      "tRNA synthetase",
+      "ribosome recycling",
+      "translation termination",
+      "polysome",
+      "release factor",
+      "cytoplasmic translation",
+      "structural constituent of ribosome"
+    ],
+    "anchor_go_ids": [
+      "GO:0006412",
+      "GO:0042254",
+      "GO:0003735"
+    ],
+    "core_keywords": []
+  },
+  "Protein Folding & Quality Control": {
+    "keywords": [
+      "protein folding",
+      "molecular chaperone",
+      "heat shock protein",
+      "protein degradation",
+      "ubiquitin-dependent",
+      "proteasome complex",
+      "autophagy pathway",
+      "unfolded protein response",
+      "cellular stress response",
+      "peptidase activity",
+      "proteolysis",
+      "protein disulfide isomerase",
+      "thioredoxin domain",
+      "protein quality control",
+      "protein catabolic process"
+    ],
+    "anchor_go_ids": [
+      "GO:0006457",
+      "GO:0006508",
+      "GO:0051082",
+      "GO:0006986"
+    ],
+    "core_keywords": []
+  },
+  "DNA Replication & Repair": {
+    "keywords": [
+      "DNA replication",
+      "DNA repair",
+      "DNA polymerase",
+      "replicative helicase",
+      "DNA ligase",
+      "topoisomerase",
+      "excision repair",
+      "mismatch repair",
+      "homologous recombination",
+      "DNA damage response",
+      "nucleotide excision repair",
+      "base excision repair",
+      "chromosome organization",
+      "DNA metabolic process"
+    ],
+    "anchor_go_ids": [
+      "GO:0006260",
+      "GO:0006281",
+      "GO:0006259"
+    ],
+    "core_keywords": []
+  },
+  "Transcriptional Regulation": {
+    "keywords": [
+      "transcription factor",
+      "RNA polymerase",
+      "transcriptional regulation",
+      "promoter binding",
+      "enhancer binding",
+      "transcriptional activator",
+      "transcriptional repressor",
+      "chromatin remodeling",
+      "histone modification",
+      "regulation of transcription",
+      "chromatin organization",
+      "DNA-templated transcription"
+    ],
+    "anchor_go_ids": [
+      "GO:0006355",
+      "GO:0016070"
+    ],
+    "core_keywords": []
+  },
+  "Cell Division & Proliferation": {
+    "keywords": [
+      "cell cycle regulation",
+      "mitotic cell cycle",
+      "meiotic cell cycle",
+      "cell division",
+      "chromosome segregation",
+      "spindle assembly",
+      "cytokinesis",
+      "cell proliferation",
+      "G1/S transition",
+      "checkpoint control",
+      "centrosome duplication",
+      "kinetochore assembly",
+      "cell cycle process"
+    ],
+    "anchor_go_ids": [
+      "GO:0007049",
+      "GO:0051301",
+      "GO:0008283"
+    ],
+    "core_keywords": []
+  },
+  "Signal Transduction": {
+    "keywords": [
+      "signal transduction",
+      "protein kinase",
+      "protein phosphorylation",
+      "GTPase activity",
+      "second messenger",
+      "calcium signaling",
+      "cAMP signaling",
+      "growth factor receptor",
+      "receptor signaling",
+      "protein phosphatase",
+      "MAP kinase cascade",
+      "tyrosine kinase activity",
+      "cellular response to stimulus",
+      "intracellular signal transduction"
+    ],
+    "anchor_go_ids": [
+      "GO:0007165",
+      "GO:0006468",
+      "GO:0007166"
+    ],
+    "core_keywords": []
+  },
+  "Transport & Membrane": {
+    "keywords": [
+      "transmembrane transport",
+      "membrane transport",
+      "ion transport",
+      "protein transport",
+      "vesicle-mediated transport",
+      "endocytosis",
+      "exocytosis",
+      "membrane fusion",
+      "ion channel activity",
+      "transporter activity",
+      "ABC transporter",
+      "aquaporin",
+      "establishment of localization",
+      "membrane organization"
+    ],
+    "anchor_go_ids": [
+      "GO:0055085",
+      "GO:0006811",
+      "GO:0006810"
+    ],
+    "core_keywords": []
+  },
+  "RNA Processing": {
+    "keywords": [
+      "RNA processing",
+      "mRNA splicing",
+      "RNA editing",
+      "mRNA polyadenylation",
+      "5' capping",
+      "spliceosome complex",
+      "snRNA",
+      "RNA helicase",
+      "ribonuclease activity",
+      "mRNA degradation",
+      "RNA methylation",
+      "tRNA processing",
+      "RNA metabolic process"
+    ],
+    "anchor_go_ids": [
+      "GO:0006396",
+      "GO:0016070"
+    ],
+    "core_keywords": []
+  },
+  "Cytoskeletal Organization": {
+    "keywords": [
+      "cytoskeleton organization",
+      "actin filament",
+      "tubulin polymerization",
+      "microtubule organization",
+      "microfilament",
+      "cell motility",
+      "cell shape regulation",
+      "cytoskeletal reorganization",
+      "motor protein",
+      "kinesin motor",
+      "dynein motor",
+      "myosin motor",
+      "cell adhesion molecule",
+      "actin filament-based movement"
+    ],
+    "anchor_go_ids": [
+      "GO:0030048",
+      "GO:0048870",
+      "GO:0016043"
+    ],
+    "core_keywords": []
+  },
+  "Uncharacterized": {
+    "keywords": [
+      "uncharacterized protein",
+      "hypothetical protein",
+      "unknown function",
+      "putative uncharacterized protein",
+      "unnamed protein product",
+      "uncharacterized"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": []
+  }
+}

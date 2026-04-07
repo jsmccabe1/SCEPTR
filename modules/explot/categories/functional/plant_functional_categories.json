@@ -1,0 +1,281 @@
+{
+  "Photosynthesis & Light Reactions": {
+    "keywords": [
+      "photosynthesis",
+      "light reaction",
+      "photosystem I",
+      "photosystem II",
+      "photosynthetic electron transport",
+      "chlorophyll biosynthesis",
+      "carotenoid biosynthesis",
+      "light harvesting complex",
+      "plastoquinone",
+      "plastocyanin",
+      "ferredoxin-NADP reductase",
+      "thylakoid membrane",
+      "photophosphorylation",
+      "cyclic electron flow"
+    ],
+    "anchor_go_ids": [
+      "GO:0015979",
+      "GO:0009536"
+    ],
+    "core_keywords": []
+  },
+  "Carbon Fixation & Calvin Cycle": {
+    "keywords": [
+      "calvin cycle",
+      "carbon fixation",
+      "RuBisCO",
+      "ribulose bisphosphate carboxylase",
+      "phosphoglycerate kinase",
+      "triose phosphate isomerase",
+      "starch synthesis",
+      "sucrose synthesis",
+      "C4 photosynthesis",
+      "CAM photosynthesis",
+      "photorespiration",
+      "glyoxylate cycle"
+    ],
+    "anchor_go_ids": [
+      "GO:0015979",
+      "GO:0009058"
+    ],
+    "core_keywords": []
+  },
+  "Plant Hormone Signaling": {
+    "keywords": [
+      "auxin signaling",
+      "auxin transport",
+      "auxin response factor",
+      "cytokinin signaling",
+      "gibberellin signaling",
+      "abscisic acid signaling",
+      "ethylene signaling",
+      "brassinosteroid signaling",
+      "jasmonic acid signaling",
+      "salicylic acid signaling",
+      "strigolactone signaling",
+      "hormone perception",
+      "hormone metabolism",
+      "growth regulator",
+      "plant growth regulation"
+    ],
+    "anchor_go_ids": [
+      "GO:0007165",
+      "GO:0007166"
+    ],
+    "core_keywords": []
+  },
+  "Cell Wall & Structural Components": {
+    "keywords": [
+      "cell wall biosynthesis",
+      "cellulose synthase",
+      "cellulose synthesis",
+      "pectin biosynthesis",
+      "hemicellulose biosynthesis",
+      "lignin biosynthesis",
+      "xyloglucan metabolism",
+      "callose synthase",
+      "suberin biosynthesis",
+      "cutin biosynthesis",
+      "cuticular wax",
+      "cell wall modification",
+      "cell wall organization",
+      "pectin methylesterase",
+      "cellulase activity",
+      "expansin protein"
+    ],
+    "anchor_go_ids": [
+      "GO:0009058",
+      "GO:0016043"
+    ],
+    "core_keywords": []
+  },
+  "Plant Defense & Stress Response": {
+    "keywords": [
+      "plant defense response",
+      "pathogen resistance gene",
+      "disease resistance protein",
+      "hypersensitive response",
+      "systemic acquired resistance",
+      "antimicrobial peptide",
+      "phytoalexin biosynthesis",
+      "glucosinolate biosynthesis",
+      "phenolic compound biosynthesis",
+      "tannin biosynthesis",
+      "alkaloid defense",
+      "terpenoid defense",
+      "defensive compound",
+      "wound response",
+      "herbivore resistance"
+    ],
+    "anchor_go_ids": [
+      "GO:0006950",
+      "GO:0009607",
+      "GO:0009628"
+    ],
+    "core_keywords": []
+  },
+  "Abiotic Stress Tolerance": {
+    "keywords": [
+      "drought stress response",
+      "salt stress response",
+      "cold stress response",
+      "heat stress response",
+      "freezing tolerance",
+      "osmotic stress response",
+      "oxidative stress defense",
+      "heavy metal tolerance",
+      "UV stress response",
+      "stress tolerance mechanism",
+      "compatible solute accumulation",
+      "osmoprotectant synthesis",
+      "antioxidant enzyme",
+      "stress-responsive protein",
+      "dehydration response element"
+    ],
+    "anchor_go_ids": [
+      "GO:0006950",
+      "GO:0009628"
+    ],
+    "core_keywords": []
+  },
+  "Secondary Metabolism": {
+    "keywords": [
+      "secondary metabolic process",
+      "specialized metabolism",
+      "phenylpropanoid pathway",
+      "flavonoid biosynthesis",
+      "anthocyanin biosynthesis",
+      "proanthocyanidin biosynthesis",
+      "isoflavonoid biosynthesis",
+      "alkaloid biosynthesis",
+      "terpenoid biosynthesis",
+      "essential oil biosynthesis",
+      "polyketide biosynthesis",
+      "coumarin biosynthesis",
+      "stilbene biosynthesis",
+      "natural product biosynthesis"
+    ],
+    "anchor_go_ids": [
+      "GO:0019748",
+      "GO:0019748"
+    ],
+    "core_keywords": []
+  },
+  "Plant Development & Morphogenesis": {
+    "keywords": [
+      "plant development",
+      "embryogenesis",
+      "seed development",
+      "seed germination",
+      "root development",
+      "shoot development",
+      "leaf development",
+      "flower development",
+      "fruit development",
+      "meristem maintenance",
+      "apical meristem",
+      "lateral meristem",
+      "vascular development",
+      "tissue differentiation",
+      "organ formation"
+    ],
+    "anchor_go_ids": [
+      "GO:0007275",
+      "GO:0030154"
+    ],
+    "core_keywords": []
+  },
+  "Nutrient Transport & Metabolism": {
+    "keywords": [
+      "nutrient transport",
+      "nitrogen metabolism",
+      "nitrate transporter",
+      "ammonium transporter",
+      "nitrogen fixation",
+      "phosphate transporter",
+      "sulfate transporter",
+      "iron transporter",
+      "potassium transporter",
+      "magnesium transporter",
+      "calcium transporter",
+      "micronutrient transport",
+      "xylem loading",
+      "phloem loading"
+    ],
+    "anchor_go_ids": [
+      "GO:0055085",
+      "GO:0006810"
+    ],
+    "core_keywords": []
+  },
+  "Stomatal Function & Gas Exchange": {
+    "keywords": [
+      "stomatal movement",
+      "guard cell signaling",
+      "gas exchange regulation",
+      "transpiration regulation",
+      "water transport",
+      "aquaporin channel",
+      "abscisic acid-mediated signaling",
+      "guard cell potassium channel",
+      "stomatal development",
+      "stomatal density regulation",
+      "water use efficiency"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": []
+  },
+  "Circadian Rhythm & Photoperiodism": {
+    "keywords": [
+      "circadian rhythm regulation",
+      "circadian clock gene",
+      "photoperiodism",
+      "flowering time control",
+      "light signaling pathway",
+      "phytochrome signaling",
+      "cryptochrome signaling",
+      "phototropism",
+      "shade avoidance response",
+      "red light response",
+      "blue light response",
+      "far-red light response"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": []
+  },
+  "Chloroplast & Plastid Function": {
+    "keywords": [
+      "chloroplast function",
+      "plastid biogenesis",
+      "plastid development",
+      "chloroplast biogenesis",
+      "plastid gene expression",
+      "chloroplast protein import",
+      "thylakoid organization",
+      "plastoglobule",
+      "starch granule metabolism",
+      "plastid division",
+      "plastid inheritance"
+    ],
+    "anchor_go_ids": [
+      "GO:0009536",
+      "GO:0005739"
+    ],
+    "core_keywords": []
+  },
+  "Uncharacterized": {
+    "keywords": [
+      "uncharacterized protein",
+      "hypothetical protein",
+      "unknown function",
+      "putative uncharacterized protein",
+      "plant-specific protein",
+      "conserved protein"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": []
+  }
+}

@@ -1,0 +1,203 @@
+{
+  "Cytoplasm": {
+    "keywords": [
+      "cytoplasm",
+      "cytosol",
+      "cytoplasmic",
+      "intracellular"
+    ],
+    "anchor_go_ids": [
+      "GO:0005737",
+      "GO:0005829"
+    ],
+    "core_keywords": []
+  },
+  "Nucleus": {
+    "keywords": [
+      "nucleus",
+      "nucleoplasm",
+      "nucleolus",
+      "nuclear",
+      "chromatin",
+      "chromosome"
+    ],
+    "anchor_go_ids": [
+      "GO:0005634",
+      "GO:0005654",
+      "GO:0005730"
+    ],
+    "core_keywords": []
+  },
+  "Chloroplast": {
+    "keywords": [
+      "chloroplast",
+      "plastid",
+      "thylakoid",
+      "stroma",
+      "chloroplast stroma",
+      "thylakoid membrane",
+      "chloroplast membrane",
+      "plastoglobule"
+    ],
+    "anchor_go_ids": [
+      "GO:0009507",
+      "GO:0009579",
+      "GO:0009570"
+    ],
+    "core_keywords": []
+  },
+  "Mitochondria": {
+    "keywords": [
+      "mitochondrion",
+      "mitochondrial",
+      "mitochondria"
+    ],
+    "anchor_go_ids": [
+      "GO:0005739"
+    ],
+    "core_keywords": []
+  },
+  "Cell Wall": {
+    "keywords": [
+      "cell wall",
+      "primary cell wall",
+      "secondary cell wall",
+      "middle lamella",
+      "plasmodesmata",
+      "pit",
+      "cell plate"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": []
+  },
+  "Vacuole": {
+    "keywords": [
+      "vacuole",
+      "vacuolar",
+      "tonoplast",
+      "central vacuole",
+      "lytic vacuole"
+    ],
+    "anchor_go_ids": [
+      "GO:0005773"
+    ],
+    "core_keywords": []
+  },
+  "Peroxisome": {
+    "keywords": [
+      "peroxisome",
+      "peroxisomal",
+      "glyoxysome",
+      "leaf peroxisome"
+    ],
+    "anchor_go_ids": [
+      "GO:0005777"
+    ],
+    "core_keywords": []
+  },
+  "Ribosome": {
+    "keywords": [
+      "ribosome",
+      "ribosomal",
+      "large ribosomal subunit",
+      "small ribosomal subunit",
+      "ribonucleoprotein",
+      "polysome",
+      "chloroplast ribosome",
+      "mitochondrial ribosome"
+    ],
+    "anchor_go_ids": [
+      "GO:0005840"
+    ],
+    "core_keywords": []
+  },
+  "Membrane Systems": {
+    "keywords": [
+      "membrane",
+      "plasma membrane",
+      "cell membrane",
+      "transmembrane",
+      "integral membrane",
+      "peripheral membrane",
+      "membrane protein"
+    ],
+    "anchor_go_ids": [
+      "GO:0016020",
+      "GO:0005886"
+    ],
+    "core_keywords": []
+  },
+  "Endoplasmic Reticulum": {
+    "keywords": [
+      "endoplasmic reticulum",
+      "ER",
+      "rough ER",
+      "smooth ER",
+      "ER membrane"
+    ],
+    "anchor_go_ids": [
+      "GO:0005783"
+    ],
+    "core_keywords": []
+  },
+  "Golgi Apparatus": {
+    "keywords": [
+      "Golgi",
+      "Golgi apparatus",
+      "cis-Golgi",
+      "trans-Golgi",
+      "Golgi stack"
+    ],
+    "anchor_go_ids": [
+      "GO:0005794"
+    ],
+    "core_keywords": []
+  },
+  "Vesicles": {
+    "keywords": [
+      "vesicle",
+      "transport vesicle",
+      "secretory vesicle",
+      "endosome",
+      "prevacuolar compartment",
+      "multivesicular body"
+    ],
+    "anchor_go_ids": [
+      "GO:0031982",
+      "GO:0030133"
+    ],
+    "core_keywords": []
+  },
+  "Cytoskeleton": {
+    "keywords": [
+      "cytoskeleton",
+      "actin",
+      "tubulin",
+      "microtubule",
+      "microfilament",
+      "cortical microtubule",
+      "cytoskeletal"
+    ],
+    "anchor_go_ids": [
+      "GO:0005856",
+      "GO:0005874"
+    ],
+    "core_keywords": []
+  },
+  "Apoplast": {
+    "keywords": [
+      "apoplast",
+      "apoplastic",
+      "extracellular",
+      "extracellular space",
+      "intercellular space",
+      "xylem",
+      "phloem"
+    ],
+    "anchor_go_ids": [
+      "GO:0005576",
+      "GO:0005615"
+    ],
+    "core_keywords": []
+  }
+}

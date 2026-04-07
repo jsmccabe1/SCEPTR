@@ -1,0 +1,482 @@
+{
+  "Cuticle & Exoskeleton": {
+    "keywords": [
+      "cuticle protein",
+      "cuticle development",
+      "cuticular protein",
+      "chitin biosynthesis",
+      "chitin synthase",
+      "chitinase",
+      "chitin binding",
+      "exoskeleton",
+      "sclerotization",
+      "melanization",
+      "laccase",
+      "tyrosine metabolism",
+      "cuticle tanning",
+      "peritrophic matrix",
+      "peritrophin",
+      "endocuticle",
+      "exocuticle",
+      "epicuticle"
+    ],
+    "anchor_go_ids": [
+      "GO:0042335"
+    ],
+    "core_keywords": [
+      "cuticle protein",
+      "cuticular protein",
+      "chitin synthase",
+      "chitin biosynthesis",
+      "sclerotization",
+      "peritrophic matrix"
+    ]
+  },
+  "Metamorphosis & Moulting": {
+    "keywords": [
+      "metamorphosis",
+      "ecdysone",
+      "20-hydroxyecdysone",
+      "ecdysone receptor",
+      "ecdysteroid",
+      "juvenile hormone",
+      "moulting",
+      "pupation",
+      "larval development",
+      "imaginal disc",
+      "holometabolous",
+      "hemimetabolous",
+      "instar",
+      "hormone signaling",
+      "nuclear receptor",
+      "ecdysis",
+      "ecdysis-triggering hormone",
+      "bursicon"
+    ],
+    "anchor_go_ids": [
+      "GO:0007552"
+    ],
+    "core_keywords": [
+      "ecdysone",
+      "20-hydroxyecdysone",
+      "juvenile hormone",
+      "metamorphosis",
+      "imaginal disc",
+      "ecdysis"
+    ]
+  },
+  "Chemosensation & Olfaction": {
+    "keywords": [
+      "odorant receptor",
+      "odorant binding protein",
+      "gustatory receptor",
+      "ionotropic receptor",
+      "chemosensory protein",
+      "olfactory receptor",
+      "sensory neuron membrane protein",
+      "SNMP",
+      "pheromone binding protein",
+      "pheromone receptor",
+      "chemoreception",
+      "antennal protein",
+      "taste receptor",
+      "pickpocket",
+      "sensilla",
+      "chemosensory",
+      "olfaction"
+    ],
+    "anchor_go_ids": [
+      "GO:0050911",
+      "GO:0004984"
+    ],
+    "core_keywords": [
+      "odorant receptor",
+      "odorant binding protein",
+      "gustatory receptor",
+      "chemosensory protein",
+      "pheromone binding protein",
+      "pheromone receptor"
+    ]
+  },
+  "Detoxification & Xenobiotic Metabolism": {
+    "keywords": [
+      "cytochrome P450",
+      "CYP",
+      "glutathione S-transferase",
+      "GST",
+      "carboxylesterase",
+      "UDP-glucuronosyltransferase",
+      "UGT",
+      "ABC transporter",
+      "multidrug resistance",
+      "detoxification",
+      "xenobiotic metabolism",
+      "insecticide resistance",
+      "metabolic resistance",
+      "mixed-function oxidase",
+      "esterase",
+      "acetylcholinesterase"
+    ],
+    "anchor_go_ids": [
+      "GO:0042178",
+      "GO:0006805"
+    ],
+    "core_keywords": [
+      "cytochrome P450",
+      "CYP",
+      "glutathione S-transferase",
+      "GST",
+      "carboxylesterase",
+      "insecticide resistance",
+      "UDP-glucuronosyltransferase"
+    ]
+  },
+  "Innate Immunity & Defence": {
+    "keywords": [
+      "antimicrobial peptide",
+      "defensin",
+      "cecropin",
+      "attacin",
+      "diptericin",
+      "drosomycin",
+      "lysozyme",
+      "Toll pathway",
+      "Toll receptor",
+      "IMD pathway",
+      "JAK-STAT pathway",
+      "phenoloxidase",
+      "prophenoloxidase",
+      "melanisation",
+      "encapsulation",
+      "hemocyte",
+      "phagocytosis",
+      "pathogen recognition",
+      "peptidoglycan recognition protein",
+      "PGRP",
+      "GNBP",
+      "gram-negative binding protein",
+      "immune response"
+    ],
+    "anchor_go_ids": [
+      "GO:0045087",
+      "GO:0002376"
+    ],
+    "core_keywords": [
+      "antimicrobial peptide",
+      "defensin",
+      "cecropin",
+      "Toll pathway",
+      "IMD pathway",
+      "phenoloxidase",
+      "prophenoloxidase",
+      "peptidoglycan recognition protein"
+    ]
+  },
+  "Flight Muscle & Locomotion": {
+    "keywords": [
+      "flight muscle",
+      "indirect flight muscle",
+      "myosin",
+      "actin",
+      "tropomyosin",
+      "troponin",
+      "flightin",
+      "muscle contraction",
+      "sarcomere",
+      "Z-disc",
+      "myofibril",
+      "muscle development",
+      "locomotion",
+      "motor activity",
+      "arthrin",
+      "paramyosin"
+    ],
+    "anchor_go_ids": [
+      "GO:0006936",
+      "GO:0030239"
+    ],
+    "core_keywords": [
+      "flight muscle",
+      "indirect flight muscle",
+      "flightin",
+      "sarcomere",
+      "myofibril",
+      "muscle contraction"
+    ]
+  },
+  "Reproduction & Gametogenesis": {
+    "keywords": [
+      "oogenesis",
+      "spermatogenesis",
+      "vitellogenin",
+      "vitelline membrane",
+      "chorion",
+      "egg shell",
+      "yolk protein",
+      "gamete generation",
+      "germ cell",
+      "germline",
+      "ovary development",
+      "testis development",
+      "fertilization",
+      "meiosis",
+      "accessory gland protein",
+      "seminal fluid protein",
+      "sex determination",
+      "dosage compensation"
+    ],
+    "anchor_go_ids": [
+      "GO:0007276",
+      "GO:0048477"
+    ],
+    "core_keywords": [
+      "vitellogenin",
+      "oogenesis",
+      "spermatogenesis",
+      "chorion",
+      "accessory gland protein",
+      "vitelline membrane"
+    ]
+  },
+  "Diapause & Dormancy": {
+    "keywords": [
+      "diapause",
+      "dormancy",
+      "quiescence",
+      "cold hardiness",
+      "cryoprotectant",
+      "trehalose",
+      "glycerol accumulation",
+      "antifreeze protein",
+      "ice-nucleating",
+      "heat shock protein",
+      "cold acclimation",
+      "photoperiodic response",
+      "overwintering",
+      "aestivation",
+      "developmental arrest",
+      "storage protein",
+      "hexamerin"
+    ],
+    "anchor_go_ids": [
+      "GO:0006950"
+    ],
+    "core_keywords": [
+      "diapause",
+      "cryoprotectant",
+      "antifreeze protein",
+      "hexamerin",
+      "overwintering"
+    ]
+  },
+  "Venom & Toxin Production": {
+    "keywords": [
+      "venom",
+      "venom protein",
+      "toxin",
+      "phospholipase A2",
+      "hyaluronidase",
+      "metalloprotease",
+      "serine protease",
+      "allergen",
+      "melittin",
+      "apamin",
+      "venom gland",
+      "envenomation",
+      "neurotoxin",
+      "cytotoxin",
+      "venom allergen",
+      "defensin-like"
+    ],
+    "anchor_go_ids": [
+      "GO:0019748"
+    ],
+    "core_keywords": [
+      "venom",
+      "venom protein",
+      "phospholipase A2",
+      "melittin",
+      "venom gland",
+      "neurotoxin"
+    ]
+  },
+  "Neuropeptide Signalling": {
+    "keywords": [
+      "neuropeptide",
+      "neuropeptide receptor",
+      "allatostatin",
+      "allatotropin",
+      "corazonin",
+      "adipokinetic hormone",
+      "diuretic hormone",
+      "insulin-like peptide",
+      "pigment-dispersing factor",
+      "neuropeptide F",
+      "short neuropeptide F",
+      "FMRFamide",
+      "GABA receptor",
+      "octopamine",
+      "serotonin receptor",
+      "dopamine receptor",
+      "tyramine receptor",
+      "biogenic amine"
+    ],
+    "anchor_go_ids": [
+      "GO:0007218",
+      "GO:0007165"
+    ],
+    "core_keywords": [
+      "neuropeptide",
+      "allatostatin",
+      "adipokinetic hormone",
+      "diuretic hormone",
+      "insulin-like peptide",
+      "octopamine"
+    ]
+  },
+  "Digestion & Nutrient Metabolism": {
+    "keywords": [
+      "digestive enzyme",
+      "trypsin",
+      "chymotrypsin",
+      "aminopeptidase",
+      "lipase",
+      "amylase",
+      "maltase",
+      "trehalase",
+      "midgut",
+      "peritrophic membrane",
+      "digestive protease",
+      "salivary gland protein",
+      "salivary enzyme",
+      "blood meal digestion",
+      "sugar feeding",
+      "nutrient absorption",
+      "carboxypeptidase"
+    ],
+    "anchor_go_ids": [
+      "GO:0006508",
+      "GO:0007586"
+    ],
+    "core_keywords": [
+      "trypsin",
+      "chymotrypsin",
+      "trehalase",
+      "digestive enzyme",
+      "salivary gland protein",
+      "blood meal digestion"
+    ]
+  },
+  "Translation & Ribosome": {
+    "keywords": [
+      "ribosomal protein",
+      "40S ribosomal",
+      "60S ribosomal",
+      "elongation factor",
+      "eEF1",
+      "eEF2",
+      "translation initiation",
+      "eIF",
+      "aminoacyl-tRNA synthetase",
+      "tRNA synthetase",
+      "ribosome biogenesis",
+      "ribosome assembly",
+      "translation termination",
+      "release factor",
+      "structural constituent of ribosome"
+    ],
+    "anchor_go_ids": [
+      "GO:0006412",
+      "GO:0042254",
+      "GO:0003735"
+    ],
+    "core_keywords": [
+      "ribosomal protein",
+      "40S ribosomal",
+      "60S ribosomal",
+      "eEF1",
+      "eEF2",
+      "aminoacyl-tRNA synthetase",
+      "structural constituent of ribosome"
+    ]
+  },
+  "Central Metabolism & Energetics": {
+    "keywords": [
+      "glycolysis",
+      "gluconeogenesis",
+      "TCA cycle",
+      "citric acid cycle",
+      "pentose phosphate pathway",
+      "electron transport chain",
+      "oxidative phosphorylation",
+      "ATP synthase",
+      "NADH dehydrogenase",
+      "cytochrome c oxidase",
+      "fatty acid metabolism",
+      "lipid metabolism",
+      "trehalose metabolism",
+      "carbohydrate metabolism",
+      "amino acid metabolism",
+      "energy metabolism"
+    ],
+    "anchor_go_ids": [
+      "GO:0006096",
+      "GO:0006099",
+      "GO:0006091"
+    ],
+    "core_keywords": [
+      "glycolysis",
+      "TCA cycle",
+      "ATP synthase",
+      "pentose phosphate pathway",
+      "trehalose metabolism"
+    ]
+  },
+  "Circadian Rhythm & Behaviour": {
+    "keywords": [
+      "circadian rhythm",
+      "circadian clock",
+      "period gene",
+      "timeless",
+      "cryptochrome",
+      "clock gene",
+      "cycle gene",
+      "photoperiod",
+      "biological clock",
+      "sleep",
+      "locomotor activity",
+      "courtship behaviour",
+      "mating behaviour",
+      "aggression",
+      "learning and memory",
+      "mushroom body"
+    ],
+    "anchor_go_ids": [
+      "GO:0007623"
+    ],
+    "core_keywords": [
+      "circadian clock",
+      "period gene",
+      "timeless",
+      "cryptochrome",
+      "mushroom body"
+    ]
+  },
+  "Uncharacterised": {
+    "keywords": [
+      "uncharacterized protein",
+      "hypothetical protein",
+      "unknown function",
+      "putative uncharacterized",
+      "domain of unknown function",
+      "conserved hypothetical",
+      "predicted protein"
+    ],
+    "anchor_go_ids": [],
+    "core_keywords": [
+      "hypothetical protein",
+      "uncharacterized protein",
+      "unknown function"
+    ]
+  }
+}
