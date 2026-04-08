@@ -300,7 +300,7 @@ PYEOF
 // ============================================================================
 
 process DiamondBlastContaminants {
-    label 'process_high'  // Changed from process_medium to process_high for better resource allocation
+    label 'process_medium'
     
     publishDir "${params.outdir}/preprocessing/contamination", mode: 'copy'
     
