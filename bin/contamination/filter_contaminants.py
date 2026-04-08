@@ -447,32 +447,32 @@ def main():
     filtered_count = 0
     
     category_handles = {}
-    
-    with open(args.proteome) as infile, \
-         open("filtered_proteome.fasta", "w") as filtered_out, \
-         open("contaminant_sequences.fasta", "w") as contaminant_out:
-        
-        for record in SeqIO.parse(infile, "fasta"):
-            seq_id = record.id.split()[0]
-            
-            if seq_id in final_contaminants:
-                category = final_contaminants[seq_id]['category']
-                SeqIO.write(record, contaminant_out, "fasta")
-                
-                # Write to per-category file
-                cat_filename = f"{category.lower()}_contaminants.fasta"
-                if category not in category_handles:
-                    category_handles[category] = open(cat_filename, "w")
-                SeqIO.write(record, category_handles[category], "fasta")
-                
-                filtered_count += 1
-            else:
-                SeqIO.write(record, filtered_out, "fasta")
-                kept_count += 1
-    
-    # Close category file handles
-    for fh in category_handles.values():
-        fh.close()
+
+    try:
+        with open(args.proteome) as infile, \
+             open("filtered_proteome.fasta", "w") as filtered_out, \
+             open("contaminant_sequences.fasta", "w") as contaminant_out:
+
+            for record in SeqIO.parse(infile, "fasta"):
+                seq_id = record.id.split()[0]
+
+                if seq_id in final_contaminants:
+                    category = final_contaminants[seq_id]['category']
+                    SeqIO.write(record, contaminant_out, "fasta")
+
+                    # Write to per-category file
+                    cat_filename = f"{category.lower()}_contaminants.fasta"
+                    if category not in category_handles:
+                        category_handles[category] = open(cat_filename, "w")
+                    SeqIO.write(record, category_handles[category], "fasta")
+
+                    filtered_count += 1
+                else:
+                    SeqIO.write(record, filtered_out, "fasta")
+                    kept_count += 1
+    finally:
+        for fh in category_handles.values():
+            fh.close()
     
     # Append final counts to report
     with open("contaminant_report.txt", "a") as report:

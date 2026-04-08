@@ -54,8 +54,10 @@ def load_expression(path: str) -> pd.DataFrame:
     sep = "\t" if path.endswith((".tsv", ".tab")) else ","
     df = pd.read_csv(path, sep=sep)
 
-    if df.shape[1] == 1 and "\t" in open(path).readline():
-        df = pd.read_csv(path, sep="\t")
+    if df.shape[1] == 1:
+        with open(path) as f:
+            if "\t" in f.readline():
+                df = pd.read_csv(path, sep="\t")
 
     gene_col = _find_column(df, _GENE_ID_ALIASES, label="gene ID")
     tpm_col = _find_column(df, _TPM_ALIASES, label="expression value")
