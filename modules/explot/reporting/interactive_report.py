@@ -1076,6 +1076,22 @@ def _build_fap_section(cont_results, colour_map, cat_names, cat_gene_counts,
     if n_cats == 0:
         return '', []
 
+    # Use the category list from cont_results (matches enrichment_matrix
+    # columns). The cat_names parameter passed in may have been filtered
+    # in _make_block to drop "Uncharacterised" for display, which
+    # desynchronises its length from the matrix and breaks the broadcast
+    # below when an organism has zero Uncharacterised genes.
+    matrix_cat_names = cont_results.get('cat_names') or cat_names
+
+    # Defensive shape check: if the two still disagree, skip the FAP
+    # section rather than crash the whole report.
+    if len(matrix_cat_names) != n_cats:
+        logger.warning(
+            "FAP section skipped: cat_names length (%d) does not match "
+            "enrichment matrix columns (%d)", len(matrix_cat_names), n_cats)
+        return '', []
+    cat_names = matrix_cat_names
+
     # Compute compositions (proportions at each tier)
     # Use cumulative membership counts from enrichment data
     # EC(k) = (obs/k) / (bg/N), so obs/k = EC(k) * bg/N
