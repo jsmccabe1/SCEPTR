@@ -201,14 +201,29 @@ def _build_identity_card(analysis_blocks, landscape_data, df_sorted):
     """
     primary = analysis_blocks[0]
     cont_results = primary.get('cont_results')
-    cat_names = primary['cat_names']
     all_results = primary['all_results']
 
     if not cont_results or 'enrichment_matrix' not in cont_results:
         return ''
 
-    # Compute apex allocation
+    # Use the category list that was used to compute the enrichment matrix,
+    # not primary['cat_names'] — the latter is filtered in _make_block to
+    # drop "Uncharacterised" for display, which desynchronises its length
+    # from enrichment_matrix columns and breaks the broadcast below when
+    # an organism has zero Uncharacterised genes.
+    cat_names = cont_results.get('cat_names') or primary['cat_names']
     enrichment_matrix = cont_results['enrichment_matrix']
+
+    # Defensive shape check: if the two still disagree, skip the card
+    # rather than crash the whole report.
+    _em = np.asarray(enrichment_matrix)
+    _n_cols = _em.shape[1] if _em.ndim == 2 else len(_em)
+    if len(cat_names) != _n_cols:
+        logger.warning(
+            "Identity card skipped: cat_names length (%d) does not match "
+            "enrichment matrix columns (%d)", len(cat_names), _n_cols)
+        return ''
+
     cat_gene_counts = {}
     gene_cats = all_results.get('gene_categories', {})
     for gid, cats in gene_cats.items():
@@ -232,11 +247,17 @@ def _build_identity_card(analysis_blocks, landscape_data, df_sorted):
 
     sorted_idx = np.argsort(apex_comp)[::-1]
 
-    # Top 3 programmes
+    # Top 3 programmes (skip Uncharacterised/Unknown categories from display
+    # even though they participate in the apex composition computation above)
     top3_html = ''
     colours = [PALETTE[i % len(PALETTE)] for i in range(len(cat_names))]
-    for rank, ci in enumerate(sorted_idx[:3]):
+    top3_picked = 0
+    for ci in sorted_idx:
+        if top3_picked >= 3:
+            break
         cat = cat_names[ci]
+        if 'Uncharacterised' in cat or 'Unknown' in cat:
+            continue
         pct = apex_comp[ci] * 100
         bg_pct = bg_rates[ci] / max(bg_rates.sum(), 1e-10) * 100
         ratio = pct / bg_pct if bg_pct > 0 else 0
@@ -252,12 +273,15 @@ def _build_identity_card(analysis_blocks, landscape_data, df_sorted):
                 <div style="background:{colour};width:{bar_width}%;height:100%;border-radius:4px;"></div>
             </div>
         </div>'''
+        top3_picked += 1
 
     # "What's unusual" flags
     flags_html = ''
     notable = []
     if cont_results and 'shape_stats' in cont_results and 'profile_stats' in cont_results:
         for cat in cat_names:
+            if 'Uncharacterised' in cat or 'Unknown' in cat:
+                continue
             ss = cont_results['shape_stats'].get(cat, {})
             ps = cont_results['profile_stats'].get(cat, {})
             max_fc = ss.get('max_enrichment', 0)
