@@ -16,8 +16,8 @@ process CompareConditions {
     publishDir "${params.outdir}/comparison", mode: 'copy'
 
     input:
-    path condition_a
-    path condition_b
+    path condition_a, stageAs: 'condition_a_input.tsv'
+    path condition_b, stageAs: 'condition_b_input.tsv'
     val label_a
     val label_b
     val category_set
