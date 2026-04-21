@@ -264,7 +264,8 @@ with open('host_filter_report.txt', 'w') as report:
     report.write(f"- E-value threshold: ${params.host_evalue}\\n\\n")
     report.write("Results Summary:\\n")
     report.write(f"- Input sequences: {input_count}\\n")
-    report.write(f"- Host sequences identified: {host_count} ({host_count/input_count*100:.1f}%)\\n")
+    host_pct = (host_count / input_count * 100) if input_count > 0 else 0.0
+    report.write(f"- Host sequences identified: {host_count} ({host_pct:.1f}%)\\n")
     report.write(f"- Sequences after host filtering: {output_count}\\n\\n")
     
     if host_details:
