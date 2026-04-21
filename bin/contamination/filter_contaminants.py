@@ -171,7 +171,7 @@ CONSERVED_PROTEIN_PATTERN = re.compile(
     # Cyclophilins / peptidyl-prolyl isomerases
     r'[Cc]yclophilin|peptidyl-prolyl|PPIA\b|PPIB\b|'
     # ADP/ATP carrier
-    r'ADP.ATP\s*carrier|adenine\s*nucleotide\s*translocat'
+    r'ADP.ATP\s*carrier|adenine\s*nucleotide\s*transloca[a-z]*'
     r')\b',
     re.IGNORECASE
 )
