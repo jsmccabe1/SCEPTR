@@ -64,6 +64,15 @@ if [[ "${1:-}" == "--check" ]]; then
         all_ok=false
     fi
 
+    if [[ -x "${DATA_DIR}/interproscan/interproscan.sh" ]]; then
+        size=$(du -sh "${DATA_DIR}/interproscan" | cut -f1)
+        success "InterProScan installation: ${size}"
+    else
+        warn "InterProScan installation: MISSING"
+        warn "  (run: bash setup_databases.sh --interproscan)"
+        all_ok=false
+    fi
+
     echo ""
     if $all_ok; then
         success "All databases present. SCEPTR is ready to run."
@@ -267,14 +276,73 @@ STATS
     success "Contaminant database built ($(du -sh "${CONTAM_DIR}/contaminants_uniprot.dmnd" | cut -f1))"
 fi
 
+# ── 4. InterProScan ──────────────────────────────────────────────────────────
+# Profile-based annotation (Pfam HMMs and other domain databases) used to
+# augment UniProt sequence-similarity annotations. Critical for non-model
+# organisms where UniProt sequence similarity coverage is sparse.
+#
+# Tarball is ~7 GB compressed, ~50 GB extracted (includes Pfam, PANTHER,
+# CDD, SMART and 12 other databases). Skip this section with
+#   bash setup_databases.sh --skip-interproscan
+# if you only need DIAMOND/UniProt annotation.
+IPRSCAN_VERSION="5.77-108.0"
+IPRSCAN_DIR="${DATA_DIR}/interproscan"
+
+if [[ "${1:-}" == "--skip-interproscan" ]]; then
+    info "Skipping InterProScan installation (--skip-interproscan)"
+elif [[ -x "${IPRSCAN_DIR}/interproscan.sh" ]]; then
+    info "InterProScan already installed at ${IPRSCAN_DIR} - skipping"
+else
+    info "Downloading InterProScan ${IPRSCAN_VERSION} (~7 GB compressed)..."
+    info "This may take 10-30 minutes depending on connection speed."
+    mkdir -p "${IPRSCAN_DIR}"
+    cd "${DATA_DIR}"
+
+    TARBALL="interproscan-${IPRSCAN_VERSION}-64-bit.tar.gz"
+    BASE_URL="https://ftp.ebi.ac.uk/pub/software/unix/iprscan/5/${IPRSCAN_VERSION}"
+
+    if [[ ! -f "${TARBALL}" ]]; then
+        wget -q --show-progress -O "${TARBALL}" "${BASE_URL}/${TARBALL}"
+    fi
+    if [[ ! -f "${TARBALL}.md5" ]]; then
+        wget -q -O "${TARBALL}.md5" "${BASE_URL}/${TARBALL}.md5"
+    fi
+
+    info "Verifying tarball integrity..."
+    md5sum -c "${TARBALL}.md5" || error "InterProScan MD5 verification failed"
+    success "Tarball verified"
+
+    info "Extracting (~50 GB on disk after extraction)..."
+    tar -xzf "${TARBALL}"
+
+    # The tarball extracts to interproscan-X.YY-ZZZ.0/. Move it to the
+    # canonical interproscan/ location for stable bind-mount paths.
+    if [[ -d "interproscan-${IPRSCAN_VERSION}" ]]; then
+        rm -rf "${IPRSCAN_DIR}"
+        mv "interproscan-${IPRSCAN_VERSION}" "${IPRSCAN_DIR}"
+    fi
+
+    info "Initialising HMM databases..."
+    cd "${IPRSCAN_DIR}"
+    if [[ -f "setup.py" ]]; then
+        python3 setup.py interproscan.properties || warn "InterProScan setup.py exited non-zero (may already be initialised)"
+    fi
+
+    cd "${SCRIPT_DIR}"
+    rm -f "${DATA_DIR}/${TARBALL}" "${DATA_DIR}/${TARBALL}.md5"
+
+    success "InterProScan installed ($(du -sh "${IPRSCAN_DIR}" | cut -f1))"
+fi
+
 # ── Summary ──────────────────────────────────────────────────────────────────
 echo ""
 echo -e "${GREEN}${BOLD}Database setup complete!${NC}"
 echo ""
-echo "  UniProt:       $(du -sh "${DATA_DIR}/uniprot/uniprot.dmnd" | cut -f1)"
-echo "  Contaminants:  $(du -sh "${DATA_DIR}/contaminants/contaminants_uniprot.dmnd" | cut -f1)"
-echo "  GO hierarchy:  $(du -sh "${DATA_DIR}/go/go-basic.obo" | cut -f1)"
-echo "  Total:         $(du -sh "${DATA_DIR}" | cut -f1)"
+echo "  UniProt:       $(du -sh "${DATA_DIR}/uniprot/uniprot.dmnd" 2>/dev/null | cut -f1 || echo 'missing')"
+echo "  Contaminants:  $(du -sh "${DATA_DIR}/contaminants/contaminants_uniprot.dmnd" 2>/dev/null | cut -f1 || echo 'missing')"
+echo "  GO hierarchy:  $(du -sh "${DATA_DIR}/go/go-basic.obo" 2>/dev/null | cut -f1 || echo 'missing')"
+echo "  InterProScan:  $(du -sh "${DATA_DIR}/interproscan" 2>/dev/null | cut -f1 || echo 'missing')"
+echo "  Total:         $(du -sh "${DATA_DIR}" 2>/dev/null | cut -f1)"
 echo ""
 info "You can now run SCEPTR:"
 echo -e "  ${CYAN}./run_sceptr.sh${NC}"

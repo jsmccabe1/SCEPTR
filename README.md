@@ -368,7 +368,28 @@ SCEPTR automatically adapts based on `--category_set`:
 | `--label_b`         | `Condition_B` | Display label for condition B              |
 | `--n_permutations`  | `10000`  | Number of gene-label permutations               |
 
+### Optional profile-based annotation (InterProScan)
+
+For non-model organisms where UniProt sequence-similarity coverage is sparse, SCEPTR can augment the annotation with Pfam/InterPro/GO assignments from InterProScan. This is opt-in because the InterProScan databases require ~50 GB of disk.
+
+```bash
+# One-time install (~7 GB download, ~50 GB extracted)
+bash setup_databases.sh --interproscan
+
+# Enable during a pipeline run
+nextflow run main.nf ... --skip_interproscan false
+```
+
+| Parameter                     | Default   | Description                                                |
+|-------------------------------|-----------|------------------------------------------------------------|
+| `--skip_interproscan`         | `true`    | Set `false` to run the InterProScan augmentation step      |
+| `--interproscan_applications` | `Pfam`    | Comma-separated applications (e.g. `Pfam,SMART,PROSITE`)   |
+
 </details>
+
+### Multi-sample analysis
+
+`main.nf` performs enrichment profiling on a single transcriptome at a time. When `--reads` matches more than one sample, Salmon quantifies each sample, but only one sample's TPM values flow through to the downstream enrichment profiling step (the pipeline will print a warning). For multi-condition analysis, run `main.nf` once per condition and then use the compare workflow on the two `integrated_annotations_expression.tsv` outputs.
 
 <br>
 

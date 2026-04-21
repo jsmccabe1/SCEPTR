@@ -138,9 +138,11 @@ RUN curl -s https://get.nextflow.io | bash && \
 RUN mkdir -p /app/bin/annotation \
              /app/bin/contamination \
              /app/bin/enrichment \
+             /app/bin/interproscan \
              /app/modules/explot/cli \
              /app/modules/explot/categories \
-             /app/modules/landscape
+             /app/modules/landscape \
+             /opt/interproscan
 
 # Copy scripts and modules to app directory
 COPY bin/ /app/bin/
@@ -152,7 +154,12 @@ RUN find /app -type f -name "*.py" -exec chmod +x {} \; && \
     find /app -type f -name "*.R" -exec chmod +x {} \;
 
 # Add app paths to environment (not workspace paths)
-ENV PATH="/app/bin:/app/bin/annotation:/app/bin/contamination:/app/bin/enrichment:/app/modules/explot/cli:$PATH"
+ENV PATH="/app/bin:/app/bin/annotation:/app/bin/contamination:/app/bin/enrichment:/app/bin/interproscan:/app/modules/explot/cli:$PATH"
+
+# InterProScan installation is bind-mounted from the host at /opt/interproscan.
+# The host installs it via setup_databases.sh --interproscan, which extracts
+# the EBI tarball into data/interproscan. The Java JRE needed to run it is
+# already installed above (openjdk-17-jre-headless).
 
 # Simple entrypoint
 RUN echo '#!/bin/bash' > /usr/local/bin/entrypoint.sh && \

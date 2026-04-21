@@ -317,6 +317,7 @@ include { SalmonIndex; SalmonQuant } from "${sceptr_base}/modules/salmon.nf"
 include { TransDecoder; DirectTranslate } from "${sceptr_base}/modules/transdecoder.nf"
 include { TranslateHostTranscriptome; BuildHostDatabase; FilterHostSequences; DiamondBlastContaminants; VisualiseContaminants } from "${sceptr_base}/modules/contamination.nf"
 include { DiamondBlastUniProt; ExtractUniProtIDs; AnnotateProteins; AnnotateGOTerms; GenerateAnnotationReport } from "${sceptr_base}/modules/annotation.nf"
+include { RunInterProScan; AugmentAnnotations } from "${sceptr_base}/modules/interproscan.nf"
 include { PrepareGOEnrichmentData; MergeExpressionAnnotations; TPMGOEnrichment } from "${sceptr_base}/modules/enrichment/enrichment.nf"
 include { ExPlot } from "${sceptr_base}/modules/explot/expression_profiling.nf"
 include { Landscape } from "${sceptr_base}/modules/landscape/landscape.nf"
@@ -385,7 +386,31 @@ workflow {
                 ]
             }
     }
-    
+
+    // main.nf produces a single integrated annotation. If --reads matches more
+    // than one sample, Salmon runs per-sample but only the first quant file
+    // flows through to the enrichment merge step. Warn loudly so users aren't
+    // surprised; for multi-condition analysis, run once per condition and use
+    // the compare workflow.
+    read_pairs_ch
+        .count()
+        .subscribe { n ->
+            if (n > 1) {
+                log.warn """
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │  Multi-sample input detected (${n} samples matching --reads).
+  │  main.nf performs enrichment profiling on a single transcriptome.
+  │  All samples will be quantified, but only one sample's TPM values
+  │  will drive downstream enrichment profiling.
+  │
+  │  For multi-condition comparison, run main.nf once per condition
+  │  and then use the compare workflow. See README -> "Multi-sample
+  │  analysis" for the recommended per-condition pattern.
+  └──────────────────────────────────────────────────────────────────────┘
+                """.stripIndent()
+            }
+        }
+
     // STEP 1: Quality Control
     log.info "Step 1: Quality Control Analysis"
     fastqc_results = FastQC(fastqc_reads_ch)
@@ -503,13 +528,52 @@ workflow {
 
     // Merge expression data with annotations
     expression_data_ch = MergeExpressionAnnotations(
-        final_annotations.final_annotations, 
+        final_annotations.final_annotations,
         salmon_quant_dirs.collect()
     )
-    
+
+    // STEP 5b: InterProScan profile-based annotation (opt-in).
+    // When enabled, augments the UniProt-based annotation with
+    // Pfam/InterPro/GO assignments from InterProScan. Recommended for
+    // non-model organisms where UniProt sequence-similarity coverage is
+    // sparse. Requires ~50 GB of extracted databases installed via
+    // `bash setup_databases.sh --interproscan`.
+    if (!params.skip_interproscan) {
+        // Preflight: the InterProScan install is bind-mounted into the
+        // container from data/interproscan. If the host directory is
+        // missing, Docker/Singularity may auto-create an empty mount
+        // that then fails deep inside the container. Detect it early
+        // and surface an actionable error.
+        def ipr_host_path = file("${projectDir}/data/interproscan/interproscan.sh")
+        if (!ipr_host_path.exists()) {
+            error """
+            InterProScan is enabled (--skip_interproscan false) but the
+            installation was not found at:
+              ${ipr_host_path}
+
+            To install InterProScan (~7 GB download, ~50 GB extracted):
+              bash setup_databases.sh --interproscan
+
+            To run without InterProScan (UniProt-only annotation):
+              --skip_interproscan true   [default]
+            """.stripIndent()
+        }
+
+        log.info "Step 5b: InterProScan profile-based annotation (Pfam)"
+        ipr_results = RunInterProScan(proteome_for_annotation)
+        augmented_ch = AugmentAnnotations(
+            expression_data_ch.merged_annotations,
+            ipr_results.iprscan_tsv
+        )
+        expression_data_for_downstream = augmented_ch.augmented_annotations
+    } else {
+        log.info "Step 5b: Skipping InterProScan augmentation (default; enable with --skip_interproscan false)"
+        expression_data_for_downstream = expression_data_ch.merged_annotations
+    }
+
     // GO Enrichment Analysis with expression tiers
     go_data_file = go_data_ch.go_terms.first()
-    expression_data_file = expression_data_ch.merged_annotations.first()
+    expression_data_file = expression_data_for_downstream.first()
     
     enrichment_results = TPMGOEnrichment(go_data_file, expression_data_file)
     
@@ -517,7 +581,7 @@ workflow {
     if (!params.skip_explot) {
         log.info "Step 7: Multi-Resolution Enrichment Profiling"
         try {
-            ExPlot(expression_data_ch.merged_annotations.first())
+            ExPlot(expression_data_for_downstream.first())
             log.info "Expression-Weighted Functional Profiling completed successfully"
         } catch (Exception e) {
             log.warn "Enrichment profiling step failed: ${e.message}. Continuing with pipeline..."
@@ -530,7 +594,7 @@ workflow {
     if (!params.skip_landscape) {
         log.info "Step 8: Transcriptome Landscape Analysis"
         try {
-            Landscape(expression_data_ch.merged_annotations.first())
+            Landscape(expression_data_for_downstream.first())
             log.info "Transcriptome Landscape analysis completed successfully"
         } catch (Exception e) {
             log.warn "Landscape step failed: ${e.message}. Continuing with pipeline..."

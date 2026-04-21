@@ -15,6 +15,8 @@ nextflow-report*
 data/uniprot/*
 data/contaminants/*
 data/go/*
+data/interproscan
+data/interproscan/*
 !data/uniprot/.gitkeep
 !data/contaminants/.gitkeep
 !data/go/.gitkeep
