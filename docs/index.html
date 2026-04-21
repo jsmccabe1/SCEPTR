@@ -508,8 +508,8 @@
                 <h3>Which Programmes Dominate and Where</h3>
                 <p>
                     Continuous enrichment profiles show each functional category's fold enrichment
-                    across the full expression gradient. Translation at 9x in the top 50 genes looks
-                    fundamentally different from immune signalling distributed across hundreds of
+                    across the full expression gradient. A programme dominating the top 50 genes
+                    looks fundamentally different from one distributed across hundreds of
                     moderately expressed genes. SCEPTR classifies these patterns automatically
                     as apex-concentrated, distributed, or flat, and tests each against a permutation null.
                 </p>
@@ -519,11 +519,11 @@
                 <h3>What the Cell Is Spending Its Budget On</h3>
                 <p>
                     The Functional Allocation Profile shows what proportion of the expression
-                    apex each programme commands. In a clinical <em>P. falciparum</em> isolate,
-                    Translation takes 41% of the apex budget at 3x its background share, with the
-                    validated drug target HGXPRT as the #2 most expressed gene. A category can be
-                    highly enriched yet occupy a small budget share if it is a small category. Both
-                    perspectives matter; SCEPTR provides both.
+                    apex each programme commands. Fold enrichment tells you which categories are
+                    disproportionately represented; budget share tells you where transcriptional
+                    resources are actually being spent. A small category can be highly enriched
+                    yet command a tiny share of the budget. Both perspectives matter; SCEPTR
+                    provides both.
                 </p>
             </div>
             <div class="feature reveal" style="--i:2">
@@ -541,10 +541,9 @@
                 <h3>Which Genes Drive the Enrichment</h3>
                 <p>
                     Each category in the report lists the specific genes contributing to the enrichment,
-                    ranked by expression. For a parasitologist, that means seeing GAPDH and HGXPRT at
-                    the top of the Translation apex. For a virologist, ISG15 and MX1 driving the
-                    Interferon response. Expandable gene tables connect enrichment back to concrete
-                    gene biology.
+                    ranked by expression. Expandable gene tables connect every enrichment signal back
+                    to the concrete transcripts driving it, so you can follow a striking pattern all
+                    the way down to individual genes.
                 </p>
             </div>
             <div class="feature reveal" style="--i:4">
@@ -586,9 +585,9 @@
                 <div class="organism">Clinical &amp; Parasitology Researchers</div>
                 <div class="detail">
                     Single clinical isolates where each infection is unique and irreproducible.
-                    SCEPTR characterises functional investment from one sample - no replicates,
-                    no control condition needed. Expression apex genes include known drug targets
-                    like HGXPRT in <em>P. falciparum</em>.
+                    SCEPTR characterises functional investment from one sample, no replicates or
+                    control condition needed, and surfaces the individual genes driving each
+                    signal so you can connect enrichment to candidate drug targets.
                 </div>
                 <div class="tag">parasite_protozoan</div>
             </div>
@@ -596,9 +595,9 @@
                 <div class="organism">Cancer &amp; Immunology Researchers</div>
                 <div class="detail">
                     Tumour biopsies, infected cell lines, patient-derived samples. SCEPTR detects
-                    shape transitions: interferon genes reorganised from distributed expression to
-                    apex concentration upon SARS-CoV-2 infection, a qualitative change invisible to
-                    magnitude-based methods.
+                    shape transitions: pathways reorganising from distributed expression into apex
+                    concentration between conditions, a qualitative change that magnitude-based
+                    methods miss.
                 </div>
                 <div class="tag">cancer</div>
                 <div class="tag">human_host</div>
@@ -619,9 +618,10 @@
                 <div class="organism">Environmental &amp; Marine Biologists</div>
                 <div class="detail">
                     The 650+ MMETSP marine eukaryote transcriptomes. Dinoflagellate symbionts under
-                    thermal stress. De novo assemblies with sparse annotation. SCEPTR works at
-                    annotation rates as low as 17% and provides meaningful functional characterisation
-                    where curated pathway databases are unavailable.
+                    thermal stress. De novo assemblies with sparse annotation. SCEPTR provides
+                    meaningful functional characterisation even when annotation coverage is low,
+                    and ships with an optional InterProScan step for Pfam-based annotation where
+                    UniProt coverage is too thin.
                 </div>
                 <div class="tag">protist_dinoflagellate</div>
                 <div class="tag">general</div>
