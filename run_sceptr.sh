@@ -220,6 +220,7 @@ usage() {
     echo "      --tiers LIST           Expression tiers (default: 50,100,250,500)"
     echo "      --profile PROFILE      Nextflow profile (default: docker)"
     echo "      --resume               Resume previous run"
+    echo "      --smoke-test           Run a self-test (no Docker/Nextflow needed) to verify install"
     echo "  -h, --help                 Show this help"
     echo ""
     echo -e "${BOLD}Comparison Options:${NC}"
@@ -247,6 +248,8 @@ usage() {
     echo ""
 }
 
+SMOKE_TEST=false
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
         -r|--reads)        READS="$2"; INTERACTIVE=false; shift 2 ;;
@@ -267,10 +270,27 @@ while [[ $# -gt 0 ]]; do
         --label-a)         LABEL_A="$2"; shift 2 ;;
         --label-b)         LABEL_B="$2"; shift 2 ;;
         --permutations)    N_PERMUTATIONS="$2"; shift 2 ;;
+        --smoke-test)      SMOKE_TEST=true; INTERACTIVE=false; shift ;;
         -h|--help)         usage; exit 0 ;;
         *)                 EXTRA_ARGS="$EXTRA_ARGS $1"; shift ;;
     esac
 done
+
+# ── Smoke test ───────────────────────────────────────────────────────────────
+# Verifies the SCEPTR Python package is installed and can run end-to-end on
+# the small bundled dataset. Does not require Docker, Nextflow, or any
+# external databases. Useful as a first-run sanity check after cloning or
+# `pip install sceptr-profiling`.
+if $SMOKE_TEST; then
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    if [[ ! -f "${SCRIPT_DIR}/tests/run_smoke_test.py" ]]; then
+        echo "Smoke-test script not found at ${SCRIPT_DIR}/tests/run_smoke_test.py" >&2
+        echo "If you cloned the repo, this file should be there. Try:" >&2
+        echo "  git pull" >&2
+        exit 1
+    fi
+    exec python3 "${SCRIPT_DIR}/tests/run_smoke_test.py"
+fi
 
 # ── Interactive mode ─────────────────────────────────────────────────────────
 
@@ -1017,6 +1037,9 @@ if (( exit_code == 0 )); then
     fi
     echo ""
     echo -e "  ${DIM}Sláinte a chara!${NC}"
+    echo ""
+    echo -e "  ${DIM}Was this useful? A 1-line note at${NC}"
+    echo -e "  ${DIM}https://github.com/jsmccabe1/SCEPTR/issues/new is the only feedback channel.${NC}"
     echo ""
 else
     echo -e "${RED}${BOLD}┌─────────────────────────────────────────────────────────────┐${NC}"
