@@ -71,17 +71,11 @@ RUN wget -O /data/go/go-basic.obo https://purl.obolibrary.org/obo/go/go-basic.ob
 # Set environment variable for GO database
 ENV GO_OBO_PATH="/data/go/go-basic.obo"
 
-# Copy pre-built DIAMOND databases for out-of-the-box functionality
-COPY data/uniprot/uniprot.dmnd /data/uniprot/uniprot.dmnd
-COPY data/contaminants/contaminants_uniprot.dmnd /data/contaminants/contaminants_uniprot.dmnd
-
-# Set database environment variables
-ENV UNIPROT_DB="/data/uniprot/uniprot.dmnd"
-ENV CONTAMINANTS_DB="/data/contaminants/contaminants_uniprot.dmnd"
-
-# Set file permissions for databases
-RUN chmod 644 /data/uniprot/uniprot.dmnd && \
-    chmod 644 /data/contaminants/contaminants_uniprot.dmnd
+# DIAMOND databases (UniProt, contaminants) are NOT baked into the image.
+# Users build them on the host with `setup_databases.sh`; nextflow.config
+# points to those host paths and Nextflow stages them into each process's
+# work directory at runtime. This keeps the image small and shareable, and
+# means CI can build it without first downloading multi-GB databases.
 
 # Install Diamond
 RUN wget https://github.com/bbuchfink/diamond/releases/download/v2.1.9/diamond-linux64.tar.gz && \
@@ -166,17 +160,16 @@ RUN echo '#!/bin/bash' > /usr/local/bin/entrypoint.sh && \
     echo 'exec "$@"' >> /usr/local/bin/entrypoint.sh && \
     chmod +x /usr/local/bin/entrypoint.sh
 
-# Verification
+# Tool verification. Database files (UniProt, contaminants) are not part of
+# the image; they live on the host and are staged into Nextflow work dirs
+# at runtime, so only the GO ontology (downloaded above) is checked here.
 RUN echo "Verifying installations:" && \
     which salmon && salmon --version && \
     which TransDecoder.LongOrfs && \
     which diamond && diamond version && \
     which fastqc && fastqc --version && \
-    echo "Database verification:" && \
-    ls -lh /data/uniprot/uniprot.dmnd && \
-    ls -lh /data/contaminants/contaminants_uniprot.dmnd && \
     ls -lh /data/go/go-basic.obo && \
-    echo "All tools and databases verified"
+    echo "All tools and the GO ontology verified"
 
 # Working directory for user data
 WORKDIR /workspace
@@ -187,7 +180,6 @@ CMD ["bash"]
 LABEL version="1.0.0" \
       description="SCEPTR - Statistical Characterisation of Expression Profiles in Transcriptomes" \
       maintainer="James McCabe" \
-      databases.included="true" \
-      databases.uniprot="Swiss-Prot (curated)" \
-      databases.contaminants="Custom curated" \
-      databases.go="go-basic.obo"
+      databases.go="go-basic.obo (downloaded at build time)" \
+      databases.uniprot="staged from host at runtime via setup_databases.sh" \
+      databases.contaminants="staged from host at runtime via setup_databases.sh"

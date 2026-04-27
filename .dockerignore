@@ -14,6 +14,9 @@ test_data/
 benchmarking/
 output/
 
+# Database directory (built on the host via setup_databases.sh and bind-mounted)
+data/
+
 # Manuscript and docs
 manuscript/
 *.md
