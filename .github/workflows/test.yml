@@ -7,18 +7,115 @@ on:
     branches: [main]
 
 jobs:
-  test:
+
+  # 1. Unit tests on the statistical core (fastest signal).
+  unit-tests:
+    name: Unit tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
-
       - name: Install dependencies
         run: pip install numpy scipy pandas pytest
+      - name: Run unit tests
+        run: pytest tests/test_core.py -v
 
-      - name: Run tests
-        run: pytest tests/ -v
+  # 2. Verify the published Python package installs cleanly and imports.
+  package-install:
+    name: Package install + smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install package
+        run: pip install .
+      - name: Verify imports
+        run: python -c "from sceptr import profile, continuous, enrichment, categorisation, io; print('OK')"
+      - name: Run bundled smoke test
+        run: python tests/run_smoke_test.py
+
+  # 3. Bash syntax check on user-facing scripts.
+  shell-syntax:
+    name: Shell syntax
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: bash -n on shell scripts
+        run: |
+          bash -n setup_databases.sh
+          bash -n run_sceptr.sh
+
+  # 4. Catch developer-machine paths leaking into pipeline files. This is
+  # the most common reason a fresh clone fails on someone else's machine.
+  hardcoded-paths:
+    name: Hardcoded path scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan for /home/jsmccabe in pipeline files
+        run: |
+          set +e
+          matches=$(grep -rn "/home/jsmccabe" \
+            main.nf modules/ bin/ sceptr/ tests/ \
+            run_sceptr.sh setup_databases.sh nextflow.config Dockerfile \
+            2>/dev/null)
+          if [[ -n "$matches" ]]; then
+            echo "Developer-machine paths detected in pipeline files:"
+            echo "$matches"
+            exit 1
+          fi
+          echo "Clean: no developer-machine paths in pipeline files."
+
+  # 5. Nextflow parses the workflow and all included module files.
+  # We invoke `--help`; the workflow's validateInputs() will exit early
+  # with an expected "missing --reads/--transcripts" message. A real
+  # syntax or include error would surface above those lines.
+  nextflow-parse:
+    name: Nextflow workflow parses
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Install Nextflow
+        run: |
+          curl -s https://get.nextflow.io | bash
+          sudo mv nextflow /usr/local/bin/
+          nextflow -v
+      - name: Parse main.nf
+        run: |
+          set +e
+          out=$(nextflow run main.nf --help 2>&1)
+          rc=$?
+          echo "$out"
+          # Real parse failures show up as Groovy compilation errors or
+          # "Module .* compilation failed". The expected validation
+          # errors about missing --reads / --transcripts are tolerated.
+          if echo "$out" | grep -E "(compilation failed|MultipleCompilationErrorsException|groovy\.lang|MissingMethodException)"; then
+            echo "Nextflow parse error in main.nf or an included module."
+            exit 1
+          fi
+          echo "main.nf and modules parse cleanly."
+
+  # 6. Build the Docker image. Slow (5-15 min) but catches Dockerfile
+  # breakage before users hit it. Runs only on push to main, not on
+  # every pull-request commit.
+  docker-build:
+    name: Docker image builds
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t sceptr:ci .
+      - name: Verify image launches
+        run: docker run --rm sceptr:ci python3 -c "import sceptr; print('Docker image OK')"
