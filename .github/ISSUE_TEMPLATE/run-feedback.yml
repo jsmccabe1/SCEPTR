@@ -1,0 +1,47 @@
+name: Tell us how your run went
+description: SCEPTR worked (or didn't). One sentence is enough; this is the only feedback channel.
+title: "[Feedback] "
+labels: ["feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        SCEPTR has no telemetry. The only way the developer learns
+        whether it's working for real users is if you tell them. A
+        single sentence is genuinely useful.
+
+  - type: dropdown
+    id: outcome
+    attributes:
+      label: Did the run succeed?
+      options:
+        - Yes, ran to completion
+        - Partially (some steps worked, others did not)
+        - No, failed early
+      default: 0
+    validations:
+      required: true
+
+  - type: input
+    id: organism
+    attributes:
+      label: What organism / dataset?
+      placeholder: e.g. P. falciparum clinical isolate, mouse RNA-seq, MMETSP transcriptome
+    validations:
+      required: false
+
+  - type: input
+    id: category-set
+    attributes:
+      label: Which category set did you use?
+      placeholder: e.g. parasite_protozoan, bacteria, custom
+    validations:
+      required: false
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything you'd want to mention
+      description: Surprises, confusing parts of the report, suggestions, or just whether the output was useful. One line is fine.
+    validations:
+      required: false

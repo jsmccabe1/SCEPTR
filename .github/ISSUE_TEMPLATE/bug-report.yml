@@ -1,0 +1,70 @@
+name: Bug report
+description: SCEPTR crashed, produced wrong output, or behaved unexpectedly.
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Even a partial report is useful: install
+        path, OS, and what command you ran is enough to start.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: A short description of the problem.
+      placeholder: e.g. setup_databases.sh exited with an MD5 mismatch on the UniProt download.
+    validations:
+      required: true
+
+  - type: textarea
+    id: command
+    attributes:
+      label: Command you ran
+      description: The exact command or steps that triggered the issue.
+      render: shell
+      placeholder: |
+        git clone https://github.com/jsmccabe1/SCEPTR
+        cd SCEPTR
+        bash setup_databases.sh
+    validations:
+      required: false
+
+  - type: textarea
+    id: error-output
+    attributes:
+      label: Error output
+      description: Paste the last 30 lines of output, the error message, or the relevant section of .nextflow.log.
+      render: shell
+    validations:
+      required: false
+
+  - type: dropdown
+    id: install
+    attributes:
+      label: How did you install SCEPTR?
+      options:
+        - Cloned the repository (full Nextflow framework)
+        - "pip install sceptr-profiling (Python package only)"
+        - Docker image
+        - Other
+      default: 0
+    validations:
+      required: false
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: e.g. Ubuntu 22.04, macOS 14.4, RHEL 9
+    validations:
+      required: false
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      description: Organism, dataset size, or context that might be relevant.
+    validations:
+      required: false

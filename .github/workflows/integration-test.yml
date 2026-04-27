@@ -1,0 +1,33 @@
+name: Weekly integration
+
+# Runs once a week against a fresh ubuntu-latest VM to catch environmental
+# drift (database URLs changing, dependency conflicts in new releases of
+# numpy/pandas/etc., Docker base image updates). Failures email the repo
+# owner via the standard GitHub Actions notification.
+on:
+  schedule:
+    - cron: "23 7 * * 1"   # Mondays at 07:23 UTC
+  workflow_dispatch: {}
+
+jobs:
+  fresh-clone:
+    name: Fresh clone, install, smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repo (simulates a new user)
+        run: |
+          git clone --depth 1 https://github.com/jsmccabe1/SCEPTR.git scrubbed-clone
+          ls scrubbed-clone
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install package from clone
+        working-directory: scrubbed-clone
+        run: pip install .
+
+      - name: Run smoke test
+        working-directory: scrubbed-clone
+        run: python tests/run_smoke_test.py
