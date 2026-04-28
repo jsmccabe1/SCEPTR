@@ -150,6 +150,11 @@ RUN find /app -type f -name "*.py" -exec chmod +x {} \; && \
 # Add app paths to environment (not workspace paths)
 ENV PATH="/app/bin:/app/bin/annotation:/app/bin/contamination:/app/bin/enrichment:/app/bin/interproscan:/app/modules/explot/cli:$PATH"
 
+# Make the sceptr Python package importable from inside the container.
+# /app/sceptr/ is copied above; PYTHONPATH puts /app on the import path so
+# `import sceptr` works without needing pip install at build time.
+ENV PYTHONPATH="/app:$PYTHONPATH"
+
 # InterProScan installation is bind-mounted from the host at /opt/interproscan.
 # The host installs it via setup_databases.sh --interproscan, which extracts
 # the EBI tarball into data/interproscan. The Java JRE needed to run it is
