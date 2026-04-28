@@ -530,10 +530,13 @@
                 <div class="icon icon-purple">&#x2726;</div>
                 <h3>Whether the Patterns Are Real</h3>
                 <p>
-                    Every enrichment profile is tested against a permutation-based null (1,000
-                    shuffles of gene-category assignments, same smoothing applied to both).
-                    The report shows 95% null envelopes so you can see exactly where each category
-                    departs from random expectation. No arbitrary thresholds, no guesswork.
+                    Every enrichment profile is tested against a conditional permutation null
+                    that preserves each category's coarse expression composition. A significant
+                    call means the category shows finer rank structure than its own expression
+                    baseline would predict, not that the pathway is biologically activated.
+                    Single-sample SCEPTR is descriptive: it tells you where pathways sit on
+                    the expression hierarchy, not which ones are responding. For condition-level
+                    inference, use the shape-transition framework with replicates.
                 </p>
             </div>
             <div class="feature reveal" style="--i:3">
